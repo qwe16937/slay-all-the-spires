@@ -466,10 +466,9 @@ class TestNonCombatDecision:
             Action(ActionType.CHOOSE_PATH, {"node_index": 1, "x": 3, "y": 0, "symbol": "?"}),
             Action(ActionType.CHOOSE_PATH, {"node_index": 2, "x": 6, "y": 0, "symbol": "E"}),
         ]
-        # MapController reorders by PathEvaluator score; at full HP, Elite scores highest
-        # so index 0 in the scored list = Elite
+        # Options in original order: 0=Monster, 1=Unknown, 2=Elite
         agent, _ = _make_agent(
-            responses=[{"tool": "choose", "params": {"index": 0}, "reasoning": "fight"}],
+            responses=[{"tool": "choose", "params": {"index": 2}, "reasoning": "fight elite"}],
             principles=principles, card_db=card_db,
         )
         result = agent.decide(map_game_state, actions)
