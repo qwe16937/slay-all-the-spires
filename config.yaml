@@ -1,0 +1,45 @@
+# Slay All The Spires - Configuration
+# API keys should be set via environment variables:
+#   ANTHROPIC_API_KEY, OPENAI_API_KEY
+
+llm:
+  # Provider: "anthropic" or "openai"
+  provider: "openai"
+
+  # Model for all decisions (single growing conversation per run)
+  model: "gpt-5-mini-2025-08-07"
+
+  # Max retries on API errors
+  max_retries: 3
+
+  # Stronger model for end-of-run strategic summaries (optional, falls back to model)
+  summary_model: "gpt-5.4-2026-03-05"
+
+  # Reasoning effort for reasoning models (low/medium/high)
+  reasoning_effort: "low"
+
+  # Timeout in seconds for API calls
+  timeout: 30
+
+auto_play:
+  # Enable auto-play mode (plays batches, tunes prompts between them, repeats)
+  enabled: true
+
+  # Total runs to play in auto-play mode
+  runs: 30
+
+  # Ascension level for auto-play runs
+  ascension: 0
+
+  # Characters to randomly pick from (IRONCLAD, THE_SILENT, DEFECT)
+  characters: ["IRONCLAD"]
+
+simulator:
+  # Max BFS states to explore per turn
+  max_paths: 5000
+
+  # Number of candidate action sequences to present to LLM
+  top_n: 8
+
+logging:
+  level: "INFO"

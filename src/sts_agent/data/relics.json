@@ -1,0 +1,404 @@
+{
+  "Burning Blood": {
+    "description": "At the end of combat, heal 6 HP."
+  },
+  "Ring of the Snake": {
+    "description": "At the start of combat, draw 2 additional cards."
+  },
+  "Cracked Core": {
+    "description": "At the start of combat, Channel 1 Lightning orb."
+  },
+  "PureWater": {
+    "description": "At the start of combat, add a Miracle to your hand."
+  },
+  "Anchor": {
+    "description": "Start each combat with 10 Block."
+  },
+  "Art of War": {
+    "description": "If you do not play any Attacks during your turn, gain an extra Energy next turn."
+  },
+  "Bag of Marbles": {
+    "description": "At the start of each combat, apply 1 Vulnerable to ALL enemies."
+  },
+  "Bag of Preparation": {
+    "description": "At the start of each combat, draw 2 additional cards."
+  },
+  "Blood Vial": {
+    "description": "At the start of each combat, heal 2 HP."
+  },
+  "Bronze Scales": {
+    "description": "Whenever you take damage, deal 3 damage back."
+  },
+  "Centennial Puzzle": {
+    "description": "The first time you lose HP each combat, draw 3 cards."
+  },
+  "CeramicFish": {
+    "description": "Whenever you add a card to your deck, gain 9 Gold."
+  },
+  "Dream Catcher": {
+    "description": "Whenever you rest, you may add a card to your deck."
+  },
+  "Happy Flower": {
+    "description": "Every 3 turns, gain 1 Energy."
+  },
+  "Juzu Bracelet": {
+    "description": "Regular enemy combats are no longer encountered in ? rooms."
+  },
+  "Lantern": {
+    "description": "Gain 1 Energy on the first turn of each combat."
+  },
+  "MawBank": {
+    "description": "Whenever you climb a floor, gain 12 Gold. Loses effect when you spend Gold at the Shop."
+  },
+  "MealTicket": {
+    "description": "Whenever you enter a Shop, heal 15 HP."
+  },
+  "Nunchaku": {
+    "description": "Every time you play 10 Attacks, gain 1 Energy."
+  },
+  "Oddly Smooth Stone": {
+    "description": "At the start of each combat, gain 1 Dexterity."
+  },
+  "Omamori": {
+    "description": "Negate the next 2 Curses you would obtain."
+  },
+  "Orichalcum": {
+    "description": "If you end your turn without Block, gain 6 Block."
+  },
+  "Pen Nib": {
+    "description": "Every 10th Attack you play deals double damage."
+  },
+  "Potion Belt": {
+    "description": "Upon pickup, gain 2 additional potion slots."
+  },
+  "PreservedInsect": {
+    "description": "Enemies in Elite combats have 25% less HP."
+  },
+  "Regal Pillow": {
+    "description": "Heal an additional 15 HP when you Rest."
+  },
+  "Smiling Mask": {
+    "description": "The cost to remove cards at the Shop is always 50 Gold."
+  },
+  "Strawberry": {
+    "description": "Upon pickup, raise your Max HP by 7."
+  },
+  "The Boot": {
+    "description": "Whenever you would deal 4 or less unblocked Attack damage, increase it to 5."
+  },
+  "Tiny Chest": {
+    "description": "Every 4th ? room is a Treasure room."
+  },
+  "Toy Ornithopter": {
+    "description": "Whenever you use a Potion, heal 5 HP."
+  },
+  "Vajra": {
+    "description": "At the start of each combat, gain 1 Strength."
+  },
+  "War Paint": {
+    "description": "Upon pickup, Upgrade 2 random Skills."
+  },
+  "Whetstone": {
+    "description": "Upon pickup, Upgrade 2 random Attacks."
+  },
+  "Blue Candle": {
+    "description": "Curse cards can now be played. Playing a Curse will make you lose 3 HP and Exhaust the card."
+  },
+  "Bottled Flame": {
+    "description": "Upon pickup, choose an Attack. Start each combat with this card in your hand."
+  },
+  "Bottled Lightning": {
+    "description": "Upon pickup, choose a Skill. Start each combat with this card in your hand."
+  },
+  "Bottled Tornado": {
+    "description": "Upon pickup, choose a Power. Start each combat with this card in your hand."
+  },
+  "Darkstone Periapt": {
+    "description": "Whenever you obtain a Curse, increase your Max HP by 6."
+  },
+  "Eternal Feather": {
+    "description": "For every 5 cards in your deck, heal 3 HP when you enter a Rest Site."
+  },
+  "Frozen Egg": {
+    "description": "Whenever you add a Power card to your deck, it is Upgraded."
+  },
+  "Gremlin Horn": {
+    "description": "Whenever a non-Minion enemy dies, gain 1 Energy and draw 1 card."
+  },
+  "Horn Cleat": {
+    "description": "At the start of your 2nd turn, gain 14 Block."
+  },
+  "Ink Bottle": {
+    "description": "Whenever you play 10 cards, draw 1 card."
+  },
+  "Kunai": {
+    "description": "Every time you play 3 Attacks in a single turn, gain 1 Dexterity."
+  },
+  "Letter Opener": {
+    "description": "Every time you play 3 Skills in a single turn, deal 5 damage to ALL enemies."
+  },
+  "Matryoshka": {
+    "description": "The next 2 non-Boss chests you open contain 2 Relics."
+  },
+  "Meat on the Bone": {
+    "description": "If your HP is at or below 50% at the end of combat, heal 12 HP."
+  },
+  "Mercury Hourglass": {
+    "description": "At the start of your turn, deal 3 damage to ALL enemies."
+  },
+  "Molten Egg": {
+    "description": "Whenever you add an Attack card to your deck, it is Upgraded."
+  },
+  "Mummified Hand": {
+    "description": "Whenever you play a Power, a random card in your hand costs 0 for the turn."
+  },
+  "Ornamental Fan": {
+    "description": "Every time you play 3 Attacks in a single turn, gain 4 Block."
+  },
+  "Pantograph": {
+    "description": "At the start of Boss combats, heal 25 HP."
+  },
+  "Paper Krane": {
+    "description": "Enemies with Weak deal 40% less damage instead of 25%."
+  },
+  "Pear": {
+    "description": "Upon pickup, raise your Max HP by 10."
+  },
+  "Question Card": {
+    "description": "Future card rewards have 1 additional card to choose from."
+  },
+  "Shuriken": {
+    "description": "Every time you play 3 Attacks in a single turn, gain 1 Strength."
+  },
+  "Singing Bowl": {
+    "description": "When adding cards to your deck, you may gain +2 Max HP instead."
+  },
+  "StrikeDummy": {
+    "description": "Whenever you play a card that costs 0, deal 3 damage to a random enemy."
+  },
+  "Sundial": {
+    "description": "Every 3 times you shuffle your draw pile, gain 2 Energy."
+  },
+  "The Courier": {
+    "description": "The Shop always has a card removal option. Card removal is 20% cheaper."
+  },
+  "Toxic Egg": {
+    "description": "Whenever you add a Skill card to your deck, it is Upgraded."
+  },
+  "White Beast Statue": {
+    "description": "Potions always drop after combat."
+  },
+  "Bird Faced Urn": {
+    "description": "Whenever you play a Power card, heal 2 HP."
+  },
+  "Calipers": {
+    "description": "At the start of your turn, lose 15 Block instead of all Block."
+  },
+  "CaptainsWheel": {
+    "description": "At the start of your 3rd turn, gain 18 Block."
+  },
+  "Dead Branch": {
+    "description": "Whenever you Exhaust a card, add a random card to your hand."
+  },
+  "Du-Vu Doll": {
+    "description": "For each Curse in your deck, start combat with 1 additional Strength."
+  },
+  "Fossilized Helix": {
+    "description": "Prevent the first time you would lose HP in each combat."
+  },
+  "Gambling Chip": {
+    "description": "At the start of each combat, discard any number of cards then draw that many."
+  },
+  "Ginger": {
+    "description": "You can no longer become Weakened."
+  },
+  "Girya": {
+    "description": "You can now Lift at Rest Sites. Gain 1 Strength (up to 3 times)."
+  },
+  "Ice Cream": {
+    "description": "Energy is now conserved between turns."
+  },
+  "Incense Burner": {
+    "description": "Every 6 turns, gain 1 Intangible."
+  },
+  "Lizard Tail": {
+    "description": "When you would die, heal to 50% HP instead. Works once."
+  },
+  "Mango": {
+    "description": "Upon pickup, raise your Max HP by 14."
+  },
+  "Old Coin": {
+    "description": "Upon pickup, gain 300 Gold."
+  },
+  "Peace Pipe": {
+    "description": "You can now Toke at Rest Sites. Remove a card from your deck."
+  },
+  "Pocketwatch": {
+    "description": "Whenever you play 3 or fewer cards in a turn, draw 3 additional cards next turn."
+  },
+  "Prayer Wheel": {
+    "description": "You get 1 additional card reward to choose from."
+  },
+  "Shovel": {
+    "description": "You can now Dig at Rest Sites. Obtain a relic."
+  },
+  "StoneCalendar": {
+    "description": "At the end of turn 7, deal 52 damage to ALL enemies."
+  },
+  "Thread and Needle": {
+    "description": "At the start of each combat, gain 4 Plated Armor."
+  },
+  "Torii": {
+    "description": "Whenever you would receive 5 or less unblocked Attack damage, reduce it to 1."
+  },
+  "Tungsten Rod": {
+    "description": "Whenever you would lose HP, lose 1 less."
+  },
+  "Turnip": {
+    "description": "You can no longer become Frail."
+  },
+  "Unceasing Top": {
+    "description": "Whenever you have no cards in hand during your turn, draw a card."
+  },
+  "WingedGreaves": {
+    "description": "You can now fly over events. Skip ? rooms without entering."
+  },
+  "Astrolabe": {
+    "description": "Upon pickup, choose and Transform 3 cards, then Upgrade them."
+  },
+  "Black Blood": {
+    "description": "Replaces Burning Blood. At the end of combat, heal 12 HP."
+  },
+  "Black Star": {
+    "description": "Elites now drop 2 Relics."
+  },
+  "Busted Crown": {
+    "description": "Gain 1 Energy at the start of each turn. Cards no longer appear in card reward screens."
+  },
+  "Calling Bell": {
+    "description": "Upon pickup, obtain a Relic and 3 Curses."
+  },
+  "Coffee Dripper": {
+    "description": "Gain 1 Energy at the start of each turn. You can no longer Rest at Rest Sites."
+  },
+  "Cursed Key": {
+    "description": "Gain 1 Energy at the start of each turn. Whenever you open a non-boss chest, obtain a Curse."
+  },
+  "Ectoplasm": {
+    "description": "Gain 1 Energy at the start of each turn. You can no longer gain Gold."
+  },
+  "Empty Cage": {
+    "description": "Upon pickup, remove 2 cards from your deck."
+  },
+  "Fusion Hammer": {
+    "description": "Gain 1 Energy at the start of each turn. You can no longer Smith at Rest Sites."
+  },
+  "HolyWater": {
+    "description": "Replaces PureWater. At the start of each combat, add 3 Miracles to your hand."
+  },
+  "Hovering Kite": {
+    "description": "The first time you discard a card each turn, gain 1 Energy."
+  },
+  "Inserter": {
+    "description": "Every 2 turns, gain 1 additional Orb slot."
+  },
+  "Mark of Pain": {
+    "description": "Gain 1 Energy at the start of each turn. Start combat with 2 Wounds in your draw pile."
+  },
+  "Nuclear Battery": {
+    "description": "At the start of each combat, Channel 1 Plasma."
+  },
+  "Pandora's Box": {
+    "description": "Upon pickup, Transform all Strikes and Defends."
+  },
+  "Philosopher's Stone": {
+    "description": "Gain 1 Energy at the start of each turn. ALL enemies start with 1 Strength."
+  },
+  "Ring of the Serpent": {
+    "description": "Replaces Ring of the Snake. At the start of each combat, draw 1 additional card."
+  },
+  "Runic Cube": {
+    "description": "Whenever you lose HP, draw 1 card."
+  },
+  "Runic Dome": {
+    "description": "Gain 1 Energy at the start of each turn. You can no longer see enemy intents."
+  },
+  "Runic Pyramid": {
+    "description": "At the end of your turn, you no longer discard your hand."
+  },
+  "Sacred Bark": {
+    "description": "Double the effectiveness of Potions."
+  },
+  "SlaversCollar": {
+    "description": "During Boss and Elite combats, gain 1 Energy at the start of each turn."
+  },
+  "Snecko Eye": {
+    "description": "Draw 2 additional cards each turn. Start each combat Confused."
+  },
+  "Sozu": {
+    "description": "Gain 1 Energy at the start of each turn. You can no longer obtain Potions."
+  },
+  "Tiny House": {
+    "description": "Upon pickup: gain 50 Gold, gain 5 Max HP, obtain 1 Potion, Upgrade 1 random card."
+  },
+  "Velvet Choker": {
+    "description": "Gain 1 Energy at the start of each turn. You cannot play more than 6 cards per turn."
+  },
+  "WristBlade": {
+    "description": "Attacks that cost 0 deal 4 additional damage."
+  },
+  "Bloody Idol": {
+    "description": "Whenever you gain Gold, heal 5 HP."
+  },
+  "Cultist Headpiece": {
+    "description": "You feel an evil presence... (CAW!)"
+  },
+  "Enchiridion": {
+    "description": "At the start of each combat, add a random Power to your hand. It costs 0 for that turn."
+  },
+  "FaceOfCleric": {
+    "description": "Raise your Max HP by 1 after each combat."
+  },
+  "Golden Idol": {
+    "description": "Enemies drop 25% more Gold."
+  },
+  "GremlinMask": {
+    "description": "You feel sneaky..."
+  },
+  "Mark of the Bloom": {
+    "description": "You can no longer heal."
+  },
+  "MutagenicStrength": {
+    "description": "At the start of each combat, gain 3 Strength and 3 Lose Strength."
+  },
+  "Nloth's Gift": {
+    "description": "Triple the chance of receiving rare cards as rewards."
+  },
+  "NlothsMask": {
+    "description": "The next non-boss chest you open is empty."
+  },
+  "Necronomicon": {
+    "description": "The first Attack you play each turn that costs 2+ is played twice."
+  },
+  "Neow's Lament": {
+    "description": "Enemies in your first 3 combats will have 1 HP."
+  },
+  "Nilry's Codex": {
+    "description": "At the end of your turn, you may choose 1 of 3 random cards to shuffle into your draw pile."
+  },
+  "OddMushroom": {
+    "description": "When applying Vulnerable, apply 1 additional."
+  },
+  "Red Mask": {
+    "description": "At the start of each combat, apply 1 Weak to ALL enemies."
+  },
+  "Spirit Poop": {
+    "description": "It's unpleasant."
+  },
+  "SsserpentHead": {
+    "description": "Whenever you enter a ? room, gain 50 Gold."
+  },
+  "WarpedTongs": {
+    "description": "At the start of your turn, Upgrade a random card in your hand for the rest of combat."
+  }
+}

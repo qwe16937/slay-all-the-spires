@@ -1,0 +1,257 @@
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[对话]'}", "messages": 0}
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 1, 'text': '[ 接下来 3 场战斗中的敌人将只有 1 点生命 ]'}", "messages": 4}
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[离开]'}", "messages": 4}
+{"type": "decision", "run": 1, "floor": 0, "screen": "map", "hp": "80/80", "action": "path → M (1,0)", "messages": 6}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "80/80", "action": "play 打击 → 邪教徒", "messages": 8}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 8}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 8}
+{"type": "decision", "run": 1, "floor": 1, "screen": "card_reward", "hp": "80/80", "action": "take 完美打击", "messages": 10}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat_reward", "hp": "80/80", "action": "proceed", "messages": 10}
+{"type": "decision", "run": 1, "floor": 1, "screen": "map", "hp": "80/80", "action": "path → $ (2,1)", "messages": 12}
+{"type": "decision", "run": 1, "floor": 2, "screen": "shop_room", "hp": "80/80", "action": "open_shop", "messages": 12}
+{"type": "decision", "run": 1, "floor": 2, "screen": "shop_screen", "hp": "80/80", "action": "shop_purge {'cost': 75, 'shop_choice_index': 0}", "messages": 14}
+{"type": "decision", "run": 1, "floor": 2, "screen": "grid", "hp": "80/80", "action": "card_select {'card_index': 0, 'card_name': '打击', 'card_id': 'Strike_R'}", "messages": 16}
+{"type": "decision", "run": 1, "floor": 2, "screen": "grid", "hp": "80/80", "action": "proceed", "messages": 16}
+{"type": "decision", "run": 1, "floor": 2, "screen": "shop_screen", "hp": "80/80", "action": "shop_buy_card {'card_index': 0, 'card_name': '连续拳', 'card_id': 'Pummel', 'price': 33, 'shop_choice_index': 0}", "messages": 18}
+{"type": "decision", "run": 1, "floor": 2, "screen": "shop_screen", "hp": "80/80", "action": "cancel", "messages": 18}
+{"type": "decision", "run": 1, "floor": 2, "screen": "shop_room", "hp": "80/80", "action": "proceed", "messages": 18}
+{"type": "decision", "run": 1, "floor": 2, "screen": "map", "hp": "80/80", "action": "path → M (2,2)", "messages": 20}
+{"type": "decision", "run": 1, "floor": 3, "screen": "combat", "hp": "80/80", "action": "play 连续拳 → 酸液史莱姆（中）", "messages": 22}
+{"type": "decision", "run": 1, "floor": 3, "screen": "combat", "hp": "80/80", "action": "play 完美打击 → 尖刺史莱姆（小）", "messages": 22}
+{"type": "decision", "run": 1, "floor": 3, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 22}
+{"type": "decision", "run": 1, "floor": 3, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'potion'}", "messages": 22}
+{"type": "decision", "run": 1, "floor": 3, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 22}
+{"type": "decision", "run": 1, "floor": 3, "screen": "card_reward", "hp": "80/80", "action": "take 双重打击", "messages": 24}
+{"type": "decision", "run": 1, "floor": 3, "screen": "combat_reward", "hp": "80/80", "action": "proceed", "messages": 24}
+{"type": "decision", "run": 1, "floor": 3, "screen": "map", "hp": "80/80", "action": "path → M (3,3)", "messages": 26}
+{"type": "decision", "run": 1, "floor": 4, "screen": "combat", "hp": "80/80", "action": "play 打击 → 大颚虫", "messages": 28}
+{"type": "decision", "run": 1, "floor": 4, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 28}
+{"type": "decision", "run": 1, "floor": 4, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 28}
+{"type": "decision", "run": 1, "floor": 4, "screen": "card_reward", "hp": "80/80", "action": "take 火焰屏障", "messages": 30}
+{"type": "decision", "run": 1, "floor": 4, "screen": "combat_reward", "hp": "80/80", "action": "proceed", "messages": 30}
+{"type": "decision", "run": 1, "floor": 4, "screen": "map", "hp": "80/80", "action": "path → M (3,4)", "messages": 32}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "80/80", "action": "play 防御", "messages": 34}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "80/80", "action": "play 双重打击 → 虱虫", "messages": 36}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "80/80", "action": "play 打击 → 虱虫", "messages": 36}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "80/80", "action": "end turn", "messages": 36}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "69/80", "action": "play 火焰屏障", "messages": 38}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "69/80", "action": "play 打击 → 虱虫", "messages": 38}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "69/80", "action": "end turn", "messages": 38}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "69/80", "action": "play 痛击 → 大颚虫", "messages": 40}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "69/80", "action": "play 防御", "messages": 40}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "69/80", "action": "end turn", "messages": 40}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "60/80", "action": "play 双重打击 → 大颚虫", "messages": 42}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "60/80", "action": "play 打击 → 大颚虫", "messages": 42}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "60/80", "action": "play 打击 → 大颚虫", "messages": 42}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "60/80", "action": "end turn", "messages": 42}
+{"type": "decision", "run": 1, "floor": 5, "screen": "map", "hp": "60/80", "action": "path → R (2,5)", "messages": 44}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat", "hp": "60/80", "action": "play 完美打击 → 大颚虫", "messages": 46}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat_reward", "hp": "66/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 46}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat_reward", "hp": "66/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 46}
+{"type": "decision", "run": 1, "floor": 5, "screen": "card_reward", "hp": "66/80", "action": "take 闪电霹雳", "messages": 48}
+{"type": "decision", "run": 1, "floor": 5, "screen": "combat_reward", "hp": "66/80", "action": "proceed", "messages": 48}
+{"type": "decision", "run": 1, "floor": 5, "screen": "map", "hp": "66/80", "action": "path → R (2,5)", "messages": 50}
+{"type": "decision", "run": 1, "floor": 6, "screen": "rest", "hp": "66/80", "action": "smith", "messages": 52}
+{"type": "decision", "run": 1, "floor": 6, "screen": "grid", "hp": "66/80", "action": "card_select {'card_index': 9, 'card_name': '完美打击', 'card_id': 'Perfected Strike'}", "messages": 54}
+{"type": "decision", "run": 1, "floor": 6, "screen": "grid", "hp": "66/80", "action": "proceed", "messages": 54}
+{"type": "decision", "run": 1, "floor": 6, "screen": "rest", "hp": "66/80", "action": "proceed", "messages": 54}
+{"type": "decision", "run": 1, "floor": 6, "screen": "map", "hp": "66/80", "action": "path → E (1,6)", "messages": 56}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "play 防御", "messages": 60}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "play 打击 → 乐加维林", "messages": 62}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "play 打击 → 乐加维林", "messages": 62}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "end turn", "messages": 62}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "play 闪电霹雳", "messages": 64}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "play 双重打击 → 乐加维林", "messages": 64}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "play 打击 → 乐加维林", "messages": 64}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "66/80", "action": "end turn", "messages": 64}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "48/80", "action": "play 完美打击+ → 乐加维林", "messages": 66}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "48/80", "action": "play 打击 → 乐加维林", "messages": 66}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "48/80", "action": "end turn", "messages": 66}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "30/80", "action": "play 闪电霹雳", "messages": 68}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "30/80", "action": "play 打击 → 乐加维林", "messages": 68}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "30/80", "action": "play 双重打击 → 乐加维林", "messages": 70}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "30/80", "action": "end turn", "messages": 70}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "30/80", "action": "play 火焰屏障", "messages": 72}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "30/80", "action": "play 打击 → 乐加维林", "messages": 72}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "30/80", "action": "end turn", "messages": 72}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "23/80", "action": "play 连续拳 → 乐加维林", "messages": 74}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat", "hp": "23/80", "action": "play 完美打击+ → 乐加维林", "messages": 74}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat_reward", "hp": "29/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 74}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat_reward", "hp": "29/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'relic'}", "messages": 74}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat_reward", "hp": "29/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 74}
+{"type": "decision", "run": 1, "floor": 7, "screen": "card_reward", "hp": "29/80", "action": "take 顺劈斩", "messages": 76}
+{"type": "decision", "run": 1, "floor": 7, "screen": "combat_reward", "hp": "29/80", "action": "proceed", "messages": 76}
+{"type": "decision", "run": 1, "floor": 7, "screen": "map", "hp": "29/80", "action": "path → R (1,7)", "messages": 78}
+{"type": "decision", "run": 1, "floor": 8, "screen": "rest", "hp": "29/80", "action": "rest", "messages": 80}
+{"type": "decision", "run": 1, "floor": 8, "screen": "rest", "hp": "53/80", "action": "proceed", "messages": 80}
+{"type": "decision", "run": 1, "floor": 8, "screen": "map", "hp": "53/80", "action": "path → T (1,8)", "messages": 82}
+{"type": "decision", "run": 1, "floor": 9, "screen": "chest", "hp": "53/80", "action": "open_chest", "messages": 82}
+{"type": "decision", "run": 1, "floor": 9, "screen": "combat_reward", "hp": "53/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 82}
+{"type": "decision", "run": 1, "floor": 9, "screen": "combat_reward", "hp": "53/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'relic'}", "messages": 82}
+{"type": "decision", "run": 1, "floor": 9, "screen": "combat_reward", "hp": "53/80", "action": "proceed", "messages": 82}
+{"type": "decision", "run": 1, "floor": 9, "screen": "map", "hp": "53/80", "action": "path → E (0,9)", "messages": 84}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "play 双重打击 → 地精大块头", "messages": 88}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "play 打击 → 地精大块头", "messages": 88}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "end turn", "messages": 90}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "play 痛击 → 地精大块头", "messages": 92}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "play 打击 → 地精大块头", "messages": 92}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "end turn", "messages": 92}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "play 完美打击+ → 地精大块头", "messages": 94}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "play 打击 → 地精大块头", "messages": 94}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "53/80", "action": "end turn", "messages": 94}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat", "hp": "38/80", "action": "play 连续拳 → 地精大块头", "messages": 96}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat_reward", "hp": "44/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 96}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat_reward", "hp": "44/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'relic'}", "messages": 96}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat_reward", "hp": "44/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 96}
+{"type": "decision", "run": 1, "floor": 10, "screen": "card_reward", "hp": "44/80", "action": "take 狂宴", "messages": 98}
+{"type": "decision", "run": 1, "floor": 10, "screen": "combat_reward", "hp": "44/80", "action": "proceed", "messages": 98}
+{"type": "decision", "run": 1, "floor": 10, "screen": "map", "hp": "44/80", "action": "path → ? (0,10)", "messages": 100}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat", "hp": "44/80", "action": "play 顺劈斩", "messages": 102}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat", "hp": "44/80", "action": "play 打击 → 奴隶贩子", "messages": 102}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat", "hp": "44/80", "action": "play 打击 → 奴隶贩子", "messages": 102}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat", "hp": "44/80", "action": "end turn", "messages": 102}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat", "hp": "37/80", "action": "play 双重打击 → 奴隶贩子", "messages": 104}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat", "hp": "37/80", "action": "play 狂宴 → 奴隶贩子", "messages": 104}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat_reward", "hp": "46/83", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 104}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat_reward", "hp": "46/83", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'potion'}", "messages": 104}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat_reward", "hp": "46/83", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 104}
+{"type": "decision", "run": 1, "floor": 11, "screen": "card_reward", "hp": "46/83", "action": "take 狂野打击", "messages": 106}
+{"type": "decision", "run": 1, "floor": 11, "screen": "combat_reward", "hp": "46/83", "action": "proceed", "messages": 106}
+{"type": "decision", "run": 1, "floor": 11, "screen": "map", "hp": "46/83", "action": "path → M (0,11)", "messages": 108}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "play 顺劈斩", "messages": 110}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "play 痛击 → 邪教徒", "messages": 110}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "end turn", "messages": 110}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "play 闪电霹雳", "messages": 112}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "play 打击 → 邪教徒", "messages": 112}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "end turn", "messages": 112}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "play 火焰屏障", "messages": 114}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "play 狂野打击 → 邪教徒", "messages": 114}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "end turn", "messages": 114}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat", "hp": "46/83", "action": "play 狂宴 → 尖刺史莱姆（中）", "messages": 116}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat_reward", "hp": "55/86", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 116}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat_reward", "hp": "55/86", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 116}
+{"type": "decision", "run": 1, "floor": 12, "screen": "card_reward", "hp": "55/86", "action": "take 暴走", "messages": 118}
+{"type": "decision", "run": 1, "floor": 12, "screen": "combat_reward", "hp": "55/86", "action": "proceed", "messages": 118}
+{"type": "decision", "run": 1, "floor": 12, "screen": "map", "hp": "55/86", "action": "path → M (1,12)", "messages": 120}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat", "hp": "55/86", "action": "play 双重打击 → 奴隶贩子", "messages": 122}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat", "hp": "55/86", "action": "play 打击 → 奴隶贩子", "messages": 122}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat", "hp": "55/86", "action": "play 防御", "messages": 124}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat", "hp": "55/86", "action": "end turn", "messages": 124}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat", "hp": "48/86", "action": "play 暴走 → 奴隶贩子", "messages": 126}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat", "hp": "48/86", "action": "play 打击 → 奴隶贩子", "messages": 126}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat", "hp": "48/86", "action": "play 狂野打击 → 奴隶贩子", "messages": 128}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat_reward", "hp": "54/86", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 128}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat_reward", "hp": "54/86", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'potion'}", "messages": 128}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat_reward", "hp": "54/86", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 128}
+{"type": "decision", "run": 1, "floor": 13, "screen": "card_reward", "hp": "54/86", "action": "take 耸肩无视", "messages": 130}
+{"type": "decision", "run": 1, "floor": 13, "screen": "combat_reward", "hp": "54/86", "action": "proceed", "messages": 130}
+{"type": "decision", "run": 1, "floor": 13, "screen": "map", "hp": "54/86", "action": "path → ? (2,13)", "messages": 132}
+{"type": "decision", "run": 1, "floor": 14, "screen": "event", "hp": "54/86", "action": "choose_event_option {'option_index': 1, 'text': '[离开]'}", "messages": 134}
+{"type": "decision", "run": 1, "floor": 14, "screen": "event", "hp": "54/86", "action": "choose_event_option {'option_index': 0, 'text': '[离开]'}", "messages": 134}
+{"type": "decision", "run": 1, "floor": 14, "screen": "map", "hp": "54/86", "action": "path → R (1,14)", "messages": 136}
+{"type": "decision", "run": 1, "floor": 15, "screen": "rest", "hp": "54/86", "action": "smith", "messages": 138}
+{"type": "decision", "run": 1, "floor": 15, "screen": "grid", "hp": "54/86", "action": "card_select {'card_index': 16, 'card_name': '暴走', 'card_id': 'Rampage'}", "messages": 140}
+{"type": "decision", "run": 1, "floor": 15, "screen": "grid", "hp": "54/86", "action": "proceed", "messages": 140}
+{"type": "decision", "run": 1, "floor": 15, "screen": "rest", "hp": "54/86", "action": "proceed", "messages": 140}
+{"type": "decision", "run": 1, "floor": 15, "screen": "map", "hp": "54/86", "action": "choose_boss", "messages": 142}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "play 暴走+ → 史莱姆老大", "messages": 144}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "play 顺劈斩", "messages": 144}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "play 打击 → 史莱姆老大", "messages": 144}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "end turn", "messages": 144}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "play 打击 → 史莱姆老大", "messages": 146}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "play 火焰屏障", "messages": 148}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "end turn", "messages": 148}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "play 双重打击 → 史莱姆老大", "messages": 150}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "play 完美打击+ → 史莱姆老大", "messages": 150}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "54/86", "action": "use_potion {'potion_index': 2, 'potion_name': '速度药水', 'potion_id': 'SpeedPotion'}", "messages": 152}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "59/86", "action": "end turn", "messages": 152}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "59/86", "action": "play 狂野打击 → 尖刺史莱姆（大）", "messages": 154}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "59/86", "action": "play 闪电霹雳", "messages": 156}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "59/86", "action": "play 打击 → 酸液史莱姆（大）", "messages": 156}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "59/86", "action": "end turn", "messages": 158}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "33/86", "action": "play 痛击 → 酸液史莱姆（大）", "messages": 160}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "33/86", "action": "play 顺劈斩", "messages": 160}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "33/86", "action": "end turn", "messages": 160}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "33/86", "action": "use_potion {'potion_index': 1, 'potion_name': '鲜血药水', 'potion_id': 'BloodPotion'}", "messages": 162}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "55/86", "action": "play 防御", "messages": 162}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "55/86", "action": "play 防御", "messages": 162}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "55/86", "action": "play 防御", "messages": 162}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "55/86", "action": "end turn", "messages": 162}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "28/86", "action": "play 暴走+ → 尖刺史莱姆（大）", "messages": 164}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "28/86", "action": "play 打击 → 尖刺史莱姆（大）", "messages": 166}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "28/86", "action": "play 打击 → 尖刺史莱姆（大）", "messages": 166}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "28/86", "action": "end turn", "messages": 166}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "28/86", "action": "play 火焰屏障", "messages": 168}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "28/86", "action": "play 防御", "messages": 168}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "28/86", "action": "end turn", "messages": 168}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "23/86", "action": "play 防御", "messages": 170}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "23/86", "action": "play 防御", "messages": 170}
+{"type": "decision", "run": 1, "floor": 16, "screen": "combat", "hp": "23/86", "action": "end turn", "messages": 170}
+{"type": "run_summary", "run": 1, "character": "IRONCLAD", "result": "died_floor_16", "floor": 16, "decisions": 189, "messages": 170}
+{"type": "decision", "run": 2, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[对话]'}", "messages": 0}
+{"type": "decision", "run": 2, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[ 升级一张牌 ]'}", "messages": 4}
+{"type": "decision", "run": 2, "floor": 0, "screen": "grid", "hp": "80/80", "action": "card_select {'card_index': 9, 'card_name': '痛击', 'card_id': 'Bash'}", "messages": 6}
+{"type": "decision", "run": 2, "floor": 0, "screen": "grid", "hp": "80/80", "action": "proceed", "messages": 6}
+{"type": "decision", "run": 2, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[离开]'}", "messages": 6}
+{"type": "decision", "run": 2, "floor": 0, "screen": "map", "hp": "80/80", "action": "path → M (0,0)", "messages": 8}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat", "hp": "80/80", "action": "play 痛击+ → 大颚虫", "messages": 10}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat", "hp": "80/80", "action": "play 打击 → 大颚虫", "messages": 10}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat", "hp": "80/80", "action": "end turn", "messages": 10}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat", "hp": "69/80", "action": "play 打击 → 大颚虫", "messages": 12}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat", "hp": "69/80", "action": "play 打击 → 大颚虫", "messages": 12}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat", "hp": "69/80", "action": "play 打击 → 大颚虫", "messages": 12}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat_reward", "hp": "75/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 12}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat_reward", "hp": "75/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 12}
+{"type": "decision", "run": 2, "floor": 1, "screen": "card_reward", "hp": "75/80", "action": "take 飞剑回旋镖", "messages": 14}
+{"type": "decision", "run": 2, "floor": 1, "screen": "combat_reward", "hp": "75/80", "action": "proceed", "messages": 14}
+{"type": "decision", "run": 2, "floor": 1, "screen": "map", "hp": "75/80", "action": "path → $ (1,1)", "messages": 16}
+{"type": "decision", "run": 2, "floor": 2, "screen": "shop_room", "hp": "75/80", "action": "open_shop", "messages": 16}
+{"type": "decision", "run": 2, "floor": 2, "screen": "shop_screen", "hp": "75/80", "action": "shop_purge {'cost': 75, 'shop_choice_index': 0}", "messages": 18}
+{"type": "decision", "run": 2, "floor": 2, "screen": "grid", "hp": "75/80", "action": "card_select {'card_index': 0, 'card_name': '打击', 'card_id': 'Strike_R'}", "messages": 20}
+{"type": "decision", "run": 2, "floor": 2, "screen": "grid", "hp": "75/80", "action": "proceed", "messages": 20}
+{"type": "decision", "run": 2, "floor": 2, "screen": "shop_screen", "hp": "75/80", "action": "cancel", "messages": 20}
+{"type": "decision", "run": 2, "floor": 2, "screen": "shop_room", "hp": "75/80", "action": "proceed", "messages": 20}
+{"type": "decision", "run": 2, "floor": 2, "screen": "map", "hp": "75/80", "action": "path → ? (0,2)", "messages": 22}
+{"type": "decision", "run": 2, "floor": 3, "screen": "event", "hp": "75/80", "action": "choose_event_option {'option_index': 0, 'text': '[同意] 获得 175 金币。 被诅咒——疑虑。'}", "messages": 24}
+{"type": "decision", "run": 2, "floor": 3, "screen": "event", "hp": "75/80", "action": "choose_event_option {'option_index': 0, 'text': '[继续]'}", "messages": 24}
+{"type": "decision", "run": 2, "floor": 3, "screen": "event", "hp": "75/80", "action": "choose_event_option {'option_index': 0, 'text': '[离开]'}", "messages": 24}
+{"type": "decision", "run": 2, "floor": 3, "screen": "map", "hp": "75/80", "action": "path → M (0,3)", "messages": 26}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "75/80", "action": "play 打击 → 尖刺史莱姆（小）", "messages": 28}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "75/80", "action": "play 打击 → 酸液史莱姆（中）", "messages": 28}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "75/80", "action": "end turn", "messages": 28}
+{"type": "decision", "run": 2, "floor": 4, "screen": "map", "hp": "75/80", "action": "path → M (1,4)", "messages": 30}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "play 痛击+ → 尖刺史莱姆（小）", "messages": 32}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "end turn", "messages": 32}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "play 打击 → 酸液史莱姆（中）", "messages": 34}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "play 防御", "messages": 36}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "play 防御", "messages": 36}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "end turn", "messages": 36}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "play 痛击+ → 酸液史莱姆（中）", "messages": 38}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "play 打击 → 酸液史莱姆（中）", "messages": 38}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "end turn", "messages": 38}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "play 打击 → 酸液史莱姆（中）", "messages": 40}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "60/80", "action": "end turn", "messages": 40}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat", "hp": "50/80", "action": "play 飞剑回旋镖", "messages": 42}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat_reward", "hp": "56/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 42}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat_reward", "hp": "56/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'potion'}", "messages": 42}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat_reward", "hp": "56/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 42}
+{"type": "decision", "run": 2, "floor": 4, "screen": "card_reward", "hp": "56/80", "action": "take 御血术", "messages": 44}
+{"type": "decision", "run": 2, "floor": 4, "screen": "combat_reward", "hp": "56/80", "action": "proceed", "messages": 44}
+{"type": "decision", "run": 2, "floor": 4, "screen": "map", "hp": "56/80", "action": "path → M (1,4)", "messages": 46}
+{"type": "decision", "run": 2, "floor": 5, "screen": "combat", "hp": "56/80", "action": "use_potion {'potion_index': 0, 'potion_name': '爆炸药水', 'potion_id': 'Explosive Potion', 'target_index': 0}", "messages": 48}
+{"type": "decision", "run": 2, "floor": 5, "screen": "combat", "hp": "56/80", "action": "play 打击 → 虱虫", "messages": 48}
+{"type": "decision", "run": 2, "floor": 5, "screen": "combat", "hp": "56/80", "action": "play 打击 → 虱虫", "messages": 50}
+{"type": "decision", "run": 2, "floor": 5, "screen": "combat_reward", "hp": "62/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 50}
+{"type": "decision", "run": 2, "floor": 5, "screen": "combat_reward", "hp": "62/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 50}
+{"type": "decision", "run": 2, "floor": 5, "screen": "card_reward", "hp": "62/80", "action": "take 耸肩无视", "messages": 52}
+{"type": "decision", "run": 2, "floor": 5, "screen": "combat_reward", "hp": "62/80", "action": "proceed", "messages": 52}
+{"type": "decision", "run": 2, "floor": 5, "screen": "map", "hp": "62/80", "action": "path → E (1,5)", "messages": 54}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "62/80", "action": "play 御血术 → 地精大块头", "messages": 56}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "60/80", "action": "play 打击 → 地精大块头", "messages": 56}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "60/80", "action": "end turn", "messages": 58}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "60/80", "action": "play 打击 → 地精大块头", "messages": 60}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "60/80", "action": "play 打击 → 地精大块头", "messages": 60}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "60/80", "action": "play 打击 → 地精大块头", "messages": 60}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "60/80", "action": "end turn", "messages": 60}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "46/80", "action": "play 痛击+ → 地精大块头", "messages": 62}
+{"type": "decision", "run": 2, "floor": 6, "screen": "combat", "hp": "46/80", "action": "end turn", "messages": 62}

@@ -1,0 +1,242 @@
+{
+  "Strength": {
+    "description": "Increases Attack damage by X.",
+    "type": "buff"
+  },
+  "Dexterity": {
+    "description": "Increases Block gained from cards by X.",
+    "type": "buff"
+  },
+  "Artifact": {
+    "description": "Negates X debuff applications.",
+    "type": "buff"
+  },
+  "Metallicize": {
+    "description": "At the end of your turn, gain X Block.",
+    "type": "buff"
+  },
+  "Plated Armor": {
+    "description": "At the end of your turn, gain X Block. Reduced by 1 when receiving unblocked attack damage.",
+    "type": "buff"
+  },
+  "Thorns": {
+    "description": "When attacked, deal X damage back.",
+    "type": "buff"
+  },
+  "Barricade": {
+    "description": "Block is not removed at the start of your turn.",
+    "type": "buff"
+  },
+  "Demon Form": {
+    "description": "At the start of your turn, gain X Strength.",
+    "type": "buff"
+  },
+  "Brutality": {
+    "description": "At the start of your turn, lose 1 HP and draw 1 card.",
+    "type": "buff"
+  },
+  "Combust": {
+    "description": "At the end of your turn, lose 1 HP and deal X damage to ALL enemies.",
+    "type": "buff"
+  },
+  "Corruption": {
+    "description": "Skills cost 0. Whenever you play a Skill, Exhaust it.",
+    "type": "buff"
+  },
+  "Dark Embrace": {
+    "description": "Whenever a card is Exhausted, draw 1 card.",
+    "type": "buff"
+  },
+  "Evolve": {
+    "description": "Whenever you draw a Status card, draw X card(s).",
+    "type": "buff"
+  },
+  "Feel No Pain": {
+    "description": "Whenever a card is Exhausted, gain X Block.",
+    "type": "buff"
+  },
+  "Fire Breathing": {
+    "description": "Whenever you draw a Status or Curse card, deal X damage to ALL enemies.",
+    "type": "buff"
+  },
+  "Juggernaut": {
+    "description": "Whenever you gain Block, deal X damage to a random enemy.",
+    "type": "buff"
+  },
+  "Rupture": {
+    "description": "Whenever you lose HP from a card, gain X Strength.",
+    "type": "buff"
+  },
+  "Rage": {
+    "description": "Whenever you play an Attack, gain X Block.",
+    "type": "buff"
+  },
+  "Flame Barrier": {
+    "description": "When attacked, deal X damage back.",
+    "type": "buff"
+  },
+  "Double Tap": {
+    "description": "The next X Attack(s) are played twice.",
+    "type": "buff"
+  },
+  "Vigor": {
+    "description": "Your next Attack deals X additional damage.",
+    "type": "buff"
+  },
+  "Energized": {
+    "description": "Gain X additional Energy next turn.",
+    "type": "buff"
+  },
+  "Intangible": {
+    "description": "Reduce ALL damage taken and HP loss to 1. Reduced by 1 at end of turn.",
+    "type": "buff"
+  },
+  "Buffer": {
+    "description": "Prevent the next X time(s) you would lose HP.",
+    "type": "buff"
+  },
+  "Blur": {
+    "description": "Block is not removed at the start of your next X turn(s).",
+    "type": "buff"
+  },
+  "Amplify": {
+    "description": "Your next X Power card(s) are played twice.",
+    "type": "buff"
+  },
+  "No Draw": {
+    "description": "You may not draw any more cards this turn.",
+    "type": "debuff"
+  },
+  "Vulnerable": {
+    "description": "Take 50% more damage from Attacks. Decreases by 1 each turn.",
+    "type": "debuff"
+  },
+  "Weak": {
+    "description": "Deal 25% less Attack damage. Decreases by 1 each turn.",
+    "type": "debuff"
+  },
+  "Frail": {
+    "description": "Gain 25% less Block from cards. Decreases by 1 each turn.",
+    "type": "debuff"
+  },
+  "Poison": {
+    "description": "At the start of its turn, loses X HP and Poison is reduced by 1.",
+    "type": "debuff"
+  },
+  "Constricted": {
+    "description": "At the end of your turn, take X damage.",
+    "type": "debuff"
+  },
+  "Entangled": {
+    "description": "You may not play any Attacks this turn.",
+    "type": "debuff"
+  },
+  "Draw Reduction": {
+    "description": "Draw 1 fewer card next turn.",
+    "type": "debuff"
+  },
+  "Hex": {
+    "description": "Whenever you play a non-Attack card, add a Dazed to your draw pile.",
+    "type": "debuff"
+  },
+  "Bias": {
+    "description": "At the start of your turn, lose 1 Focus.",
+    "type": "debuff"
+  },
+  "Wraith Form v2": {
+    "description": "At the start of your turn, lose X Dexterity.",
+    "type": "debuff"
+  },
+  "Ritual": {
+    "description": "At the end of its turn, gains X Strength.",
+    "type": "monster"
+  },
+  "Curl Up": {
+    "description": "On first attack received, gain X Block.",
+    "type": "monster"
+  },
+  "Angry": {
+    "description": "Whenever this enemy takes damage, gains X Strength.",
+    "type": "monster"
+  },
+  "Enrage": {
+    "description": "Whenever a Skill is played, gains X Strength.",
+    "type": "monster"
+  },
+  "Spore Cloud": {
+    "description": "On death, applies 2 Vulnerable to the player.",
+    "type": "monster"
+  },
+  "Thievery": {
+    "description": "Steals X Gold on attack.",
+    "type": "monster"
+  },
+  "Malleable": {
+    "description": "Each time this enemy is attacked in one turn, gains increasing Block.",
+    "type": "monster"
+  },
+  "Sharp Hide": {
+    "description": "Whenever the player plays an Attack, takes X damage.",
+    "type": "monster"
+  },
+  "Minion": {
+    "description": "This enemy does not give rewards on death.",
+    "type": "monster"
+  },
+  "Split": {
+    "description": "When at or below 50% HP, splits into two smaller slimes.",
+    "type": "monster"
+  },
+  "Flight": {
+    "description": "Takes 50% less damage. Loses 1 stack when attacked. At 0, grounded.",
+    "type": "monster"
+  },
+  "Regen": {
+    "description": "Heals X HP at the end of its turn.",
+    "type": "monster"
+  },
+  "Mode Shift": {
+    "description": "After taking X damage, changes attack pattern.",
+    "type": "monster"
+  },
+  "Time Warp": {
+    "description": "After the player plays 12 cards, ends the turn and gains Strength.",
+    "type": "monster"
+  },
+  "Painful Stabs": {
+    "description": "Whenever this enemy takes unblocked Attack damage, adds a Wound to the player's discard pile.",
+    "type": "monster"
+  },
+  "Beat of Death": {
+    "description": "Whenever the player plays a card, takes X damage.",
+    "type": "monster"
+  },
+  "Invincible": {
+    "description": "Can only lose X HP per turn.",
+    "type": "monster"
+  },
+  "Unawakened": {
+    "description": "Has not yet entered second phase.",
+    "type": "monster"
+  },
+  "Curiosity": {
+    "description": "Whenever the player plays a Power, gains 1 Strength.",
+    "type": "monster"
+  },
+  "Life Link": {
+    "description": "If any of this group survive, revive to full HP at end of turn.",
+    "type": "monster"
+  },
+  "Stasis": {
+    "description": "This enemy is holding a stolen card.",
+    "type": "monster"
+  },
+  "Shifting": {
+    "description": "On losing HP, gains Block equal to the HP lost.",
+    "type": "monster"
+  },
+  "Reactive": {
+    "description": "When this enemy takes damage, it gains Intangible.",
+    "type": "monster"
+  }
+}

@@ -1,0 +1,16 @@
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[对话]'}", "messages": 0}
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[ 升级一张牌 ]'}", "messages": 2}
+{"type": "decision", "run": 1, "floor": 0, "screen": "grid", "hp": "80/80", "action": "card_select {'card_index': 0, 'card_name': '打击', 'card_id': 'Strike_R'}", "messages": 2}
+{"type": "decision", "run": 1, "floor": 0, "screen": "grid", "hp": "80/80", "action": "proceed", "messages": 2}
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[离开]'}", "messages": 2}
+{"type": "decision", "run": 1, "floor": 0, "screen": "map", "hp": "80/80", "action": "cancel", "messages": 2}
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[离开]'}", "messages": 2}
+{"type": "decision", "run": 1, "floor": 0, "screen": "map", "hp": "80/80", "action": "path → M (0,0)", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "80/80", "action": "play 打击 → 虱虫", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "80/80", "action": "play 痛击 → 虱虫", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "80/80", "action": "end turn", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "75/80", "action": "play 打击 → 虱虫", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "75/80", "action": "play 打击 → 虱虫", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "75/80", "action": "play 打击+ → 虱虫", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "75/80", "action": "end turn", "messages": 4}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "67/80", "action": "play 防御", "messages": 4}

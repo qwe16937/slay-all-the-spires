@@ -1,0 +1,787 @@
+======================================================================
+Run 01 | died F23 | path: E:2 M:12 R:2 T:1 | replans: 1
+  Neow: [1] [ 获得 100 金币 ] -> Action(choose_event_option, {'option_index': 1, 'text': '[ 获得 100 金币 ]'})
+
+  DECK: taken=12 bought=3 removed=2 upgraded=11 skipped=0 rested=0
+    Taken: F1:Twin Strike, F2:Metallicize, F3:Battle Trance, F5:Iron Wave, F8:Disarm, F11:Perfected Strike, F12:Disarm, F13:Iron Wave, F14:Thunderclap, F16:Juggernaut, F18:Pommel Strike, F22:Burning Pact
+    Bought: F4:Metallicize, F4:Rage, F21:Perfected Strike
+    Removed: F4:?, F21:?
+    Upgrades: F4:Strike_R, F6:Bash, F15:Perfected Strike, F19:Strike_R, F21:Strike_R, F23:Defend_R, F23:Defend_R, F23:Perfected Strike, F23:Juggernaut, F23:Pommel Strike, F23:Strike_R
+
+  COMBAT (18 fights):
+    F1: 80->78hp (4T, 6 cards) [Strike_R, Strike_R, Strike_R, Bash, Strike_R, Strike_R]
+    F2: 78->66hp (4T, 7 cards) [Strike_R, Strike_R, Strike_R, Bash, Strike_R, Strike_R, Twin Strike]
+    F3: 66->61hp (3T, 7 cards) [Twin Strike, Strike_R, Strike_R, Strike_R, Strike_R, Metallicize, Strike_R]
+    F5: 61->45hp (15T, 29 cards) [Battle Trance, Metallicize, Defend_R, Strike_R, Defend_R, Rage, Strike_R, Defend_R, Defend_R, Battle Trance...] !
+    F8: 65->66hp (13T, 24 cards) [Strike_R, Strike_R, Strike_R, Rage, Iron Wave, Strike_R, Defend_R, Battle Trance, Rage, Twin Strike...]
+    F10: 66->60hp (18T, 30 cards) [Rage, Metallicize, Defend_R, Defend_R, Strike_R, Twin Strike, Strike_R, Battle Trance, Bash, Strike_R...]
+    F11: 60->66hp (5T, 11 cards) [Bash, Iron Wave, Battle Trance, Defend_R, Defend_R, Rage, Strike_R, Battle Trance, Metallicize, Twin Strike...]
+    F12: 66->70hp (4T, 11 cards) [Metallicize, Strike_R, Strike_R, Bash, Twin Strike, Rage, Defend_R, Defend_R, Defend_R, Twin Strike...]
+    F13: 70->76hp (6T, 16 cards) [Disarm, Twin Strike, Strike_R, Rage, Metallicize, Strike_R, Iron Wave, Metallicize, Perfected Strike, Perfected Strike...]
+    F14: 76->55hp (13T, 19 cards) [Strike_R, Iron Wave, Defend_R, Rage, Strike_R, Twin Strike, Strike_R, Battle Trance, Defend_R, Defend_R...] !! BIG LOSS
+    F16: 55->21hp (16T, 36 cards) [Rage, Metallicize, Iron Wave, Twin Strike, Perfected Strike, Strike_R, Metallicize, Defend_R, Defend_R, Iron Wave...] !! BIG LOSS
+    F18: 80->80hp (5T, 13 cards) [Metallicize, Disarm, Strike_R, Metallicize, Bash, Perfected Strike, Iron Wave, Strike_R, Iron Wave, Twin Strike...]
+    F20: 80->63hp (6T, 12 cards) [Battle Trance, Pommel Strike, Iron Wave, Iron Wave, Juggernaut, Defend_R, Metallicize, Defend_R, Twin Strike, Twin Strike...] !
+    F22: 63->57hp (10T, 20 cards) [Metallicize, Juggernaut, Iron Wave, Disarm, Defend_R, Pommel Strike, Perfected Strike, Rage, Perfected Strike, Strike_R...]
+    F23: 57->57hp (1T, 1 cards) [Burning Pact]
+    F23: 57->57hp (3T, 5 cards) [Battle Trance, Rage, Thunderclap, Iron Wave, Perfected Strike]
+    F23: 57->24hp (6T, 9 cards) [Iron Wave, Iron Wave, Perfected Strike, Metallicize, Perfected Strike, Pommel Strike, Defend_R, Twin Strike, Burning Pact] !! BIG LOSS
+    F23: 24->24hp (2T, 2 cards) [Iron Wave, Pommel Strike]
+    Total HP lost in combat: 152
+
+======================================================================
+Run 02 | died F22 | path: E:1 M:11 R:2 T:1 | replans: 3
+  Neow: [0] [ 选择并获得一张牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 选择并获得一张牌 ]'})
+
+  DECK: taken=15 bought=1 removed=2 upgraded=16 skipped=0 rested=1
+    Taken: F0:Armaments, F1:Twin Strike, F3:Thunderclap, F5:Perfected Strike, F6:Metallicize, F8:True Grit, F10:Anger, F11:Shrug It Off, F12:Clothesline, F14:Spot Weakness, F16:Fiend Fire, F18:Pommel Strike, F20:Sword Boomerang, F21:Infernal Blade, F22:Battle Trance
+    Bought: F4:Cleave
+    Removed: F4:?, F13:?
+    Upgrades: F1:Strike_R, F1:Defend_R, F2:Bash, F4:Strike_R, F7:Perfected Strike, F11:Strike_R, F13:Strike_R, F14:Strike_R, F18:Anger, F19:Strike_R, F19:Strike_R, F20:Defend_R, F20:Corruption, F20:Defend_R, F20:Thunderclap, F22:Fiend Fire
+    Rests: F15
+
+  COMBAT (25 fights):
+    F1: 80->70hp (2T, 3 cards) [Bash, Strike_R, Armaments]
+    F1: 70->60hp (3T, 6 cards) [Strike_R, Strike_R, Strike_R, Strike_R, Strike_R, Armaments]
+    F1: 60->66hp (1T, 1 cards) [Bash]
+    F3: 66->72hp (2T, 4 cards) [Bash, Strike_R, Twin Strike, Strike_R]
+    F5: 72->57hp (4T, 4 cards) [Thunderclap, Twin Strike, Strike_R, Twin Strike] !
+    F6: 57->46hp (4T, 9 cards) [Perfected Strike, Twin Strike, Defend_R, Defend_R, Defend_R, Bash, Strike_R, Perfected Strike, Twin Strike]
+    F8: 46->29hp (5T, 13 cards) [Perfected Strike, Twin Strike, Strike_R, Strike_R, Thunderclap, Metallicize, Cleave, Defend_R, Twin Strike, Strike_R...] !
+    F10: 29->18hp (5T, 11 cards) [Twin Strike, Strike_R, Defend_R, Strike_R, Defend_R, Defend_R, Cleave, Perfected Strike, Strike_R, Strike_R...]
+    F11: 18->18hp (1T, 1 cards) [Armaments]
+    F11: 18->20hp (4T, 9 cards) [Metallicize, Twin Strike, Bash, Defend_R, Defend_R, Defend_R, Anger, Strike_R, Cleave]
+    F12: 20->14hp (6T, 11 cards) [Strike_R, Bash, Defend_R, Defend_R, Metallicize, True Grit, Twin Strike, Cleave, Bash, Shrug It Off...]
+    F14: 14->18hp (3T, 4 cards) [Cleave, Twin Strike, Bash, Armaments]
+    F14: 18->20hp (2T, 2 cards) [Anger, Clothesline]
+    F16: 44->20hp (10T, 24 cards) [Metallicize, Bash, True Grit, Defend_R, Defend_R, Spot Weakness, Perfected Strike, Shrug It Off, Defend_R, Twin Strike...] !! BIG LOSS
+    F18: 80->63hp (4T, 7 cards) [Metallicize, Perfected Strike, Spot Weakness, Anger, Spot Weakness, True Grit, Armaments] !
+    F18: 63->69hp (1T, 1 cards) [Fiend Fire]
+    F20: 69->69hp (1T, 1 cards) [Armaments]
+    F20: 69->44hp (4T, 9 cards) [Defend_R, Clothesline, Metallicize, Pommel Strike, Strike_R, Spot Weakness, Perfected Strike, True Grit, Armaments] !! BIG LOSS
+    F20: 44->37hp (4T, 5 cards) [Fiend Fire, Defend_R, Twin Strike, Clothesline, Armaments]
+    F20: 37->35hp (3T, 4 cards) [Perfected Strike, Anger, Twin Strike, Armaments]
+    F20: 35->41hp (2T, 2 cards) [Bash, Strike_R]
+    F21: 41->29hp (9T, 18 cards) [Corruption, Pommel Strike, Twin Strike, Spot Weakness, Clothesline, Bash, Anger, Shrug It Off, Strike_R, Metallicize...]
+    F22: 29->5hp (4T, 6 cards) [Corruption, Defend_R, Sword Boomerang, Sentinel, Defend_R, Pommel Strike] !! BIG LOSS
+    F22: 5->5hp (1T, 2 cards) [Shrug It Off, Armaments]
+    F22: 5->4hp (3T, 4 cards) [Defend_R, Perfected Strike, True Grit, Defend_R]
+    Total HP lost in combat: 192
+
+======================================================================
+Run 03 | died F16 | path: E:2 M:3 R:2 T:1 | replans: 7
+  Neow: [0] [ 变化一张牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 变化一张牌 ]'})
+
+  DECK: taken=5 bought=1 removed=2 upgraded=7 skipped=0 rested=1
+    Taken: F1:Body Slam, F2:Rage, F5:Twin Strike, F10:Spot Weakness, F11:Rampage
+    Bought: F4:True Grit
+    Removed: F4:?, F12:?
+    Upgrades: F0:Strike_R, F4:Strike_R, F6:Reaper, F7:Rage, F11:Slimed, F11:Slimed, F12:Strike_R
+    Rests: F15
+
+  COMBAT (10 fights):
+    F1: 80->72hp (5T, 11 cards) [Strike_R, Strike_R, Strike_R, Reaper, Strike_R, Strike_R, Defend_R, Defend_R, Strike_R, Strike_R...]
+    F2: 72->69hp (4T, 8 cards) [Strike_R, Strike_R, Defend_R, Bash, Strike_R, Strike_R, Reaper, Strike_R]
+    F5: 66->67hp (6T, 12 cards) [Bash, Strike_R, Strike_R, Defend_R, Rage, Body Slam, Defend_R, Body Slam, True Grit, Strike_R...]
+    F8: 67->7hp (21T, 48 cards) [Rage, Twin Strike, Strike_R, Defend_R, Reaper, True Grit, True Grit, Defend_R, Strike_R, Rage...] !! BIG LOSS
+    F10: 7->16hp (6T, 12 cards) [True Grit, Twin Strike, Strike_R, Defend_R, Defend_R, Strike_R, Rage, Bash, Defend_R, True Grit...]
+    F11: 16->13hp (4T, 10 cards) [Defend_R, True Grit, Defend_R, Rage, Spot Weakness, Reaper, Strike_R, Strike_R, Strike_R, True Grit]
+    F11: 13->8hp (5T, 13 cards) [Defend_R, Defend_R, Spot Weakness, Rage, Bash, Spot Weakness, Rage, Defend_R, Body Slam, Defend_R...]
+    F11: 8->14hp (2T, 4 cards) [Defend_R, Strike_R, Bash, Strike_R]
+    F13: 14->18hp (5T, 11 cards) [Twin Strike, Strike_R, Strike_R, Defend_R, Rage, Reaper, Rage, Rampage, Bash, Strike_R...]
+    F16: 42->15hp (8T, 22 cards) [Spot Weakness, Twin Strike, Strike_R, Rage, Rampage, Strike_R, Defend_R, Reaper, Strike_R, Spot Weakness...] !! BIG LOSS
+    Total HP lost in combat: 106
+
+======================================================================
+Run 04 | died F16 | path: E:1 M:6 R:2 T:1 | replans: 0
+  Neow: [0] [ 随机获得一张稀有牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 随机获得一张稀有牌 ]'})
+
+  DECK: taken=8 bought=0 removed=0 upgraded=6 skipped=0 rested=2
+    Taken: F1:Warcry, F2:Headbutt, F4:Battle Trance, F7:Cleave, F8:Thunderclap, F10:True Grit, F12:Rampage, F16:Spot Weakness
+    !! ZERO REMOVALS
+    Upgrades: F4:Strike_R, F8:Strike_R, F8:Strike_R, F12:Strike_R, F16:Slimed, F16:Slimed
+    Rests: F6, F15
+
+  COMBAT (16 fights):
+    F1: 80->74hp (3T, 6 cards) [Strike_R, Strike_R, Defend_R, Strike_R, Bash, Strike_R]
+    F2: 74->55hp (6T, 12 cards) [Corruption, Defend_R, Strike_R, Strike_R, Bash, Strike_R, Defend_R, Defend_R, Defend_R, Bash...] !
+    F4: 60->45hp (2T, 3 cards) [Bash, Strike_R, Headbutt] !
+    F4: 45->42hp (5T, 6 cards) [Strike_R, Defend_R, Corruption, Bash, Strike_R, Headbutt]
+    F7: 67->63hp (6T, 11 cards) [Bash, Headbutt, Strike_R, Bash, Defend_R, Defend_R, Defend_R, Defend_R, Strike_R, Strike_R...]
+    F8: 63->47hp (2T, 2 cards) [Corruption, Headbutt] !
+    F8: 47->47hp (6T, 9 cards) [Strike_R, Strike_R, Cleave, Strike_R, Strike_R, Battle Trance, Strike_R, Strike_R, Headbutt]
+    F8: 47->53hp (5T, 5 cards) [Cleave, Strike_R, Slimed, Strike_R, Headbutt]
+    F10: 53->57hp (4T, 6 cards) [Cleave, Defend_R, Defend_R, Strike_R, Strike_R, Headbutt]
+    F11: 57->26hp (8T, 13 cards) [Cleave, Strike_R, Defend_R, Strike_R, Defend_R, Defend_R, Bash, Strike_R, Headbutt, Strike_R...] !! BIG LOSS
+    F12: 26->18hp (4T, 5 cards) [Cleave, Strike_R, Defend_R, Strike_R, Headbutt]
+    F12: 18->24hp (1T, 1 cards) [Strike_R]
+    F16: 49->29hp (6T, 11 cards) [Thunderclap, Headbutt, Strike_R, Cleave, Strike_R, Strike_R, Defend_R, Defend_R, Defend_R, Rampage...] !! BIG LOSS
+    F16: 29->29hp (3T, 4 cards) [Spot Weakness, True Grit, Corruption, Headbutt]
+    F16: 29->25hp (11T, 20 cards) [Defend_R, Strike_R, Strike_R, Cleave, Strike_R, Battle Trance, Strike_R, True Grit, Rampage, Slimed...]
+    F16: 25->9hp (3T, 6 cards) [Thunderclap, Strike_R, Strike_R, Cleave, Strike_R, Strike_R] !
+    Total HP lost in combat: 142
+
+======================================================================
+Run 05 | died F16 | path: E:2 M:4 R:2 T:1 | replans: 1
+  Neow: [2] [ 失去所有金币。 去除 2 张牌 ] -> Action(choose_event_option, {'option_index': 2, 'text': '[ 失去所有金币。 去除 2 张
+
+  DECK: taken=6 bought=1 removed=0 upgraded=6 skipped=0 rested=1
+    Taken: F1:Twin Strike, F3:Perfected Strike, F5:Perfected Strike, F7:Dual Wield, F10:Pommel Strike, F13:Pummel
+    Bought: F4:Warcry
+    !! ZERO REMOVALS
+    Upgrades: F0:Strike_R, F0:Strike_R, F5:Defend_R, F6:Perfected Strike, F11:Strike_R, F14:Strike_R
+    Rests: F15
+
+  COMBAT (9 fights):
+    F1: 80->80hp (5T, 12 cards) [Strike_R, Strike_R, Defend_R, Defend_R, Defend_R, Strike_R, Strike_R, Defend_R, Defend_R, Bash...]
+    F3: 80->80hp (3T, 7 cards) [Strike_R, Strike_R, Defend_R, Bash, Twin Strike, Strike_R, Strike_R]
+    F5: 80->80hp (2T, 3 cards) [Perfected Strike, Strike_R, Warcry]
+    F5: 80->80hp (4T, 5 cards) [Defend_R, Defend_R, Perfected Strike, Twin Strike, Bash]
+    F7: 80->73hp (6T, 10 cards) [Perfected Strike, Twin Strike, Defend_R, Strike_R, Perfected Strike, Strike_R, Perfected Strike, Defend_R, Strike_R, Twin Strike]
+    F8: 73->49hp (11T, 17 cards) [Bash, Strike_R, Perfected Strike, Twin Strike, Strike_R, Defend_R, Strike_R, Perfected Strike, Defend_R, Strike_R...] !! BIG LOSS
+    F10: 49->41hp (5T, 10 cards) [Bash, Strike_R, Perfected Strike, Strike_R, Defend_R, Defend_R, Defend_R, Perfected Strike, Twin Strike, Perfected Strike]
+    F13: 34->37hp (3T, 6 cards) [Perfected Strike, Defend_R, Pommel Strike, Strike_R, Defend_R, Pommel Strike]
+    F16: 61->21hp (9T, 22 cards) [Bash, Strike_R, Perfected Strike, Pommel Strike, Defend_R, Defend_R, Twin Strike, Pommel Strike, Perfected Strike, Defend_R...] !! BIG LOSS
+    Total HP lost in combat: 79
+
+======================================================================
+Run 06 | died F16 | path: E:2 M:6 R:3 T:1 | replans: 1
+  Neow: [2] [ 失去所有金币。 获得一个稀有遗物 ] -> Action(choose_event_option, {'option_index': 2, 'text': '[ 失去所有金币。 获得一个稀
+
+  DECK: taken=8 bought=0 removed=0 upgraded=3 skipped=0 rested=1
+    Taken: F1:Rage, F3:Pommel Strike, F6:Pommel Strike, F7:Uppercut, F8:Metallicize, F11:Inflame, F13:Perfected Strike, F14:Headbutt
+    !! ZERO REMOVALS
+    Upgrades: F5:Strike_R, F10:Metallicize, F12:Inflame
+    Rests: F15
+
+  COMBAT (9 fights):
+    F1: 80->80hp (3T, 6 cards) [Bash, Strike_R, Strike_R, Defend_R, Defend_R, Strike_R]
+    F3: 80->80hp (4T, 9 cards) [Rage, Strike_R, Strike_R, Defend_R, Bash, Strike_R, Rage, Strike_R, Strike_R]
+    F6: 73->70hp (6T, 13 cards) [Pommel Strike, Strike_R, Defend_R, Rage, Strike_R, Strike_R, Defend_R, Strike_R, Strike_R, Defend_R...]
+    F7: 70->60hp (6T, 16 cards) [Strike_R, Strike_R, Strike_R, Pommel Strike, Strike_R, Defend_R, Rage, Pommel Strike, Strike_R, Strike_R...]
+    F8: 70->59hp (4T, 9 cards) [Strike_R, Strike_R, Defend_R, Uppercut, Pommel Strike, Strike_R, Strike_R, Strike_R, Strike_R]
+    F11: 59->65hp (5T, 9 cards) [Metallicize, Pommel Strike, Strike_R, Pommel Strike, Strike_R, Strike_R, Rage, Strike_R, Pommel Strike]
+    F13: 65->25hp (10T, 16 cards) [Inflame, Rage, Pommel Strike, Strike_R, Strike_R, Uppercut, Strike_R, Metallicize, Strike_R, Pommel Strike...] !! BIG LOSS
+    F14: 25->19hp (12T, 22 cards) [Rage, Pommel Strike, Bash, Uppercut, Strike_R, Inflame, Pommel Strike, Strike_R, Defend_R, Defend_R...]
+    F16: 46->4hp (13T, 33 cards) [Defend_R, Defend_R, Strike_R, Inflame, Rage, Strike_R, Strike_R, Pommel Strike, Pommel Strike, Strike_R...] !! BIG LOSS
+    Total HP lost in combat: 112
+
+======================================================================
+Run 07 | died F7 | path: M:6 | replans: 0
+  Neow: [1] [ 最大生命值 +8 ] -> Action(choose_event_option, {'option_index': 1, 'text': '[ 最大生命值 +8 ]'})
+
+  DECK: taken=5 bought=1 removed=1 upgraded=4 skipped=0 rested=0
+    Taken: F1:Sentinel, F2:Iron Wave, F4:Shrug It Off, F5:Armaments, F6:Warcry
+    Bought: F3:Pommel Strike
+    Removed: F3:?
+    Upgrades: F3:Strike_R, F7:Strike_R, F7:Defend_R, F7:Slimed
+
+  COMBAT (9 fights):
+    F1: 88->82hp (3T, 6 cards) [Bash, Strike_R, Strike_R, Strike_R, Strike_R, Strike_R]
+    F2: 82->76hp (5T, 11 cards) [Strike_R, Strike_R, Strike_R, Sentinel, Bash, Strike_R, Strike_R, Defend_R, Defend_R, Strike_R...]
+    F4: 76->71hp (4T, 11 cards) [Bash, Strike_R, Sentinel, Defend_R, Strike_R, Pommel Strike, Iron Wave, Defend_R, Strike_R, Strike_R...]
+    F5: 71->51hp (8T, 15 cards) [Strike_R, Strike_R, Sentinel, Shrug It Off, Strike_R, Strike_R, Pommel Strike, Strike_R, Shrug It Off, Bash...] !! BIG LOSS
+    F6: 51->8hp (13T, 26 cards) [Iron Wave, Strike_R, Strike_R, Shrug It Off, Strike_R, Strike_R, Bash, Shrug It Off, Pommel Strike, Strike_R...] !! BIG LOSS
+    F7: 8->8hp (1T, 1 cards) [Armaments]
+    F7: 8->1hp (9T, 21 cards) [Defend_R, Defend_R, Pommel Strike, Strike_R, Strike_R, Defend_R, Defend_R, Defend_R, Strike_R, Strike_R...]
+    F7: 1->1hp (1T, 1 cards) [Warcry]
+    F7: 1->1hp (4T, 7 cards) [Defend_R, Defend_R, Pommel Strike, Defend_R, Defend_R, Pommel Strike, Bash]
+    Total HP lost in combat: 87
+
+======================================================================
+Run 08 | died F13 | path: E:1 M:7 R:1 T:1 | replans: 1
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=8 bought=0 removed=0 upgraded=7 skipped=0 rested=1
+    Taken: F1:Headbutt, F2:Flex, F3:Pommel Strike, F5:Iron Wave, F6:Armaments, F10:Barricade, F11:Clothesline, F12:Body Slam
+    !! ZERO REMOVALS
+    Upgrades: F6:Strike_R, F10:Defend_R, F11:Strike_R, F11:Strike_R, F12:Strike_R, F12:Strike_R, F13:Strike_R
+    Rests: F8
+
+  COMBAT (16 fights):
+    F1: 80->80hp (2T, 3 cards) [Strike_R, Defend_R, Strike_R]
+    F2: 80->80hp (2T, 2 cards) [Headbutt, Strike_R]
+    F3: 80->80hp (1T, 1 cards) [Strike_R]
+    F5: 64->71hp (8T, 14 cards) [Defend_R, Defend_R, Pommel Strike, Strike_R, Defend_R, Strike_R, Headbutt, Strike_R, Strike_R, Defend_R...]
+    F6: 71->30hp (7T, 17 cards) [Flex, Pommel Strike, Strike_R, Strike_R, Iron Wave, Strike_R, Strike_R, Headbutt, Defend_R, Strike_R...] !! BIG LOSS
+    F6: 30->36hp (1T, 1 cards) [Pommel Strike]
+    F10: 60->60hp (1T, 1 cards) [Armaments]
+    F10: 60->38hp (10T, 17 cards) [Defend_R, Strike_R, Strike_R, Iron Wave, Strike_R, Pommel Strike, Strike_R, Defend_R, Strike_R, Strike_R...] !! BIG LOSS
+    F11: 38->38hp (2T, 4 cards) [Pommel Strike, Strike_R, Strike_R, Armaments]
+    F11: 38->30hp (6T, 8 cards) [Flex, Strike_R, Defend_R, Barricade, Strike_R, Strike_R, Strike_R, Armaments]
+    F11: 30->34hp (4T, 8 cards) [Iron Wave, Strike_R, Flex, Strike_R, Defend_R, Pommel Strike, Strike_R, Iron Wave]
+    F12: 34->22hp (2T, 2 cards) [Barricade, Headbutt]
+    F12: 22->13hp (4T, 7 cards) [Iron Wave, Defend_R, Pommel Strike, Strike_R, Strike_R, Headbutt, Armaments]
+    F12: 13->19hp (1T, 1 cards) [Strike_R]
+    F13: 19->19hp (1T, 1 cards) [Armaments]
+    F13: 19->5hp (5T, 11 cards) [Flex, Strike_R, Iron Wave, Strike_R, Strike_R, Defend_R, Defend_R, Bash, Defend_R, Pommel Strike...]
+    Total HP lost in combat: 106
+
+======================================================================
+Run 09 | died F8 | path: E:1 M:5 | replans: 1
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=4 bought=1 removed=1 upgraded=5 skipped=0 rested=0
+    Taken: F1:Infernal Blade, F3:Feel No Pain, F4:Feel No Pain, F5:Armaments
+    Bought: F2:Clash
+    Removed: F2:?
+    Upgrades: F2:Strike_R, F6:Defend_R, F6:Defend_R, F7:Strike_R, F8:Defend_R
+
+  COMBAT (9 fights):
+    F1: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F3: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F4: 80->80hp (1T, 1 cards) [Strike_R]
+    F5: 80->74hp (12T, 26 cards) [Feel No Pain, Infernal Blade, Bash, Strike_R, Bash, Strike_R, Reckless Charge, Strike_R, Strike_R, Defend_R...]
+    F6: 74->57hp (4T, 7 cards) [Feel No Pain, Strike_R, Strike_R, Defend_R, Defend_R, Strike_R, Armaments] !
+    F6: 57->57hp (11T, 21 cards) [Defend_R, Strike_R, Infernal Blade, Defend_R, Defend_R, Strike_R, Bash, Strike_R, Defend_R, Iron Wave...]
+    F6: 57->63hp (7T, 11 cards) [Bash, Strike_R, Defend_R, Strike_R, Defend_R, Strike_R, Armaments, Bash, Defend_R, Defend_R...]
+    F8: 63->51hp (4T, 6 cards) [Strike_R, Defend_R, Defend_R, Defend_R, Strike_R, Armaments]
+    F8: 51->6hp (6T, 8 cards) [Defend_R, Strike_R, Infernal Blade, Defend_R, Defend_R, Strike_R, Bash, Defend_R] !! BIG LOSS
+    Total HP lost in combat: 80
+
+======================================================================
+Run 10 | died F6 | path: E:1 M:3 | replans: 0
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=3 bought=0 removed=0 upgraded=1 skipped=0 rested=0
+    Taken: F1:Headbutt, F4:Shrug It Off, F5:Iron Wave
+    !! ZERO REMOVALS
+    Upgrades: F2:Strike_R
+
+  COMBAT (4 fights):
+    F1: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F4: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F5: 80->80hp (1T, 1 cards) [Strike_R]
+    F6: 80->5hp (14T, 32 cards) [Bash, Strike_R, Shrug It Off, Defend_R, Defend_R, Shrug It Off, Strike_R, Strike_R, Bash, Strike_R...] !! BIG LOSS
+    Total HP lost in combat: 75
+
+======================================================================
+Run 11 | died F16 | path: E:1 M:7 R:2 T:1 | replans: 0
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=10 bought=1 removed=1 upgraded=3 skipped=0 rested=1
+    Taken: F1:Pommel Strike, F3:Inflame, F5:Twin Strike, F6:Double Tap, F7:Inflame, F11:Shrug It Off, F12:Armaments, F13:Cleave, F14:True Grit, F16:Offering
+    Bought: F2:Flex
+    Removed: F2:?
+    Upgrades: F2:Strike_R, F15:Inflame, F16:Cleave
+    Rests: F8
+
+  COMBAT (12 fights):
+    F1: 80->80hp (1T, 1 cards) [Strike_R]
+    F3: 80->80hp (2T, 2 cards) [Strike_R, Bash]
+    F5: 77->80hp (1T, 1 cards) [Bash]
+    F6: 80->37hp (6T, 13 cards) [Pommel Strike, Strike_R, Defend_R, Inflame, Twin Strike, Strike_R, Strike_R, Strike_R, Strike_R, Defend_R...] !! BIG LOSS
+    F7: 47->13hp (5T, 9 cards) [Strike_R, Strike_R, Strike_R, Pommel Strike, Bash, Double Tap, Strike_R, Strike_R, Pommel Strike] !! BIG LOSS
+    F11: 70->76hp (3T, 9 cards) [Inflame, Defend_R, Pommel Strike, Inflame, Strike_R, Strike_R, Flex, Twin Strike, Strike_R]
+    F12: 76->68hp (8T, 13 cards) [Shrug It Off, Strike_R, Defend_R, Pommel Strike, Twin Strike, Strike_R, Strike_R, Double Tap, Defend_R, Inflame...]
+    F13: 68->66hp (9T, 13 cards) [Shrug It Off, Twin Strike, Strike_R, Inflame, Pommel Strike, Strike_R, Pommel Strike, Strike_R, Strike_R, Strike_R...]
+    F14: 66->62hp (2T, 6 cards) [Flex, Inflame, Cleave, Twin Strike, Pommel Strike, Strike_R]
+    F16: 62->62hp (2T, 3 cards) [Defend_R, Strike_R, Defend_R]
+    F16: 62->19hp (6T, 17 cards) [True Grit, Strike_R, Strike_R, Inflame, Double Tap, Pommel Strike, Shrug It Off, Defend_R, Strike_R, Inflame...] !! BIG LOSS
+    F16: 19->15hp (4T, 7 cards) [Cleave, Shrug It Off, Strike_R, Flex, Defend_R, Double Tap, Pommel Strike]
+    Total HP lost in combat: 138
+
+======================================================================
+Run 12 | died F7 | path: E:1 M:5 | replans: 0
+  Neow: [0] [ 从牌组中移除一张牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 从牌组中移除一张牌 ]'})
+
+  DECK: taken=6 bought=0 removed=0 upgraded=4 skipped=0 rested=0
+    Taken: F1:Iron Wave, F2:Shrug It Off, F3:Metallicize, F4:Burning Pact, F5:Pummel, F6:Cleave
+    !! ZERO REMOVALS
+    Upgrades: F0:Strike_R, F5:Defend_R, F5:Strike_R, F6:Strike_R
+
+  COMBAT (10 fights):
+    F1: 80->80hp (5T, 7 cards) [Strike_R, Bash, Strike_R, Strike_R, Strike_R, Strike_R, Bash]
+    F2: 80->80hp (3T, 7 cards) [Iron Wave, Strike_R, Strike_R, Bash, Strike_R, Strike_R, Strike_R]
+    F3: 80->79hp (8T, 12 cards) [Defend_R, Defend_R, Defend_R, Shrug It Off, Iron Wave, Defend_R, Strike_R, Strike_R, Defend_R, Bash...]
+    F4: 79->70hp (6T, 16 cards) [Metallicize, Iron Wave, Shrug It Off, Defend_R, Bash, Strike_R, Iron Wave, Strike_R, Bash, Strike_R...]
+    F5: 70->66hp (2T, 4 cards) [Shrug It Off, Strike_R, Strike_R, Burning Pact]
+    F5: 66->64hp (2T, 3 cards) [Defend_R, Defend_R, Burning Pact]
+    F5: 64->57hp (5T, 10 cards) [Defend_R, Defend_R, Shrug It Off, Iron Wave, Strike_R, Metallicize, Bash, Bash, Strike_R, Strike_R]
+    F6: 57->57hp (1T, 1 cards) [Burning Pact]
+    F6: 57->61hp (5T, 16 cards) [Shrug It Off, Iron Wave, Metallicize, Defend_R, Pummel, Strike_R, Defend_R, Shrug It Off, Iron Wave, Strike_R...]
+    F7: 61->13hp (6T, 16 cards) [Cleave, Strike_R, Strike_R, Bash, Defend_R, Pummel, Strike_R, Strike_R, Strike_R, Shrug It Off...] !! BIG LOSS
+    Total HP lost in combat: 71
+
+======================================================================
+Run 13 | died F16 | path: E:1 M:8 R:1 T:1 | replans: 0
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=10 bought=0 removed=0 upgraded=7 skipped=0 rested=1
+    Taken: F1:Headbutt, F3:Uppercut, F4:Pommel Strike, F5:Shrug It Off, F6:Shockwave, F7:Bloodletting, F11:Dropkick, F12:Armaments, F13:Disarm, F14:Rupture
+    !! ZERO REMOVALS
+    Upgrades: F2:Headbutt, F6:Strike_R, F6:Defend_R, F12:Strike_R, F16:Strike_R, F16:Defend_R, F16:Strike_R
+    Rests: F15
+
+  COMBAT (17 fights):
+    F1: 80->80hp (1T, 1 cards) [Bash]
+    F3: 80->80hp (1T, 1 cards) [Headbutt]
+    F4: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F5: 80->79hp (4T, 9 cards) [Uppercut, Pommel Strike, Defend_R, Defend_R, Defend_R, Strike_R, Strike_R, Strike_R, Headbutt]
+    F6: 79->79hp (2T, 3 cards) [Shrug It Off, Uppercut, Headbutt]
+    F6: 79->53hp (6T, 10 cards) [Defend_R, Strike_R, Defend_R, Pommel Strike, Strike_R, Uppercut, Strike_R, Shrug It Off, Defend_R, Headbutt] !! BIG LOSS
+    F6: 53->34hp (4T, 7 cards) [Pommel Strike, Strike_R, Strike_R, Shrug It Off, Strike_R, Strike_R, Headbutt] !
+    F7: 34->32hp (5T, 8 cards) [Headbutt, Strike_R, Strike_R, Shrug It Off, Uppercut, Headbutt, Pommel Strike, Strike_R]
+    F11: 32->26hp (3T, 7 cards) [Bash, Strike_R, Bloodletting, Strike_R, Strike_R, Strike_R, Strike_R]
+    F12: 26->16hp (5T, 13 cards) [Pommel Strike, Strike_R, Defend_R, Defend_R, Defend_R, Defend_R, Shockwave, Shrug It Off, Shrug It Off, Pommel Strike...]
+    F12: 16->13hp (3T, 3 cards) [Dropkick, Strike_R, Headbutt]
+    F13: 13->19hp (9T, 13 cards) [Defend_R, Headbutt, Strike_R, Defend_R, Defend_R, Defend_R, Pommel Strike, Strike_R, Shrug It Off, Strike_R...]
+    F14: 19->20hp (5T, 10 cards) [Headbutt, Uppercut, Shrug It Off, Strike_R, Disarm, Defend_R, Defend_R, Strike_R, Uppercut, Strike_R]
+    F16: 44->44hp (2T, 4 cards) [Shockwave, Strike_R, Rupture, Headbutt]
+    F16: 44->18hp (9T, 15 cards) [Dropkick, Strike_R, Bash, Strike_R, Bloodletting, Uppercut, Pommel Strike, Strike_R, Slimed, Disarm...] !! BIG LOSS
+    F16: 18->13hp (4T, 5 cards) [Shrug It Off, Defend_R, Strike_R, Strike_R, Headbutt]
+    F16: 13->13hp (1T, 1 cards) [Bash]
+    Total HP lost in combat: 98
+
+======================================================================
+Run 14 | died F16 | path: E:2 M:4 R:3 T:1 | replans: 0
+  Neow: [1] [ 获得 100 金币 ] -> Action(choose_event_option, {'option_index': 1, 'text': '[ 获得 100 金币 ]'})
+
+  DECK: taken=6 bought=4 removed=2 upgraded=8 skipped=0 rested=3
+    Taken: F1:Uppercut, F5:Inflame, F6:Brutality, F8:Flame Barrier, F11:Sword Boomerang, F14:Warcry
+    Bought: F2:Perfected Strike, F2:Armaments, F2:Body Slam, F13:Shockwave
+    Removed: F2:?, F13:?
+    Upgrades: F2:Strike_R, F6:Defend_R, F9:Strike_R, F10:Strike_R, F11:Body Slam, F11:Defend_R, F13:Strike_R, F16:Sword Boomerang
+    Rests: F7, F12, F15
+
+  COMBAT (10 fights):
+    F1: 80->80hp (4T, 10 cards) [Strike_R, Strike_R, Defend_R, Bash, Strike_R, Strike_R, Defend_R, Defend_R, Bash, Strike_R]
+    F5: 69->65hp (3T, 5 cards) [Perfected Strike, Strike_R, Uppercut, Strike_R, Strike_R]
+    F6: 65->35hp (5T, 10 cards) [Defend_R, Perfected Strike, Uppercut, Defend_R, Bash, Strike_R, Defend_R, Strike_R, Strike_R, Armaments] !! BIG LOSS
+    F6: 35->24hp (7T, 12 cards) [Perfected Strike, Uppercut, Body Slam, Defend_R, Inflame, Body Slam, Defend_R, Strike_R, Armaments, Defend_R...]
+    F8: 48->50hp (3T, 5 cards) [Perfected Strike, Strike_R, Uppercut, Strike_R, Bash]
+    F11: 50->36hp (3T, 6 cards) [Strike_R, Strike_R, Defend_R, Perfected Strike, Strike_R, Armaments]
+    F11: 36->25hp (3T, 5 cards) [Bash, Body Slam, Uppercut, Strike_R, Strike_R]
+    F14: 49->23hp (6T, 9 cards) [Strike_R, Flame Barrier, Defend_R, Inflame, Sword Boomerang, Defend_R, Strike_R, Bash, Uppercut] !! BIG LOSS
+    F16: 47->28hp (5T, 9 cards) [Perfected Strike, Strike_R, Shockwave, Defend_R, Inflame, Bash, Flame Barrier, Defend_R, Armaments] !
+    F16: 28->14hp (2T, 3 cards) [Perfected Strike, Bash, Strike_R]
+    Total HP lost in combat: 129
+
+======================================================================
+Run 15 | died F14 | path: E:1 M:6 R:2 T:1 | replans: 1
+  Neow: [0] [ 选择并获得一张牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 选择并获得一张牌 ]'})
+
+  DECK: taken=8 bought=1 removed=1 upgraded=4 skipped=0 rested=0
+    Taken: F0:Pummel, F1:Anger, F2:Flame Barrier, F5:Feel No Pain, F7:Clothesline, F11:Thunderclap, F12:Twin Strike, F13:Pommel Strike
+    Bought: F4:Carnage
+    Removed: F4:?
+    Upgrades: F4:Strike_R, F6:Carnage, F8:Feel No Pain, F10:Bash
+
+  COMBAT (8 fights):
+    F1: 80->66hp (4T, 9 cards) [Bash, Strike_R, Pummel, Defend_R, Defend_R, Strike_R, Strike_R, Strike_R, Bash]
+    F2: 66->66hp (3T, 6 cards) [Bash, Strike_R, Pummel, Strike_R, Anger, Strike_R]
+    F5: 66->70hp (3T, 5 cards) [Carnage, Defend_R, Flame Barrier, Strike_R, Strike_R]
+    F7: 70->48hp (6T, 11 cards) [Feel No Pain, Strike_R, Anger, Defend_R, Carnage, Strike_R, Bash, Strike_R, Flame Barrier, Anger...] !! BIG LOSS
+    F11: 48->41hp (2T, 3 cards) [Bash, Strike_R, Carnage]
+    F12: 41->31hp (6T, 14 cards) [Carnage, Strike_R, Strike_R, Thunderclap, Strike_R, Defend_R, Defend_R, Defend_R, Flame Barrier, Strike_R...]
+    F13: 31->15hp (4T, 9 cards) [Flame Barrier, Strike_R, Anger, Carnage, Strike_R, Feel No Pain, Defend_R, Clothesline, Twin Strike] !
+    F14: 15->4hp (5T, 9 cards) [Clothesline, Defend_R, Defend_R, Defend_R, Strike_R, Carnage, Defend_R, Thunderclap, Bash]
+    Total HP lost in combat: 80
+
+======================================================================
+Run 16 | died F16 | path: E:2 M:5 R:3 T:1 | replans: 0
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=7 bought=1 removed=1 upgraded=12 skipped=0 rested=2
+    Taken: F1:Pommel Strike, F2:Headbutt, F5:Shrug It Off, F6:Thunderclap, F11:Iron Wave, F13:Rage, F14:Heavy Blade
+    Bought: F12:Flex
+    Removed: F12:?
+    Upgrades: F3:Strike_R, F6:Strike_R, F6:Strike_R, F6:Strike_R, F6:Strike_R, F6:Defend_R, F6:Defend_R, F6:Strike_R, F10:Pommel Strike, F12:Strike_R, F16:Flex, F16:Strike_R
+    Rests: F7, F15
+
+  COMBAT (13 fights):
+    F1: 80->80hp (1T, 1 cards) [Strike_R]
+    F2: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F5: 85->85hp (2T, 2 cards) [Strike_R, Headbutt]
+    F6: 85->51hp (7T, 15 cards) [Bash, Strike_R, Pommel Strike, Defend_R, Defend_R, Headbutt, Defend_R, Defend_R, Shrug It Off, Strike_R...] !! BIG LOSS
+    F6: 51->46hp (2T, 1 cards) [Defend_R]
+    F6: 46->46hp (1T, 2 cards) [Shrug It Off, Headbutt]
+    F6: 46->34hp (3T, 5 cards) [Pommel Strike, Pommel Strike, Strike_R, Strike_R, Bash]
+    F11: 59->45hp (6T, 9 cards) [Headbutt, Strike_R, Strike_R, Pommel Strike, Bash, Strike_R, Strike_R, Strike_R, Pommel Strike]
+    F13: 45->39hp (3T, 5 cards) [Flex, Bash, Strike_R, Pommel Strike, Headbutt]
+    F14: 39->40hp (5T, 9 cards) [Shrug It Off, Defend_R, Strike_R, Rage, Pommel Strike, Defend_R, Defend_R, Pommel Strike, Iron Wave]
+    F16: 80->80hp (2T, 6 cards) [Flex, Thunderclap, Defend_R, Defend_R, Bash, Headbutt]
+    F16: 80->23hp (5T, 13 cards) [Flex, Pommel Strike, Rage, Heavy Blade, Shrug It Off, Defend_R, Defend_R, Thunderclap, Strike_R, Strike_R...] !! BIG LOSS
+    F16: 23->9hp (3T, 9 cards) [Rage, Strike_R, Strike_R, Thunderclap, Defend_R, Defend_R, Pommel Strike, Shrug It Off, Bash]
+    Total HP lost in combat: 142
+
+======================================================================
+Run 17 | died F16 | path: E:1 M:7 R:3 T:1 | replans: 0
+  Neow: [1] [ 获得 3 瓶药水 ] -> Action(choose_event_option, {'option_index': 1, 'text': '[ 获得 3 瓶药水 ]'})
+
+  DECK: taken=8 bought=3 removed=1 upgraded=8 skipped=0 rested=1
+    Taken: F1:Shrug It Off, F3:Anger, F5:Clothesline, F7:Reaper, F8:Infernal Blade, F10:Iron Wave, F11:Uppercut, F13:Cleave
+    Bought: F14:Rampage, F14:Rage, F14:Shrug It Off
+    Removed: F14:?
+    Upgrades: F4:Bash, F6:Clothesline, F14:Strike_R, F15:Rampage, F16:Slimed, F16:Strike_R, F16:Anger, F16:Bash
+    Rests: F12
+
+  COMBAT (10 fights):
+    F1: 80->75hp (3T, 7 cards) [Strike_R, Strike_R, Defend_R, Bash, Strike_R, Strike_R, Strike_R]
+    F3: 75->74hp (5T, 11 cards) [Strike_R, Defend_R, Strike_R, Shrug It Off, Defend_R, Strike_R, Strike_R, Shrug It Off, Strike_R, Strike_R...]
+    F5: 74->79hp (3T, 7 cards) [Bash, Anger, Strike_R, Strike_R, Strike_R, Defend_R, Strike_R]
+    F7: 79->54hp (14T, 23 cards) [Clothesline, Strike_R, Anger, Shrug It Off, Strike_R, Defend_R, Clothesline, Strike_R, Strike_R, Defend_R...] !! BIG LOSS
+    F8: 54->53hp (2T, 5 cards) [Clothesline, Strike_R, Bash, Strike_R, Anger]
+    F10: 53->47hp (4T, 7 cards) [Clothesline, Defend_R, Strike_R, Infernal Blade, Shrug It Off, Reaper, Strike_R]
+    F11: 47->34hp (4T, 8 cards) [Reaper, Strike_R, Strike_R, Anger, Defend_R, Infernal Blade, Strike_R, Bash]
+    F13: 58->54hp (2T, 6 cards) [Strike_R, Strike_R, Strike_R, Bash, Strike_R, Anger]
+    F16: 54->11hp (16T, 28 cards) [Bash, Strike_R, Clothesline, Strike_R, Shrug It Off, Cleave, Defend_R, Rage, Rampage, Strike_R...] !! BIG LOSS
+    F16: 11->11hp (1T, 0 cards) []
+    Total HP lost in combat: 98
+
+======================================================================
+Run 18 | died F10 | path: E:1 M:3 R:1 T:1 | replans: 0
+  Neow: [0] [ 选择并获得一张无色牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 选择并获得一张无色牌 ]'})
+
+  DECK: taken=7 bought=1 removed=1 upgraded=2 skipped=0 rested=0
+    Taken: F0:Enlightenment, F1:Shrug It Off, F2:Iron Wave, F3:Pummel, F4:Perfected Strike, F8:Rage, F10:Ghostly Armor
+    Bought: F5:Inflame
+    Removed: F5:?
+    Upgrades: F5:Strike_R, F7:Inflame
+
+  COMBAT (7 fights):
+    F1: 80->69hp (6T, 11 cards) [Strike_R, Strike_R, Defend_R, Bash, Strike_R, Defend_R, Strike_R, Strike_R, Defend_R, Enlightenment...]
+    F2: 69->61hp (6T, 11 cards) [Shrug It Off, Strike_R, Enlightenment, Strike_R, Defend_R, Defend_R, Defend_R, Strike_R, Strike_R, Strike_R...]
+    F3: 61->63hp (5T, 9 cards) [Bash, Strike_R, Defend_R, Strike_R, Strike_R, Strike_R, Strike_R, Iron Wave, Strike_R]
+    F4: 63->59hp (8T, 11 cards) [Bash, Strike_R, Defend_R, Pummel, Strike_R, Strike_R, Shrug It Off, Defend_R, Strike_R, Bash...]
+    F8: 59->28hp (7T, 12 cards) [Strike_R, Defend_R, Strike_R, Perfected Strike, Shrug It Off, Inflame, Pummel, Iron Wave, Perfected Strike, Strike_R...] !! BIG LOSS
+    F10: 28->11hp (4T, 6 cards) [Strike_R, Strike_R, Defend_R, Defend_R, Strike_R, Inflame] !
+    F10: 11->11hp (2T, 2 cards) [Ghostly Armor, Strike_R]
+    Total HP lost in combat: 71
+
+======================================================================
+Run 19 | died F16 | path: E:3 M:5 R:2 T:1 | replans: 0
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=7 bought=1 removed=2 upgraded=7 skipped=0 rested=0
+    Taken: F1:Inflame, F3:Hemokinesis, F8:Heavy Blade, F10:Intimidate, F11:Dual Wield, F13:Searing Blow, F14:Spot Weakness
+    Bought: F12:Shrug It Off
+    Removed: F2:?, F12:?
+    Upgrades: F2:Strike_R, F5:Inflame, F7:Hemokinesis, F9:Strike_R, F12:Strike_R, F14:Bash, F15:Heavy Blade
+
+  COMBAT (10 fights):
+    F1: 80->80hp (1T, 1 cards) [Strike_R]
+    F3: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F6: 77->80hp (1T, 1 cards) [Hemokinesis]
+    F8: 80->64hp (12T, 15 cards) [Inflame, Strike_R, Defend_R, Bash, Hemokinesis, Strike_R, Defend_R, Bash, Strike_R, Defend_R...] !
+    F10: 64->71hp (3T, 6 cards) [Inflame, Hemokinesis, Strike_R, Defend_R, Heavy Blade, Strike_R]
+    F11: 71->75hp (3T, 8 cards) [Intimidate, Heavy Blade, Strike_R, Inflame, Defend_R, Defend_R, Hemokinesis, Strike_R]
+    F13: 75->70hp (4T, 8 cards) [Heavy Blade, Strike_R, Strike_R, Strike_R, Defend_R, Hemokinesis, Bash, Strike_R]
+    F14: 70->62hp (2T, 3 cards) [Heavy Blade, Strike_R, Dual Wield]
+    F14: 62->66hp (3T, 4 cards) [Inflame, Defend_R, Hemokinesis, Searing Blow]
+    F16: 66->9hp (7T, 16 cards) [Inflame, Strike_R, Strike_R, Heavy Blade, Hemokinesis, Searing Blow, Defend_R, Intimidate, Heavy Blade, Strike_R...] !! BIG LOSS
+    Total HP lost in combat: 86
+
+======================================================================
+Run 20 | died F16 | path: E:1 M:6 R:3 T:1 | replans: 1
+  Neow: [2] [ 失去所有金币。 去除 2 张牌 ] -> Action(choose_event_option, {'option_index': 2, 'text': '[ 失去所有金币。 去除 2 张
+
+  DECK: taken=6 bought=2 removed=1 upgraded=8 skipped=0 rested=1
+    Taken: F1:Armaments, F3:Inflame, F4:Pommel Strike, F8:Rage, F11:Seeing Red, F14:Juggernaut
+    Bought: F10:Corruption, F10:Sword Boomerang
+    Removed: F10:?
+    Upgrades: F0:Strike_R, F0:Strike_R, F4:Defend_R, F6:Inflame, F10:Strike_R, F14:Defend_R, F15:Pommel Strike, F16:Sword Boomerang
+    Rests: F13
+
+  COMBAT (12 fights):
+    F1: 80->80hp (6T, 13 cards) [Bash, Strike_R, Defend_R, Defend_R, Defend_R, Defend_R, Defend_R, Strike_R, Strike_R, Strike_R...]
+    F3: 80->76hp (5T, 8 cards) [Bash, Strike_R, Defend_R, Strike_R, Bash, Strike_R, Strike_R, Bash]
+    F4: 76->76hp (2T, 2 cards) [Strike_R, Armaments]
+    F4: 76->80hp (4T, 7 cards) [Defend_R, Strike_R, Inflame, Defend_R, Strike_R, Strike_R, Strike_R]
+    F7: 80->59hp (4T, 9 cards) [Pommel Strike, Strike_R, Inflame, Strike_R, Strike_R, Bash, Pommel Strike, Strike_R, Strike_R] !! BIG LOSS
+    F8: 59->47hp (8T, 13 cards) [Bash, Strike_R, Pommel Strike, Strike_R, Defend_R, Strike_R, Pommel Strike, Defend_R, Defend_R, Defend_R...]
+    F11: 47->33hp (4T, 10 cards) [Rage, Bash, Strike_R, Sword Boomerang, Strike_R, Defend_R, Inflame, Pommel Strike, Rage, Strike_R]
+    F12: 33->29hp (4T, 10 cards) [Bash, Strike_R, Rage, Pommel Strike, Defend_R, Defend_R, Inflame, Seeing Red, Strike_R, Strike_R]
+    F14: 53->45hp (6T, 11 cards) [Pommel Strike, Defend_R, Defend_R, Seeing Red, Rage, Strike_R, Defend_R, Defend_R, Inflame, Strike_R...]
+    F14: 45->51hp (3T, 4 cards) [Defend_R, Pommel Strike, Rage, Sword Boomerang]
+    F16: 51->22hp (5T, 11 cards) [Strike_R, Sword Boomerang, Defend_R, Inflame, Rage, Bash, Seeing Red, Pommel Strike, Juggernaut, Defend_R...] !! BIG LOSS
+    F16: 22->9hp (4T, 8 cards) [Defend_R, Strike_R, Defend_R, Rage, Bash, Defend_R, Strike_R, Strike_R]
+    Total HP lost in combat: 105
+
+======================================================================
+Run 21 | died F16 | path: E:1 M:7 R:3 T:1 | replans: 1
+  Neow: [0] [ 随机获得一张稀有牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 随机获得一张稀有牌 ]'})
+
+  DECK: taken=9 bought=0 removed=0 upgraded=7 skipped=0 rested=0
+    Taken: F1:Clothesline, F2:Shrug It Off, F3:Headbutt, F4:Flame Barrier, F5:Anger, F7:Spot Weakness, F10:Cleave, F11:Pommel Strike, F14:Limit Break
+    !! ZERO REMOVALS
+    Upgrades: F4:Strike_R, F6:Bash, F8:Strike_R, F13:Pommel Strike, F15:Limit Break, F16:Strike_R, F16:Strike_R
+
+  COMBAT (13 fights):
+    F1: 80->80hp (2T, 2 cards) [Strike_R, Immolate]
+    F2: 80->75hp (2T, 5 cards) [Immolate, Strike_R, Strike_R, Strike_R, Strike_R]
+    F3: 75->77hp (3T, 5 cards) [Clothesline, Strike_R, Immolate, Strike_R, Strike_R]
+    F4: 77->64hp (2T, 3 cards) [Immolate, Strike_R, Headbutt]
+    F4: 64->70hp (2T, 3 cards) [Shrug It Off, Strike_R, Clothesline]
+    F5: 70->72hp (9T, 11 cards) [Flame Barrier, Headbutt, Flame Barrier, Strike_R, Immolate, Defend_R, Strike_R, Strike_R, Defend_R, Immolate...]
+    F7: 72->52hp (8T, 13 cards) [Flame Barrier, Headbutt, Bash, Anger, Strike_R, Strike_R, Defend_R, Strike_R, Flame Barrier, Strike_R...] !! BIG LOSS
+    F10: 52->50hp (3T, 7 cards) [Bash, Anger, Strike_R, Defend_R, Defend_R, Strike_R, Headbutt]
+    F11: 50->43hp (8T, 14 cards) [Cleave, Headbutt, Strike_R, Flame Barrier, Defend_R, Bash, Strike_R, Spot Weakness, Headbutt, Anger...]
+    F14: 43->48hp (3T, 5 cards) [Pommel Strike, Cleave, Strike_R, Strike_R, Bash]
+    F16: 48->24hp (7T, 12 cards) [Spot Weakness, Pommel Strike, Defend_R, Bash, Strike_R, Clothesline, Shrug It Off, Limit Break, Shrug It Off, Strike_R...] !! BIG LOSS
+    F16: 24->20hp (5T, 9 cards) [Anger, Strike_R, Bash, Strike_R, Flame Barrier, Pommel Strike, Anger, Immolate, Headbutt]
+    F16: 20->18hp (3T, 3 cards) [Defend_R, Strike_R, Strike_R]
+    Total HP lost in combat: 77
+
+======================================================================
+Run 22 | died F10 | path: E:1 M:5 R:1 T:1 | replans: 1
+  Neow: [2] [ 受到 24 点伤害。 去除 2 张牌 ] -> Action(choose_event_option, {'option_index': 2, 'text': '[ 受到 24 点伤害。 
+
+  DECK: taken=5 bought=1 removed=1 upgraded=7 skipped=0 rested=0
+    Taken: F1:Shrug It Off, F2:Armaments, F4:Inflame, F5:Flame Barrier, F8:Dual Wield
+    Bought: F3:Heavy Blade
+    Removed: F3:?
+    Upgrades: F0:Strike_R, F0:Strike_R, F3:Strike_R, F4:Defend_R, F5:Strike_R, F6:Inflame, F10:Defend_R
+
+  COMBAT (10 fights):
+    F1: 56->60hp (6T, 10 cards) [Strike_R, Defend_R, Strike_R, Bash, Strike_R, Defend_R, Defend_R, Bash, Defend_R, Strike_R]
+    F2: 60->59hp (4T, 9 cards) [Bash, Strike_R, Shrug It Off, Strike_R, Defend_R, Strike_R, Defend_R, Defend_R, Strike_R]
+    F4: 59->59hp (2T, 3 cards) [Strike_R, Shrug It Off, Armaments]
+    F4: 59->64hp (2T, 2 cards) [Bash, Heavy Blade]
+    F5: 64->64hp (1T, 2 cards) [Bash, Armaments]
+    F5: 64->68hp (5T, 12 cards) [Inflame, Heavy Blade, Heavy Blade, Strike_R, Defend_R, Defend_R, Strike_R, Shrug It Off, Strike_R, Defend_R...]
+    F7: 68->46hp (13T, 26 cards) [Inflame, Defend_R, Defend_R, Flame Barrier, Defend_R, Bash, Strike_R, Flame Barrier, Shrug It Off, Heavy Blade...] !! BIG LOSS
+    F8: 46->45hp (7T, 13 cards) [Shrug It Off, Defend_R, Defend_R, Flame Barrier, Strike_R, Strike_R, Defend_R, Defend_R, Heavy Blade, Strike_R...]
+    F10: 45->45hp (2T, 2 cards) [Heavy Blade, Armaments]
+    F10: 45->5hp (8T, 18 cards) [Shrug It Off, Defend_R, Defend_R, Defend_R, Strike_R, Flame Barrier, Defend_R, Bash, Defend_R, Defend_R...] !! BIG LOSS
+    Total HP lost in combat: 64
+
+======================================================================
+Run 23 | died F6 | path: E:1 M:5 | replans: 1
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=5 bought=0 removed=0 upgraded=1 skipped=0 rested=0
+    Taken: F1:Cleave, F2:Intimidate, F3:Anger, F4:Headbutt, F5:Flame Barrier
+    !! ZERO REMOVALS
+    Upgrades: F6:Strike_R
+
+  COMBAT (7 fights):
+    F1: 80->80hp (3T, 4 cards) [Strike_R, Defend_R, Defend_R, Strike_R]
+    F2: 80->80hp (1T, 1 cards) [Strike_R]
+    F3: 80->80hp (1T, 1 cards) [Cleave]
+    F4: 80->71hp (12T, 22 cards) [Cleave, Strike_R, Strike_R, Bash, Strike_R, Anger, Defend_R, Strike_R, Strike_R, Intimidate...]
+    F5: 71->56hp (6T, 8 cards) [Bash, Strike_R, Cleave, Defend_R, Strike_R, Strike_R, Anger, Strike_R] !
+    F6: 56->42hp (3T, 7 cards) [Bash, Strike_R, Strike_R, Strike_R, Strike_R, Anger, Headbutt]
+    F6: 42->6hp (5T, 9 cards) [Strike_R, Defend_R, Cleave, Strike_R, Intimidate, Defend_R, Flame Barrier, Strike_R, Defend_R] !! BIG LOSS
+    Total HP lost in combat: 74
+
+======================================================================
+Run 24 | died F20 | path: M:10 R:4 T:1 | replans: 0
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=11 bought=1 removed=1 upgraded=13 skipped=0 rested=2
+    Taken: F1:Sword Boomerang, F2:Perfected Strike, F3:Shrug It Off, F4:Demon Form, F5:Warcry, F11:Bloodletting, F14:Rampage, F16:Berserk, F18:Heavy Blade, F19:Burning Pact, F20:Limit Break
+    Bought: F7:Blood for Blood
+    Removed: F7:?
+    Upgrades: F6:Demon Form, F7:Strike_R, F8:Blood for Blood, F11:Strike_R, F12:Bloodletting, F16:Defend_R, F18:Defend_R, F19:Strike_R, F20:Strike_R, F20:Defend_R, F20:Strike_R, F20:Defend_R, F20:Bash
+    Rests: F10, F15
+
+  COMBAT (18 fights):
+    F1: 80->80hp (2T, 2 cards) [Strike_R, Bash]
+    F2: 80->80hp (1T, 1 cards) [Strike_R]
+    F3: 80->80hp (1T, 1 cards) [Strike_R]
+    F4: 80->52hp (10T, 17 cards) [Bash, Defend_R, Shrug It Off, Strike_R, Strike_R, Strike_R, Defend_R, Sword Boomerang, Shrug It Off, Strike_R...] !! BIG LOSS
+    F5: 52->43hp (7T, 13 cards) [Strike_R, Strike_R, Defend_R, Demon Form, Strike_R, Strike_R, Defend_R, Shrug It Off, Defend_R, Bash...]
+    F11: 67->67hp (1T, 1 cards) [Warcry]
+    F11: 67->39hp (8T, 16 cards) [Perfected Strike, Defend_R, Strike_R, Strike_R, Defend_R, Shrug It Off, Strike_R, Defend_R, Strike_R, Slimed...] !! BIG LOSS
+    F14: 39->24hp (8T, 12 cards) [Bloodletting, Strike_R, Strike_R, Defend_R, Demon Form, Perfected Strike, Defend_R, Blood for Blood, Shrug It Off, Strike_R...] !
+    F16: 48->45hp (2T, 4 cards) [Demon Form, Bloodletting, Shrug It Off, Warcry]
+    F16: 45->18hp (7T, 15 cards) [Blood for Blood, Strike_R, Bash, Rampage, Strike_R, Defend_R, Defend_R, Perfected Strike, Defend_R, Bash...] !! BIG LOSS
+    F18: 80->36hp (6T, 12 cards) [Blood for Blood, Defend_R, Demon Form, Shrug It Off, Bloodletting, Sword Boomerang, Strike_R, Defend_R, Bloodletting, Perfected Strike...] !! BIG LOSS
+    F18: 36->42hp (2T, 2 cards) [Shrug It Off, Sword Boomerang]
+    F19: 42->22hp (3T, 8 cards) [Heavy Blade, Rampage, Defend_R, Demon Form, Berserk, Strike_R, Shrug It Off, Warcry] !! BIG LOSS
+    F19: 22->21hp (2T, 6 cards) [Blood for Blood, Perfected Strike, Sword Boomerang, Bloodletting, Rampage, Strike_R]
+    F20: 21->21hp (3T, 3 cards) [Defend_R, Demon Form, Warcry]
+    F20: 21->2hp (2T, 1 cards) [Bloodletting] !
+    F20: 2->2hp (1T, 0 cards) []
+    F20: 2->2hp (1T, 1 cards) [Limit Break]
+    Total HP lost in combat: 194
+
+======================================================================
+Run 25 | died F16 | path: E:2 M:7 R:3 T:1 | replans: 2
+  Neow: [0] [ 从牌组中移除一张牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 从牌组中移除一张牌 ]'})
+
+  DECK: taken=9 bought=0 removed=0 upgraded=9 skipped=0 rested=2
+    Taken: F1:Armaments, F2:Inflame, F3:Twin Strike, F4:Entrench, F5:Pommel Strike, F10:Demon Form, F11:Shrug It Off, F13:Hemokinesis, F14:Fire Breathing
+    !! ZERO REMOVALS
+    Upgrades: F0:Strike_R, F2:Strike_R, F5:Strike_R, F5:Strike_R, F6:Strike_R, F15:Demon Form, F16:Strike_R, F16:Strike_R, F16:Defend_R
+    Rests: F7, F12
+
+  COMBAT (18 fights):
+    F1: 80->75hp (4T, 8 cards) [Bash, Strike_R, Strike_R, Strike_R, Defend_R, Strike_R, Defend_R, Strike_R]
+    F2: 75->75hp (1T, 1 cards) [Armaments]
+    F2: 75->80hp (5T, 10 cards) [Strike_R, Strike_R, Strike_R, Strike_R, Defend_R, Strike_R, Defend_R, Defend_R, Strike_R, Strike_R]
+    F3: 80->80hp (5T, 6 cards) [Bash, Defend_R, Strike_R, Strike_R, Strike_R, Strike_R]
+    F4: 80->64hp (7T, 12 cards) [Twin Strike, Strike_R, Strike_R, Inflame, Strike_R, Defend_R, Strike_R, Strike_R, Defend_R, Twin Strike...] !
+    F5: 64->64hp (1T, 1 cards) [Armaments]
+    F5: 64->53hp (5T, 7 cards) [Strike_R, Defend_R, Inflame, Defend_R, Defend_R, Strike_R, Armaments]
+    F5: 53->56hp (5T, 8 cards) [Twin Strike, Strike_R, Defend_R, Defend_R, Strike_R, Defend_R, Defend_R, Twin Strike]
+    F6: 56->43hp (4T, 7 cards) [Inflame, Pommel Strike, Strike_R, Twin Strike, Defend_R, Strike_R, Armaments]
+    F6: 43->31hp (8T, 12 cards) [Strike_R, Defend_R, Entrench, Strike_R, Twin Strike, Bash, Pommel Strike, Strike_R, Strike_R, Bash...]
+    F10: 55->34hp (6T, 12 cards) [Bash, Strike_R, Strike_R, Strike_R, Defend_R, Pommel Strike, Strike_R, Strike_R, Strike_R, Defend_R...] !! BIG LOSS
+    F11: 34->22hp (5T, 9 cards) [Inflame, Pommel Strike, Strike_R, Twin Strike, Strike_R, Strike_R, Demon Form, Strike_R, Strike_R]
+    F13: 46->43hp (3T, 5 cards) [Twin Strike, Inflame, Strike_R, Pommel Strike, Strike_R]
+    F14: 43->47hp (2T, 3 cards) [Strike_R, Hemokinesis, Twin Strike]
+    F16: 47->36hp (3T, 6 cards) [Twin Strike, Hemokinesis, Strike_R, Demon Form, Defend_R, Armaments]
+    F16: 36->15hp (4T, 7 cards) [Strike_R, Inflame, Shrug It Off, Strike_R, Bash, Twin Strike, Armaments] !! BIG LOSS
+    F16: 15->3hp (2T, 4 cards) [Hemokinesis, Strike_R, Shrug It Off, Armaments]
+    F16: 3->3hp (2T, 3 cards) [Defend_R, Defend_R, Defend_R]
+    Total HP lost in combat: 137
+
+======================================================================
+Run 26 | died F16 | path: M:8 R:3 T:1 | replans: 1
+  Neow: [1] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 1, 'text': '[ 接下来 3 场
+
+  DECK: taken=8 bought=1 removed=1 upgraded=6 skipped=0 rested=1
+    Taken: F1:Pommel Strike, F5:Burning Pact, F7:Inflame, F10:Heavy Blade, F11:Pommel Strike, F12:Flame Barrier, F13:Cleave, F14:Headbutt
+    Bought: F3:Combust
+    Removed: F3:?
+    Upgrades: F3:Strike_R, F6:Pommel Strike, F8:Inflame, F11:Strike_R, F13:Defend_R, F16:Defend_R
+    Rests: F15
+
+  COMBAT (12 fights):
+    F1: 80->80hp (2T, 2 cards) [Strike_R, Strike_R]
+    F5: 64->70hp (1T, 1 cards) [Pommel Strike]
+    F7: 70->76hp (1T, 2 cards) [Bash, Strike_R]
+    F10: 76->60hp (7T, 11 cards) [Pommel Strike, Defend_R, Defend_R, Strike_R, Strike_R, Strike_R, Pommel Strike, Bash, Combust, Strike_R...] !
+    F11: 60->60hp (1T, 1 cards) [Burning Pact]
+    F11: 60->38hp (5T, 8 cards) [Inflame, Strike_R, Pommel Strike, Heavy Blade, Heavy Blade, Defend_R, Strike_R, Pommel Strike] !! BIG LOSS
+    F12: 38->35hp (5T, 6 cards) [Inflame, Strike_R, Strike_R, Heavy Blade, Strike_R, Pommel Strike]
+    F13: 35->34hp (3T, 6 cards) [Flame Barrier, Defend_R, Combust, Pommel Strike, Defend_R, Burning Pact]
+    F13: 34->30hp (4T, 6 cards) [Flame Barrier, Heavy Blade, Strike_R, Bash, Strike_R, Pommel Strike]
+    F14: 30->26hp (4T, 6 cards) [Flame Barrier, Defend_R, Heavy Blade, Strike_R, Pommel Strike, Strike_R]
+    F16: 50->50hp (2T, 3 cards) [Flame Barrier, Pommel Strike, Burning Pact]
+    F16: 50->16hp (9T, 13 cards) [Inflame, Defend_R, Heavy Blade, Strike_R, Defend_R, Defend_R, Strike_R, Pommel Strike, Heavy Blade, Bash...] !! BIG LOSS
+    Total HP lost in combat: 84
+
+======================================================================
+Run 27 | died F12 | path: M:6 R:1 T:1 | replans: 0
+  Neow: [0] [ 升级一张牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 升级一张牌 ]'})
+
+  DECK: taken=5 bought=0 removed=0 upgraded=3 skipped=0 rested=0
+    Taken: F1:Shrug It Off, F4:Sword Boomerang, F7:Carnage, F8:Pommel Strike, F10:Metallicize
+    !! ZERO REMOVALS
+    Upgrades: F0:Bash, F3:Strike_R, F6:Reaper
+
+  COMBAT (7 fights):
+    F1: 80->79hp (3T, 6 cards) [Bash, Strike_R, Strike_R, Strike_R, Defend_R, Strike_R]
+    F4: 59->55hp (5T, 9 cards) [Shrug It Off, Strike_R, Strike_R, Strike_R, Bash, Shrug It Off, Strike_R, Defend_R, Strike_R]
+    F7: 55->60hp (4T, 6 cards) [Strike_R, Reaper, Bash, Strike_R, Strike_R, Strike_R]
+    F8: 60->18hp (10T, 18 cards) [Shrug It Off, Defend_R, Defend_R, Strike_R, Sword Boomerang, Strike_R, Carnage, Strike_R, Defend_R, Strike_R...] !! BIG LOSS
+    F10: 18->14hp (3T, 5 cards) [Carnage, Strike_R, Sword Boomerang, Strike_R, Pommel Strike]
+    F11: 14->11hp (3T, 6 cards) [Metallicize, Reaper, Carnage, Pommel Strike, Bash, Strike_R]
+    F12: 11->11hp (1T, 2 cards) [Bash, Defend_R]
+    Total HP lost in combat: 54
+
+======================================================================
+Run 28 | died F16 | path: E:1 M:6 R:3 T:1 | replans: 2
+  Neow: [0] [ 接下来 3 场战斗中的敌人将只有 1 点生命 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 接下来 3 场
+
+  DECK: taken=6 bought=1 removed=1 upgraded=15 skipped=0 rested=0
+    Taken: F1:Rage, F2:Uppercut, F8:Headbutt, F10:Burning Pact, F13:Dropkick, F14:True Grit
+    Bought: F3:Warcry
+    Removed: F3:?
+    Upgrades: F3:Strike_R, F6:Bash, F10:Strike_R, F11:Headbutt, F12:Strike_R, F13:Strike_R, F14:Defend_R, F15:Dropkick, F16:Strike_R, F16:Strike_R, F16:Burn, F16:Burn, F16:Defend_R, F16:Burn, F16:True Grit
+
+  COMBAT (18 fights):
+    F1: 80->80hp (1T, 1 cards) [Strike_R]
+    F2: 80->80hp (1T, 1 cards) [Strike_R]
+    F7: 69->75hp (1T, 1 cards) [Bash]
+    F8: 75->80hp (5T, 9 cards) [Uppercut, Strike_R, Defend_R, Defend_R, Rage, Strike_R, Defend_R, Defend_R, Strike_R]
+    F10: 80->79hp (5T, 7 cards) [Rage, Uppercut, Strike_R, Strike_R, Strike_R, Strike_R, Headbutt]
+    F10: 79->80hp (2T, 2 cards) [Bash, Strike_R]
+    F13: 73->73hp (1T, 1 cards) [Burning Pact]
+    F13: 73->63hp (7T, 12 cards) [Defend_R, Uppercut, Rage, Rage, Headbutt, Strike_R, Defend_R, Rage, Strike_R, Defend_R...]
+    F14: 63->63hp (2T, 3 cards) [Bash, Headbutt, Warcry]
+    F14: 63->69hp (3T, 7 cards) [Defend_R, Rage, Defend_R, Strike_R, Defend_R, Uppercut, Dropkick]
+    F16: 69->69hp (3T, 6 cards) [Rage, Bash, Defend_R, Strike_R, Dropkick, Headbutt]
+    F16: 69->69hp (1T, 1 cards) [Burning Pact]
+    F16: 69->39hp (7T, 11 cards) [True Grit, Headbutt, Defend_R, Defend_R, True Grit, Defend_R, Dropkick, Headbutt, Defend_R, Dropkick...] !! BIG LOSS
+    F16: 39->37hp (3T, 5 cards) [True Grit, Rage, Uppercut, Defend_R, Burning Pact]
+    F16: 37->37hp (2T, 2 cards) [True Grit, Headbutt]
+    F16: 37->36hp (2T, 2 cards) [Defend_R, Burning Pact]
+    F16: 36->17hp (2T, 4 cards) [Strike_R, Rage, True Grit, Headbutt] !
+    F16: 17->15hp (5T, 6 cards) [Dropkick, True Grit, Defend_R, Burning Pact, Headbutt, Defend_R]
+    Total HP lost in combat: 65
+
+======================================================================
+Run 29 | died F16 | path: E:2 M:7 R:3 T:1 | replans: 0
+  Neow: [0] [ 升级一张牌 ] -> Action(choose_event_option, {'option_index': 0, 'text': '[ 升级一张牌 ]'})
+
+  DECK: taken=7 bought=0 removed=0 upgraded=12 skipped=0 rested=2
+    Taken: F1:Perfected Strike, F3:Armaments, F4:Iron Wave, F8:Headbutt, F10:Spot Weakness, F13:Metallicize, F14:Flame Barrier
+    !! ZERO REMOVALS
+    Upgrades: F0:Bash, F4:Defend_R, F5:Strike_R, F6:Strike_R, F6:Defend_R, F12:Strike_R, F12:Defend_R, F12:Strike_R, F13:Defend_R, F14:Strike_R, F15:Perfected Strike, F16:Defend_R
+    Rests: F7, F11
+
+  COMBAT (19 fights):
+    F1: 80->80hp (5T, 7 cards) [Strike_R, Strike_R, Defend_R, Bash, Strike_R, Strike_R, Bash]
+    F3: 64->60hp (2T, 5 cards) [Strike_R, Strike_R, Strike_R, Perfected Strike, Strike_R]
+    F4: 60->59hp (2T, 4 cards) [Strike_R, Strike_R, Defend_R, Armaments]
+    F4: 59->65hp (2T, 3 cards) [Strike_R, Strike_R, Strike_R]
+    F6: 58->58hp (3T, 5 cards) [Bash, Strike_R, Defend_R, Defend_R, Armaments]
+    F6: 58->45hp (2T, 3 cards) [Strike_R, Strike_R, Armaments]
+    F6: 45->21hp (5T, 11 cards) [Perfected Strike, Strike_R, Bash, Iron Wave, Defend_R, Strike_R, Defend_R, Defend_R, Strike_R, Perfected Strike...] !! BIG LOSS
+    F8: 45->39hp (2T, 4 cards) [Bash, Strike_R, Defend_R, Perfected Strike]
+    F10: 39->34hp (2T, 4 cards) [Strike_R, Perfected Strike, Bash, Strike_R]
+    F12: 58->58hp (1T, 3 cards) [Bash, Strike_R, Headbutt]
+    F12: 58->49hp (2T, 3 cards) [Spot Weakness, Strike_R, Armaments]
+    F12: 49->41hp (5T, 6 cards) [Strike_R, Strike_R, Iron Wave, Strike_R, Perfected Strike, Headbutt]
+    F12: 41->38hp (1T, 1 cards) [Strike_R]
+    F13: 38->38hp (2T, 2 cards) [Strike_R, Armaments]
+    F13: 38->44hp (3T, 3 cards) [Defend_R, Strike_R, Strike_R]
+    F14: 44->44hp (2T, 2 cards) [Headbutt, Armaments]
+    F14: 44->41hp (3T, 4 cards) [Strike_R, Iron Wave, Perfected Strike, Strike_R]
+    F16: 41->16hp (5T, 13 cards) [Perfected Strike, Strike_R, Metallicize, Iron Wave, Strike_R, Spot Weakness, Defend_R, Defend_R, Strike_R, Defend_R...] !! BIG LOSS
+    F16: 16->5hp (5T, 9 cards) [Strike_R, Flame Barrier, Strike_R, Defend_R, Defend_R, Bash, Defend_R, Defend_R, Strike_R]
+    Total HP lost in combat: 112
+
+======================================================================
+Run 30 | died F7 | path: E:1 M:4 R:1 | replans: 0
+  Neow: [1] [ 获得 100 金币 ] -> Action(choose_event_option, {'option_index': 1, 'text': '[ 获得 100 金币 ]'})
+
+  DECK: taken=3 bought=0 removed=0 upgraded=2 skipped=0 rested=0
+    Taken: F1:Cleave, F3:Pommel Strike, F4:Twin Strike
+    !! ZERO REMOVALS
+    Upgrades: F2:Strike_R, F6:Pommel Strike
+
+  COMBAT (5 fights):
+    F1: 80->75hp (2T, 5 cards) [Bash, Strike_R, Strike_R, Strike_R, Strike_R]
+    F3: 68->69hp (3T, 5 cards) [Cleave, Strike_R, Strike_R, Strike_R, Strike_R]
+    F4: 69->69hp (3T, 6 cards) [Pommel Strike, Strike_R, Strike_R, Bash, Strike_R, Pommel Strike]
+    F5: 69->65hp (3T, 8 cards) [Defend_R, Defend_R, Strike_R, Pommel Strike, Strike_R, Strike_R, Twin Strike, Pommel Strike]
+    F7: 65->5hp (17T, 30 cards) [Strike_R, Defend_R, Defend_R, Pommel Strike, Strike_R, Strike_R, Pommel Strike, Strike_R, Strike_R, Defend_R...] !! BIG LOSS
+    Total HP lost in combat: 69
+
+======================================================================
+AGGREGATE ANALYSIS (30 runs)
+======================================================================
+
+DECKBUILDING PROBLEMS:
+  Total cards added: 243 (8.1/run)
+  Total removals: 22 (0.7/run)  Runs with 0 removals: 13/30
+  Total upgrades: 204 (6.8/run)  Runs with 0 upgrades: 0/30
+  Total skips: 0 (0.0/run)    Runs with 0 skips: 30/30
+  Total rests: 23 (0.8/run)
+
+WORST FIGHTS (HP loss >= 15):
+  Run 10 F6: -75 HP
+  Run 03 F8: -60 HP
+  Run 30 F7: -60 HP
+  Run 16 F16: -57 HP
+  Run 19 F16: -57 HP
+  Run 12 F7: -48 HP
+  Run 09 F8: -45 HP
+  Run 24 F18: -44 HP
+  Run 07 F6: -43 HP
+  Run 11 F6: -43 HP
+  Run 11 F16: -43 HP
+  Run 17 F16: -43 HP
+  Run 06 F16: -42 HP
+  Run 27 F8: -42 HP
+  Run 08 F6: -41 HP
+  Run 05 F16: -40 HP
+  Run 06 F13: -40 HP
+  Run 22 F10: -40 HP
+  Run 23 F6: -36 HP
+  Run 01 F16: -34 HP

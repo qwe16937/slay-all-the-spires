@@ -1,0 +1,11 @@
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[对话]'}", "messages": 0}
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 1, 'text': '[ 接下来 3 场战斗中的敌人将只有 1 点生命 ]'}", "messages": 4}
+{"type": "decision", "run": 1, "floor": 0, "screen": "event", "hp": "80/80", "action": "choose_event_option {'option_index': 0, 'text': '[离开]'}", "messages": 4}
+{"type": "decision", "run": 1, "floor": 0, "screen": "map", "hp": "80/80", "action": "path → M (2,0)", "messages": 6}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "80/80", "action": "play 打击 → 尖刺史莱姆（小）", "messages": 8}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat", "hp": "80/80", "action": "play 打击 → 酸液史莱姆（中）", "messages": 10}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'gold'}", "messages": 10}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat_reward", "hp": "80/80", "action": "combat_reward_choose {'reward_index': 0, 'reward_type': 'card'}", "messages": 10}
+{"type": "decision", "run": 1, "floor": 1, "screen": "card_reward", "hp": "80/80", "action": "take 完美打击", "messages": 12}
+{"type": "decision", "run": 1, "floor": 1, "screen": "combat_reward", "hp": "80/80", "action": "proceed", "messages": 12}
+{"type": "decision", "run": 1, "floor": 1, "screen": "map", "hp": "80/80", "action": "path → M (1,1)", "messages": 14}

@@ -1,0 +1,567 @@
+{
+  "Strike_R": {
+    "description": "Deal 6 damage.",
+    "damage": 6,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 9 damage.", "damage": 9 }
+  },
+  "Defend_R": {
+    "description": "Gain 5 Block.",
+    "block": 5,
+    "target": "self",
+    "upgraded": { "description": "Gain 8 Block.", "block": 8 }
+  },
+  "Bash": {
+    "description": "Deal 8 damage. Apply 2 Vulnerable.",
+    "damage": 8,
+    "hits": 1,
+    "target": "enemy",
+    "applies": { "Vulnerable": 2 },
+    "upgraded": { "description": "Deal 10 damage. Apply 3 Vulnerable.", "damage": 10, "applies": { "Vulnerable": 3 } }
+  },
+  "Anger": {
+    "description": "Deal 6 damage. Add a copy to your discard pile.",
+    "damage": 6,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 8 damage. Add a copy to your discard pile.", "damage": 8 }
+  },
+  "Armaments": {
+    "description": "Gain 5 Block. Upgrade a card in your hand for the rest of combat.",
+    "block": 5,
+    "target": "self",
+    "upgraded": { "description": "Gain 5 Block. Upgrade ALL cards in your hand for the rest of combat.", "block": 5 }
+  },
+  "Body Slam": {
+    "description": "Deal damage equal to your current Block.",
+    "hits": 1,
+    "target": "enemy",
+    "hook": "body_slam",
+    "upgraded": { "description": "Deal damage equal to your current Block. Costs 0." }
+  },
+  "Clash": {
+    "description": "Can only be played if every card in your hand is an Attack. Deal 14 damage.",
+    "damage": 14,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Can only be played if every card in your hand is an Attack. Deal 18 damage.", "damage": 18 }
+  },
+  "Cleave": {
+    "description": "Deal 8 damage to ALL enemies.",
+    "damage": 8,
+    "hits": 1,
+    "target": "all_enemies",
+    "upgraded": { "description": "Deal 11 damage to ALL enemies.", "damage": 11 }
+  },
+  "Clothesline": {
+    "description": "Deal 12 damage. Apply 2 Weak.",
+    "damage": 12,
+    "hits": 1,
+    "target": "enemy",
+    "applies": { "Weak": 2 },
+    "upgraded": { "description": "Deal 14 damage. Apply 3 Weak.", "damage": 14, "applies": { "Weak": 3 } }
+  },
+  "Flex": {
+    "description": "Gain 2 Strength. At the end of this turn, lose 2 Strength.",
+    "target": "self",
+    "hook": "flex",
+    "upgraded": { "description": "Gain 4 Strength. At the end of this turn, lose 4 Strength." }
+  },
+  "Havoc": {
+    "description": "Play the top card of your draw pile and Exhaust it.",
+    "target": "self",
+    "upgraded": { "description": "Play the top card of your draw pile and Exhaust it. Costs 0." }
+  },
+  "Headbutt": {
+    "description": "Deal 9 damage. Put a card from your discard pile on top of your draw pile.",
+    "damage": 9,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 12 damage. Put a card from your discard pile on top of your draw pile.", "damage": 12 }
+  },
+  "Heavy Blade": {
+    "description": "Deal 14 damage. Strength affects this card 3 times.",
+    "damage": 14,
+    "hits": 1,
+    "target": "enemy",
+    "hook": "heavy_blade",
+    "upgraded": { "description": "Deal 14 damage. Strength affects this card 5 times.", "damage": 14 }
+  },
+  "Iron Wave": {
+    "description": "Gain 5 Block. Deal 5 damage.",
+    "damage": 5,
+    "block": 5,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Gain 7 Block. Deal 7 damage.", "damage": 7, "block": 7 }
+  },
+  "Perfected Strike": {
+    "description": "Deal 6 damage. Deal 2 additional damage for ALL cards containing 'Strike'.",
+    "damage": 6,
+    "hits": 1,
+    "target": "enemy",
+    "hook": "perfected_strike",
+    "upgraded": { "description": "Deal 6 damage. Deal 3 additional damage for ALL cards containing 'Strike'.", "damage": 6 }
+  },
+  "Pommel Strike": {
+    "description": "Deal 9 damage. Draw 1 card.",
+    "damage": 9,
+    "hits": 1,
+    "target": "enemy",
+    "draw": 1,
+    "upgraded": { "description": "Deal 10 damage. Draw 2 cards.", "damage": 10, "draw": 2 }
+  },
+  "Shrug It Off": {
+    "description": "Gain 8 Block. Draw 1 card.",
+    "block": 8,
+    "target": "self",
+    "draw": 1,
+    "upgraded": { "description": "Gain 11 Block. Draw 1 card.", "block": 11 }
+  },
+  "Sword Boomerang": {
+    "description": "Deal 3 damage to a random enemy 3 times.",
+    "damage": 3,
+    "hits": 3,
+    "target": "random",
+    "upgraded": { "description": "Deal 3 damage to a random enemy 4 times.", "damage": 3, "hits": 4 }
+  },
+  "Thunderclap": {
+    "description": "Deal 4 damage and apply 1 Vulnerable to ALL enemies.",
+    "damage": 4,
+    "hits": 1,
+    "target": "all_enemies",
+    "applies": { "Vulnerable": 1 },
+    "upgraded": { "description": "Deal 7 damage and apply 1 Vulnerable to ALL enemies.", "damage": 7 }
+  },
+  "True Grit": {
+    "description": "Gain 7 Block. Exhaust a random card from your hand.",
+    "block": 7,
+    "target": "self",
+    "upgraded": { "description": "Gain 9 Block. Exhaust a card from your hand.", "block": 9 }
+  },
+  "Twin Strike": {
+    "description": "Deal 5 damage twice.",
+    "damage": 5,
+    "hits": 2,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 7 damage twice.", "damage": 7 }
+  },
+  "Warcry": {
+    "description": "Draw 1 card. Put a card from your hand on top of your draw pile. Exhaust.",
+    "target": "self",
+    "draw": 1,
+    "upgraded": { "description": "Draw 2 cards. Put a card from your hand on top of your draw pile. Exhaust.", "draw": 2 }
+  },
+  "Wild Strike": {
+    "description": "Deal 12 damage. Shuffle a Wound into your draw pile.",
+    "damage": 12,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 17 damage. Shuffle a Wound into your draw pile.", "damage": 17 }
+  },
+  "Battle Trance": {
+    "description": "Draw 3 cards. You cannot draw additional cards this turn.",
+    "target": "self",
+    "draw": 3,
+    "upgraded": { "description": "Draw 4 cards. You cannot draw additional cards this turn.", "draw": 4 }
+  },
+  "Blood for Blood": {
+    "description": "Costs 1 less Energy for each time you lose HP in combat. Deal 18 damage.",
+    "damage": 18,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Costs 1 less Energy for each time you lose HP in combat. Deal 22 damage.", "damage": 22 }
+  },
+  "Bloodletting": {
+    "description": "Lose 3 HP. Gain 2 Energy.",
+    "target": "self",
+    "self_damage": 3,
+    "energy_gain": 2,
+    "upgraded": { "description": "Lose 3 HP. Gain 3 Energy.", "energy_gain": 3 }
+  },
+  "Burning Pact": {
+    "description": "Exhaust 1 card. Draw 2 cards.",
+    "target": "self",
+    "draw": 2,
+    "upgraded": { "description": "Exhaust 1 card. Draw 3 cards.", "draw": 3 }
+  },
+  "Carnage": {
+    "description": "Ethereal. Deal 20 damage.",
+    "damage": 20,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Ethereal. Deal 28 damage.", "damage": 28 }
+  },
+  "Combust": {
+    "description": "At the end of your turn, lose 1 HP and deal 5 damage to ALL enemies.",
+    "damage": 5,
+    "target": "self",
+    "player_powers": { "Combust": 1 },
+    "upgraded": { "description": "At the end of your turn, lose 1 HP and deal 7 damage to ALL enemies.", "damage": 7 }
+  },
+  "Corruption": {
+    "description": "Skills cost 0. Whenever you play a Skill, Exhaust it.",
+    "target": "self",
+    "player_powers": { "Corruption": 1 },
+    "upgraded": { "description": "Skills cost 0. Whenever you play a Skill, Exhaust it. Costs 2." }
+  },
+  "Dark Embrace": {
+    "description": "Whenever a card is Exhausted, draw 1 card.",
+    "target": "self",
+    "player_powers": { "Dark Embrace": 1 },
+    "upgraded": { "description": "Whenever a card is Exhausted, draw 1 card. Costs 1." }
+  },
+  "Disarm": {
+    "description": "Enemy loses 2 Strength. Exhaust.",
+    "target": "enemy",
+    "applies": { "Strength": -2 },
+    "upgraded": { "description": "Enemy loses 3 Strength. Exhaust.", "applies": { "Strength": -3 } }
+  },
+  "Dropkick": {
+    "description": "Deal 5 damage. If the enemy is Vulnerable, gain 1 Energy and draw 1 card.",
+    "damage": 5,
+    "hits": 1,
+    "target": "enemy",
+    "hook": "dropkick",
+    "upgraded": { "description": "Deal 8 damage. If the enemy is Vulnerable, gain 1 Energy and draw 1 card.", "damage": 8 }
+  },
+  "Dual Wield": {
+    "description": "Create a copy of an Attack or Power card in your hand.",
+    "target": "self",
+    "upgraded": { "description": "Create 2 copies of an Attack or Power card in your hand." }
+  },
+  "Entrench": {
+    "description": "Double your current Block.",
+    "target": "self",
+    "hook": "entrench",
+    "upgraded": { "description": "Double your current Block. Costs 1." }
+  },
+  "Evolve": {
+    "description": "Whenever you draw a Status card, draw 1 card.",
+    "target": "self",
+    "player_powers": { "Evolve": 1 },
+    "upgraded": { "description": "Whenever you draw a Status card, draw 2 cards.", "player_powers": { "Evolve": 2 } }
+  },
+  "Feel No Pain": {
+    "description": "Whenever a card is Exhausted, gain 3 Block.",
+    "block": 3,
+    "target": "self",
+    "player_powers": { "Feel No Pain": 3 },
+    "upgraded": { "description": "Whenever a card is Exhausted, gain 4 Block.", "block": 4, "player_powers": { "Feel No Pain": 4 } }
+  },
+  "Fire Breathing": {
+    "description": "Whenever you draw a Status or Curse card, deal 6 damage to ALL enemies.",
+    "damage": 6,
+    "target": "self",
+    "player_powers": { "Fire Breathing": 6 },
+    "upgraded": { "description": "Whenever you draw a Status or Curse card, deal 10 damage to ALL enemies.", "damage": 10, "player_powers": { "Fire Breathing": 10 } }
+  },
+  "Flame Barrier": {
+    "description": "Gain 12 Block. Whenever you are attacked this turn, deal 4 damage back.",
+    "block": 12,
+    "damage": 4,
+    "target": "self",
+    "upgraded": { "description": "Gain 16 Block. Whenever you are attacked this turn, deal 6 damage back.", "block": 16, "damage": 6 }
+  },
+  "Ghostly Armor": {
+    "description": "Ethereal. Gain 10 Block.",
+    "block": 10,
+    "target": "self",
+    "upgraded": { "description": "Ethereal. Gain 13 Block.", "block": 13 }
+  },
+  "Hemokinesis": {
+    "description": "Lose 2 HP. Deal 15 damage.",
+    "damage": 15,
+    "hits": 1,
+    "target": "enemy",
+    "self_damage": 2,
+    "upgraded": { "description": "Lose 2 HP. Deal 20 damage.", "damage": 20 }
+  },
+  "Infernal Blade": {
+    "description": "Add a random Attack into your hand. It costs 0 this turn. Exhaust.",
+    "target": "self",
+    "upgraded": { "description": "Add a random Attack into your hand. It costs 0 this turn. Exhaust. Costs 0." }
+  },
+  "Inflame": {
+    "description": "Gain 2 Strength.",
+    "target": "self",
+    "player_powers": { "Strength": 2 },
+    "upgraded": { "description": "Gain 3 Strength.", "player_powers": { "Strength": 3 } }
+  },
+  "Intimidate": {
+    "description": "Apply 1 Weak to ALL enemies. Exhaust.",
+    "target": "all_enemies",
+    "applies": { "Weak": 1 },
+    "upgraded": { "description": "Apply 2 Weak to ALL enemies. Exhaust.", "applies": { "Weak": 2 } }
+  },
+  "Metallicize": {
+    "description": "At the end of your turn, gain 3 Block.",
+    "block": 3,
+    "target": "self",
+    "player_powers": { "Metallicize": 3 },
+    "upgraded": { "description": "At the end of your turn, gain 4 Block.", "block": 4, "player_powers": { "Metallicize": 4 } }
+  },
+  "Power Through": {
+    "description": "Add 2 Wounds to your hand. Gain 15 Block.",
+    "block": 15,
+    "target": "self",
+    "upgraded": { "description": "Add 2 Wounds to your hand. Gain 20 Block.", "block": 20 }
+  },
+  "Pummel": {
+    "description": "Deal 2 damage 4 times. Exhaust.",
+    "damage": 2,
+    "hits": 4,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 2 damage 5 times. Exhaust.", "damage": 2, "hits": 5 }
+  },
+  "Rage": {
+    "description": "Whenever you play an Attack this turn, gain 3 Block.",
+    "block": 3,
+    "target": "self",
+    "upgraded": { "description": "Whenever you play an Attack this turn, gain 5 Block.", "block": 5 }
+  },
+  "Rampage": {
+    "description": "Deal 8 damage. Increase this card's damage by 5 each time it is played.",
+    "damage": 8,
+    "hits": 1,
+    "target": "enemy",
+    "hook": "rampage",
+    "upgraded": { "description": "Deal 8 damage. Increase this card's damage by 8 each time it is played.", "damage": 8 }
+  },
+  "Reckless Charge": {
+    "description": "Deal 7 damage. Shuffle a Dazed into your draw pile.",
+    "damage": 7,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 10 damage. Shuffle a Dazed into your draw pile.", "damage": 10 }
+  },
+  "Rupture": {
+    "description": "Whenever you lose HP from a card, gain 1 Strength.",
+    "target": "self",
+    "player_powers": { "Rupture": 1 },
+    "upgraded": { "description": "Whenever you lose HP from a card, gain 2 Strength.", "player_powers": { "Rupture": 2 } }
+  },
+  "Searing Blow": {
+    "description": "Deal 12 damage. Can be upgraded any number of times.",
+    "damage": 12,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 16 damage. Can be upgraded any number of times.", "damage": 16 }
+  },
+  "Second Wind": {
+    "description": "Exhaust all non-Attack cards in your hand. Gain 5 Block for each card Exhausted.",
+    "block": 5,
+    "target": "self",
+    "hook": "second_wind",
+    "upgraded": { "description": "Exhaust all non-Attack cards in your hand. Gain 7 Block for each card Exhausted.", "block": 7 }
+  },
+  "Seeing Red": {
+    "description": "Gain 2 Energy. Exhaust.",
+    "target": "self",
+    "energy_gain": 2,
+    "upgraded": { "description": "Gain 2 Energy. Exhaust. Costs 0." }
+  },
+  "Sentinel": {
+    "description": "Gain 5 Block. If this card is Exhausted, gain 2 Energy.",
+    "block": 5,
+    "target": "self",
+    "upgraded": { "description": "Gain 8 Block. If this card is Exhausted, gain 3 Energy.", "block": 8 }
+  },
+  "Severed Soul": {
+    "description": "Exhaust the top 2 cards of your draw pile. Deal 16 damage.",
+    "damage": 16,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Exhaust the top 3 cards of your draw pile. Deal 22 damage.", "damage": 22 }
+  },
+  "Shockwave": {
+    "description": "Apply 3 Weak and 3 Vulnerable to ALL enemies. Exhaust.",
+    "target": "all_enemies",
+    "applies": { "Weak": 3, "Vulnerable": 3 },
+    "upgraded": { "description": "Apply 5 Weak and 5 Vulnerable to ALL enemies. Exhaust.", "applies": { "Weak": 5, "Vulnerable": 5 } }
+  },
+  "Spot Weakness": {
+    "description": "If the enemy intends to attack, gain 3 Strength.",
+    "target": "enemy",
+    "hook": "spot_weakness",
+    "upgraded": { "description": "If the enemy intends to attack, gain 4 Strength." }
+  },
+  "Uppercut": {
+    "description": "Deal 13 damage. Apply 1 Weak. Apply 1 Vulnerable.",
+    "damage": 13,
+    "hits": 1,
+    "target": "enemy",
+    "applies": { "Weak": 1, "Vulnerable": 1 },
+    "upgraded": { "description": "Deal 13 damage. Apply 2 Weak. Apply 2 Vulnerable.", "damage": 13, "applies": { "Weak": 2, "Vulnerable": 2 } }
+  },
+  "Whirlwind": {
+    "description": "Deal 5 damage to ALL enemies X times.",
+    "damage": 5,
+    "target": "all_enemies",
+    "hook": "whirlwind",
+    "upgraded": { "description": "Deal 8 damage to ALL enemies X times.", "damage": 8 }
+  },
+  "Barricade": {
+    "description": "Block is not removed at the start of your turn.",
+    "target": "self",
+    "player_powers": { "Barricade": 1 },
+    "upgraded": { "description": "Block is not removed at the start of your turn. Costs 2." }
+  },
+  "Berserk": {
+    "description": "Gain 2 Vulnerable. At the start of your turn, gain 1 Energy.",
+    "target": "self",
+    "upgraded": { "description": "Gain 1 Vulnerable. At the start of your turn, gain 1 Energy." }
+  },
+  "Bludgeon": {
+    "description": "Deal 32 damage.",
+    "damage": 32,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 42 damage.", "damage": 42 }
+  },
+  "Brutality": {
+    "description": "Innate. At the start of your turn, lose 1 HP and draw 1 card.",
+    "target": "self",
+    "player_powers": { "Brutality": 1 },
+    "upgraded": { "description": "Innate. At the start of your turn, lose 1 HP and draw 1 card. Costs 0." }
+  },
+  "Demon Form": {
+    "description": "At the start of your turn, gain 2 Strength.",
+    "target": "self",
+    "player_powers": { "Demon Form": 2 },
+    "upgraded": { "description": "At the start of your turn, gain 3 Strength.", "player_powers": { "Demon Form": 3 } }
+  },
+  "Double Tap": {
+    "description": "This turn, your next Attack is played twice.",
+    "target": "self",
+    "upgraded": { "description": "This turn, your next 2 Attacks are played twice." }
+  },
+  "Exhume": {
+    "description": "Put a card from your Exhaust pile into your hand. Exhaust.",
+    "target": "self",
+    "upgraded": { "description": "Put a card from your Exhaust pile into your hand. Exhaust. Costs 0." }
+  },
+  "Feed": {
+    "description": "Deal 10 damage. If Fatal, permanently gain 3 Max HP. Exhaust.",
+    "damage": 10,
+    "hits": 1,
+    "target": "enemy",
+    "upgraded": { "description": "Deal 12 damage. If Fatal, permanently gain 4 Max HP. Exhaust.", "damage": 12 }
+  },
+  "Fiend Fire": {
+    "description": "Exhaust all cards in your hand. Deal 7 damage for each card Exhausted. Exhaust.",
+    "damage": 7,
+    "hits": 1,
+    "target": "enemy",
+    "hook": "fiend_fire",
+    "upgraded": { "description": "Exhaust all cards in your hand. Deal 10 damage for each card Exhausted. Exhaust.", "damage": 10 }
+  },
+  "Immolate": {
+    "description": "Deal 21 damage to ALL enemies. Add a Burn to your discard pile.",
+    "damage": 21,
+    "hits": 1,
+    "target": "all_enemies",
+    "upgraded": { "description": "Deal 28 damage to ALL enemies. Add a Burn to your discard pile.", "damage": 28 }
+  },
+  "Impervious": {
+    "description": "Gain 30 Block. Exhaust.",
+    "block": 30,
+    "target": "self",
+    "upgraded": { "description": "Gain 40 Block. Exhaust.", "block": 40 }
+  },
+  "Juggernaut": {
+    "description": "Whenever you gain Block, deal 5 damage to a random enemy.",
+    "damage": 5,
+    "target": "self",
+    "player_powers": { "Juggernaut": 5 },
+    "upgraded": { "description": "Whenever you gain Block, deal 7 damage to a random enemy.", "damage": 7, "player_powers": { "Juggernaut": 7 } }
+  },
+  "Limit Break": {
+    "description": "Double your Strength. Exhaust.",
+    "target": "self",
+    "hook": "limit_break",
+    "upgraded": { "description": "Double your Strength." }
+  },
+  "Offering": {
+    "description": "Lose 6 HP. Gain 2 Energy. Draw 3 cards.",
+    "target": "self",
+    "self_damage": 6,
+    "energy_gain": 2,
+    "draw": 3,
+    "hook": "offering",
+    "upgraded": { "description": "Lose 6 HP. Gain 2 Energy. Draw 5 cards.", "draw": 5 }
+  },
+  "Reaper": {
+    "description": "Deal 4 damage to ALL enemies. Heal HP equal to unblocked damage. Exhaust.",
+    "damage": 4,
+    "hits": 1,
+    "target": "all_enemies",
+    "hook": "reaper",
+    "upgraded": { "description": "Deal 5 damage to ALL enemies. Heal HP equal to unblocked damage. Exhaust.", "damage": 5 }
+  },
+  "Wound": {
+    "description": "Unplayable. Status.",
+    "upgraded": {}
+  },
+  "Dazed": {
+    "description": "Unplayable. Ethereal. Status.",
+    "upgraded": {}
+  },
+  "Burn": {
+    "description": "Unplayable. At the end of your turn, take 2 damage.",
+    "upgraded": { "description": "Unplayable. At the end of your turn, take 4 damage." }
+  },
+  "Slimed": {
+    "description": "Exhaust.",
+    "upgraded": {}
+  },
+  "Void": {
+    "description": "Unplayable. Ethereal. When this card is drawn, lose 1 Energy.",
+    "upgraded": {}
+  },
+  "AscendersBane": {
+    "description": "Unplayable. Ethereal. Cannot be removed from your deck.",
+    "upgraded": {}
+  },
+  "Curse of the Bell": {
+    "description": "Unplayable. Cannot be removed from your deck.",
+    "upgraded": {}
+  },
+  "Decay": {
+    "description": "At the end of your turn, take 2 damage.",
+    "upgraded": {}
+  },
+  "Doubt": {
+    "description": "At the end of your turn, gain 1 Weak.",
+    "upgraded": {}
+  },
+  "Injury": {
+    "description": "Unplayable.",
+    "upgraded": {}
+  },
+  "Normality": {
+    "description": "You cannot play more than 3 cards this turn.",
+    "upgraded": {}
+  },
+  "Pain": {
+    "description": "Whenever you play a card, lose 1 HP.",
+    "upgraded": {}
+  },
+  "Parasite": {
+    "description": "If removed from your deck, lose 3 Max HP.",
+    "upgraded": {}
+  },
+  "Regret": {
+    "description": "At the end of your turn, lose HP equal to the number of cards in your hand.",
+    "upgraded": {}
+  },
+  "Shame": {
+    "description": "At the end of your turn, gain 1 Frail.",
+    "upgraded": {}
+  },
+  "Writhe": {
+    "description": "Innate. Unplayable.",
+    "upgraded": {}
+  }
+}
