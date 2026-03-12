@@ -83,7 +83,13 @@
       "Bash(gh repo:*)",
       "Bash(which gh:*)",
       "Bash(git rm:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(brew install:*)",
+      "Bash(brew --prefix gh 2>&1)",
+      "Bash(/usr/local/opt/gh/bin/gh auth:*)",
+      "Bash(/usr/local/opt/gh/bin/gh repo:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)"
     ]
   }
 }
