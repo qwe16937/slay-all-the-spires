@@ -3,11 +3,28 @@
 from __future__ import annotations
 
 import pytest
+from unittest.mock import patch
 
 from sts_agent.models import (
     GameState, Card, Enemy, Relic, Potion, CombatState,
     MapNode, EventOption, Action, ActionType, ScreenType,
 )
+
+
+_real_load_raw_summaries = None
+
+@pytest.fixture(autouse=True)
+def _no_distill_past_runs(monkeypatch):
+    """Prevent _distill_past_runs from consuming mock LLM responses during Agent init."""
+    from sts_agent.agent.agent import Agent
+    global _real_load_raw_summaries
+    # Save the real method before patching (only once)
+    if _real_load_raw_summaries is None:
+        _real_load_raw_summaries = Agent.__dict__['_load_raw_summaries']
+    monkeypatch.setattr(
+        Agent, '_load_raw_summaries',
+        staticmethod(lambda max_runs=5, character="": ""),
+    )
 
 
 @pytest.fixture

@@ -110,9 +110,25 @@ def find_value_fallback(
     combat: CombatState,
     actions: list[Action],
     card_db: CardDB,
+    turn_state: Optional[TurnState] = None,
 ) -> Action:
-    """Tier 3: Play the highest-value card. Attacks > Skills > END_TURN."""
+    """Tier 3: Play the highest-value card.
+
+    Priority: exhaust status (when safe) > attacks > blocks > any > END_TURN.
+    """
     playable = _playable_cards(actions, combat)
+
+    # When not under heavy attack, prioritize exhausting status cards
+    # to prevent deck clog (Slimed, Wound, Burn, Dazed, etc.)
+    incoming = turn_state.incoming_total if turn_state else 0
+    if incoming <= combat.player_block:
+        status_exhaust = [
+            (a, card) for a, card in playable
+            if card.card_type == "status" and card.exhausts
+        ]
+        if status_exhaust:
+            _log(f"[fallback] Exhausting status card: {status_exhaust[0][1].id}")
+            return status_exhaust[0][0]
 
     attacks = [
         (a, card, dmg)
@@ -169,6 +185,6 @@ def select_fallback_action(
         return survival
 
     # Tier 3: Value
-    value = find_value_fallback(combat, actions, card_db)
+    value = find_value_fallback(combat, actions, card_db, turn_state)
     _log(f"[fallback] VALUE tier: {value}")
     return value

@@ -6,12 +6,11 @@ Falls back to template-based planner when simulator produces no results.
 
 from __future__ import annotations
 
-import json
 import sys
 from typing import Optional
 
 from sts_agent.models import GameState, Action, ActionType
-from sts_agent.controllers.base import ControllerContext
+from sts_agent.controllers.base import ControllerContext, send_and_parse, fail_parse
 from sts_agent.agent.combat_planner import CombatPlanner
 from sts_agent.agent.combat_eval import build_turn_state
 from sts_agent.agent.turn_state import TurnState
@@ -81,26 +80,20 @@ class CombatController:
         _log(f"[combat-ctrl] Generated {len(lines)} candidate lines")
 
         # Build prompt
-        context = build_screen_context(state, monster_db=ctx.monster_db, relic_db=ctx.relic_db, turn_state=self._turn_state)
-        strategy_line = ctx.state_store.run_state.format_mini()
-        line_prompt = build_combat_line_prompt(lines, self._turn_state, strategy_line)
+        context = build_screen_context(state, monster_db=ctx.monster_db, relic_db=ctx.relic_db, turn_state=self._turn_state, card_db=ctx.card_db)
+        is_boss = state.room_type == "MonsterRoomBoss"
+        strategy_line = ctx.state_store.run_state.format_mini(is_boss_fight=is_boss)
+        history = ctx.combat_history[-ctx.combat_history_len:] if ctx.combat_history and ctx.combat_history_len > 0 else None
+        line_prompt = build_combat_line_prompt(
+            lines, self._turn_state, strategy_line,
+            combat_history=history, combat_insights=ctx.combat_insights,
+        )
         title = screen_title(state)
 
         msg = f"## {title}\n{context}\n{line_prompt}"
         ctx.messages.append({"role": "user", "content": msg})
-
-        try:
-            result = ctx.llm.send_json(ctx.messages, system=ctx.system_prompt)
-            stored = {k: v for k, v in result.items() if k != "reasoning"} if isinstance(result, dict) else result
-            ctx.messages.append({"role": "assistant", "content": json.dumps(stored)})
-        except Exception:
-            ctx.messages.pop()
-            return None
-
-        # Parse response
-        if not isinstance(result, dict):
-            ctx.messages.pop()
-            ctx.messages.pop()
+        result = send_and_parse(ctx, "combat-ctrl", apply_state_update=False)
+        if result is None:
             return None
 
         reasoning = result.get("reasoning", "")
@@ -109,9 +102,7 @@ class CombatController:
 
         line_idx = parse_line_index(result, len(lines))
         if line_idx is None:
-            _log(f"[combat-ctrl] Could not parse line index from: {json.dumps(result)[:200]}")
-            ctx.messages.pop()
-            ctx.messages.pop()
+            fail_parse(ctx, "combat-ctrl", result)
             return None
 
         chosen_line = lines[line_idx]
@@ -122,6 +113,20 @@ class CombatController:
         if not expanded:
             _log("[combat-ctrl] Failed to expand chosen line")
             return None
+
+        # Append to combat history for cross-action continuity
+        turn = combat.turn if combat else "?"
+        actions_str = " → ".join(chosen_line.actions)
+        cat = getattr(chosen_line, "category", "")
+        cat_tag = f" [{cat}]" if cat else ""
+        reason = reasoning[:80] if reasoning else ""
+        entry = f"T{turn}:{cat_tag} {actions_str}"
+        if reason:
+            entry += f" — {reason}"
+        ctx.combat_history.append(entry)
+        ctx.reflect_combat_history.append(entry)
+        if len(ctx.combat_history) > ctx.combat_history_len:
+            ctx.combat_history[:] = ctx.combat_history[-ctx.combat_history_len:]
 
         first = expanded[0]
         self._action_queue = expanded[1:]

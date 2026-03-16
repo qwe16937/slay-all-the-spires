@@ -16,49 +16,88 @@ def _log(msg: str):
 
 @dataclass
 class LLMConfig:
-    provider: str = "anthropic"
+    provider: str = ""
     model: str = "claude-sonnet-4-20250514"
     max_retries: int = 3
     timeout: int = 30
     max_output_tokens: int = 2000
     reasoning_effort: str | None = None
+    base_url: str | None = None
 
 
 _OPENAI_MAX_COMPLETION_TOKENS_MODELS = ("o1", "o3", "o4", "gpt-5")
 
+# Model name prefix → (provider, base_url, api_key_env)
+_MODEL_ROUTES: list[tuple[tuple[str, ...], str, str | None, str]] = [
+    # Anthropic
+    (("claude",), "anthropic", None, "ANTHROPIC_API_KEY"),
+    # Gemini via OpenAI-compatible API
+    (("gemini",), "openai", "https://generativelanguage.googleapis.com/v1beta/openai/", "GOOGLE_API_KEY"),
+    # OpenAI (default)
+    (("gpt", "o1", "o3", "o4"), "openai", None, "OPENAI_API_KEY"),
+]
+
+
+def resolve_model_route(model: str) -> tuple[str, str | None, str]:
+    """Given a model name, return (provider, base_url, api_key_env)."""
+    for prefixes, provider, base_url, key_env in _MODEL_ROUTES:
+        if any(model.startswith(p) for p in prefixes):
+            return provider, base_url, key_env
+    return "openai", None, "OPENAI_API_KEY"
+
 
 class LLMClient:
-    """Unified LLM client supporting Anthropic and OpenAI."""
+    """Unified LLM client supporting Anthropic, OpenAI, and Gemini."""
 
-    def __init__(self, config: LLMConfig):
+    def __init__(self, config: LLMConfig, verbose: bool = False):
         self.config = config
+        self.verbose = verbose
         self._client = None
+        # Auto-route if provider not explicitly set
+        self._routed_provider, self._routed_base_url, self._routed_key_env = (
+            resolve_model_route(config.model)
+        )
+        if config.provider:
+            self._routed_provider = config.provider
+        if config.base_url:
+            self._routed_base_url = config.base_url
+        self.config.provider = self._routed_provider
         self._init_client()
 
     def _init_client(self):
+        api_key = os.environ.get(self._routed_key_env, "")
         if self.config.provider == "anthropic":
             import anthropic
             self._client = anthropic.Anthropic(
-                api_key=os.environ.get("ANTHROPIC_API_KEY"),
+                api_key=api_key,
                 timeout=self.config.timeout,
             )
         elif self.config.provider == "openai":
             import openai
-            self._client = openai.OpenAI(
-                api_key=os.environ.get("OPENAI_API_KEY"),
-                timeout=self.config.timeout,
-            )
+            kwargs = {
+                "api_key": api_key,
+                "timeout": self.config.timeout,
+            }
+            if self._routed_base_url:
+                kwargs["base_url"] = self._routed_base_url
+            self._client = openai.OpenAI(**kwargs)
         else:
             raise ValueError(f"Unknown provider: {self.config.provider}")
 
     def ask(self, prompt: str, system: str = "", json_mode: bool = False) -> str:
         """Send a prompt and get a text response. If json_mode, request JSON output."""
+        if self.verbose:
+            self._log_verbose_request([{"role": "user", "content": prompt}], system)
         for attempt in range(self.config.max_retries):
             try:
                 start = time.time()
                 response = self._call(prompt, system, json_mode)
                 elapsed = time.time() - start
-                _log(f"LLM call ({self.config.provider}/{self.config.model}): {elapsed:.1f}s, {len(response)} chars")
+                input_chars = len(prompt) + len(system)
+                input_tok = input_chars // 4
+                _log(f"LLM call ({self.config.provider}/{self.config.model}): {elapsed:.1f}s, ~{input_tok}tok in, {len(response)} chars out")
+                if self.verbose:
+                    self._log_verbose_response(response)
                 return response
             except Exception as e:
                 _log(f"LLM error (attempt {attempt + 1}/{self.config.max_retries}): {e}")
@@ -74,12 +113,18 @@ class LLMClient:
 
     def send(self, messages: list[dict], system: str = "", json_mode: bool = False) -> str:
         """Send a multi-turn conversation and get a response."""
+        if self.verbose:
+            self._log_verbose_request(messages, system)
         for attempt in range(self.config.max_retries):
             try:
                 start = time.time()
                 response = self._call_multi(messages, system, json_mode)
                 elapsed = time.time() - start
-                _log(f"LLM call ({self.config.provider}/{self.config.model}): {elapsed:.1f}s, {len(response)} chars")
+                input_chars = sum(len(m.get("content", "")) for m in messages) + len(system)
+                input_tok = input_chars // 4
+                _log(f"LLM call ({self.config.provider}/{self.config.model}): {elapsed:.1f}s, ~{input_tok}tok in, {len(response)} chars out")
+                if self.verbose:
+                    self._log_verbose_response(response)
                 return response
             except Exception as e:
                 _log(f"LLM error (attempt {attempt + 1}/{self.config.max_retries}): {e}")
@@ -140,7 +185,11 @@ class LLMClient:
         if json_mode:
             kwargs["response_format"] = {"type": "json_object"}
         response = self._client.chat.completions.create(**kwargs)
-        return response.choices[0].message.content
+        choice = response.choices[0]
+        if choice.finish_reason == "length":
+            _log(f"WARNING: response truncated (finish_reason=length, "
+                 f"max_tokens={self.config.max_output_tokens})")
+        return choice.message.content
 
     def _call_anthropic_multi(self, messages: list[dict], system: str, json_mode: bool) -> str:
         kwargs = {
@@ -166,7 +215,33 @@ class LLMClient:
         if json_mode:
             kwargs["response_format"] = {"type": "json_object"}
         response = self._client.chat.completions.create(**kwargs)
-        return response.choices[0].message.content
+        choice = response.choices[0]
+        if choice.finish_reason == "length":
+            _log(f"WARNING: response truncated (finish_reason=length, "
+                 f"max_tokens={self.config.max_output_tokens})")
+        return choice.message.content
+
+    def _log_verbose_request(self, messages: list[dict], system: str):
+        """Log full LLM request context to stderr."""
+        _log("=" * 60)
+        _log("[VERBOSE LLM REQUEST]")
+        if system:
+            _log(f"--- SYSTEM ({len(system)} chars) ---")
+            _log(system)
+        _log(f"--- MESSAGES ({len(messages)} msgs) ---")
+        for m in messages:
+            role = m["role"].upper()
+            content = m["content"]
+            _log(f"[{role}] ({len(content)} chars)")
+            _log(content)
+        _log("=" * 60)
+
+    @staticmethod
+    def _log_verbose_response(response: str):
+        """Log full LLM response to stderr."""
+        _log("--- RESPONSE ---")
+        _log(response)
+        _log("-" * 40)
 
     @staticmethod
     def _extract_json(text: str) -> dict | list:

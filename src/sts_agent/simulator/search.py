@@ -10,21 +10,19 @@ from sts_agent.simulator.sim_state import SimState, SimCard
 from sts_agent.simulator.card_effects import get_card_effect, apply_effect
 
 
-# (hand_index, target_index) — target_index is -1 for untargeted
-Play = tuple[int, int]
+# (card_uuid, target_index) — target_index is -1 for untargeted
+Play = tuple[str, int]
 
 
 @dataclass
 class PlayPath:
     plays: list[Play]
     state: SimState
-    original_hand: list[SimCard]
 
     def copy_with(self, play: Play, new_state: SimState) -> PlayPath:
         return PlayPath(
             plays=self.plays + [play],
             state=new_state,
-            original_hand=self.original_hand,
         )
 
 
@@ -50,7 +48,7 @@ def get_plays(state: SimState) -> list[Play]:
     # Entangled: can't play attacks
     entangled = state.player.powers.get("Entangled", 0) > 0
 
-    for i, card in enumerate(state.hand):
+    for card in state.hand:
         # Skip unplayable cards
         if card.id == "DRAWN":
             continue
@@ -77,17 +75,17 @@ def get_plays(state: SimState) -> list[Play]:
 
         if card.has_target:
             for m in alive:
-                plays.append((i, m.index))
+                plays.append((card.uuid, m.index))
         else:
-            plays.append((i, -1))
+            plays.append((card.uuid, -1))
 
     return plays
 
 
 def apply_play(state: SimState, play: Play, card_db: CardDB) -> None:
     """Apply a play to the state, mutating it in place."""
-    hand_idx, target_idx = play
-    card = state.hand[hand_idx]
+    card_uuid, target_idx = play
+    card = next(c for c in state.hand if c.uuid == card_uuid)
     effect = get_card_effect(card, state, card_db, target_idx)
     apply_effect(state, card, effect, target_idx, card_db)
 
@@ -164,7 +162,6 @@ def get_paths_bfs(state: SimState, card_db: CardDB,
     initial = PlayPath(
         plays=[],
         state=state.deepcopy(),
-        original_hand=[c.copy() for c in state.hand],
     )
 
     frontier: deque[PlayPath] = deque([initial])

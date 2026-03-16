@@ -13,72 +13,6 @@ from sts_agent.agent.combat_eval import compute_incoming_damage
 from sts_agent.state.state_store import StateStore, DeckProfile, RunState, CombatSnapshot
 
 
-# --- Known scaling cards (bonus to scaling_score) ---
-_SCALING_CARDS = {
-    "Demon Form", "Limit Break", "Inflame", "Spot Weakness",
-    "Metallicize", "Feel No Pain", "Rupture", "Combust",
-    "Dark Embrace", "Barricade", "Corruption",
-    # Silent
-    "Footwork", "Noxious Fumes", "A Thousand Cuts", "After Image",
-    "Envenom", "Wraith Form",
-    # Defect
-    "Defragment", "Biased Cognition", "Capacitor", "Echo Form",
-    "Electrodynamics", "Focus",
-    # Watcher
-    "Deva Form", "Establishment", "Devotion", "Blasphemy",
-    "Wish", "Omniscience",
-}
-
-# Relic adjustments: (relic_id, field, delta)
-_RELIC_ADJUSTMENTS: list[tuple[str, str, float]] = [
-    ("Vajra", "scaling_score", 1.0),
-    ("Bag of Preparation", "draw_score", 1.0),
-    ("Lantern", "frontload_score", 0.5),
-    ("Art of War", "frontload_score", 0.5),
-    ("Pen Nib", "frontload_score", 0.5),
-    ("Shuriken", "scaling_score", 0.5),
-    ("Kunai", "scaling_score", 0.5),
-    ("Ornamental Fan", "block_score", 0.5),
-    ("Ink Bottle", "draw_score", 0.5),
-    ("Paper Krane", "block_score", 0.5),
-    ("Orichalcum", "block_score", 0.5),
-    ("Anchor", "block_score", 0.5),
-    ("Horn Cleat", "block_score", 0.5),
-]
-
-# Boss readiness weights: {boss: {score_name: weight}}
-_BOSS_WEIGHTS: dict[str, dict[str, float]] = {
-    "The Guardian": {
-        "block_score": 0.35,
-        "frontload_score": 0.25,
-        "consistency_score": 0.20,
-        "scaling_score": 0.20,
-    },
-    "Hexaghost": {
-        "frontload_score": 0.35,
-        "scaling_score": 0.25,
-        "block_score": 0.20,
-        "draw_score": 0.20,
-    },
-    "Slime Boss": {
-        "frontload_score": 0.30,
-        "aoe_score": 0.30,
-        "block_score": 0.20,
-        "consistency_score": 0.20,
-    },
-}
-
-
-def _clamp(val: float, lo: float = 0.0, hi: float = 10.0) -> float:
-    return max(lo, min(hi, val))
-
-
-def _detect_keyword(desc: str, keywords: list[str]) -> bool:
-    """Check if description contains all keywords (case-insensitive)."""
-    lower = desc.lower()
-    return all(k in lower for k in keywords)
-
-
 def derive_deck_profile(
     deck: list[Card],
     relics: list[Relic],
@@ -92,11 +26,7 @@ def derive_deck_profile(
         return dp
 
     total_cost = 0
-    total_damage = 0
-    total_block = 0
     costed_cards = 0
-
-    scaling_raw = 0.0
 
     for card in deck:
         # Type counts
@@ -123,68 +53,24 @@ def derive_deck_profile(
             total_cost += card.cost
             costed_cards += 1
 
-        # Use CardDB public API for stats
-        dmg = card_db.get_damage(card.id, card.upgraded)
-        blk = card_db.get_block(card.id, card.upgraded)
-        desc = card_db.get_spec(card.id, card.upgraded) or ""
+        # Upgraded count
+        if card.upgraded:
+            dp.upgraded_count += 1
 
-        total_damage += dmg
-        total_block += blk
+        # Block cards (anything that mitigates damage, excluding starter Defends)
+        desc = (card_db.get_spec(card.id, card.upgraded) or "").lower()
+        if not card.id.startswith("Defend"):
+            if "block" in desc or "weak" in desc or "intangible" in desc:
+                dp.block_cards += 1
+        else:
+            dp.block_cards += 1  # Defends still count toward block density
 
-        # Scaling card bonus (merged from second loop)
-        if card.id in _SCALING_CARDS:
-            scaling_raw += 2.0
-
-        # Source detection from description
-        if desc:
-            if _detect_keyword(desc, ["draw"]) and _detect_keyword(desc, ["card"]):
-                dp.draw_sources += 1
-            if _detect_keyword(desc, ["exhaust"]):
-                dp.exhaust_sources += 1
-            if _detect_keyword(desc, ["vulnerable"]):
-                dp.vuln_sources += 1
-            if _detect_keyword(desc, ["weak"]):
-                dp.weak_sources += 1
-            if _detect_keyword(desc, ["strength"]) and ct != "curse":
-                dp.strength_sources += 1
-            if _detect_keyword(desc, ["all enemies"]):
-                dp.aoe_sources += 1
+        # Draw cards
+        if "draw" in desc and "card" in desc:
+            dp.draw_cards += 1
 
     # Avg cost
     dp.avg_cost = round(total_cost / costed_cards, 2) if costed_cards > 0 else 0.0
-
-    # Composite scores
-    dp.frontload_score = _clamp(total_damage / dp.deck_size * 1.5) if dp.deck_size > 0 else 0.0
-
-    # Scaling: powers + strength + known scaling cards (accumulated in loop above)
-    scaling_raw += dp.power_count * 2.0 + dp.strength_sources * 1.5
-    dp.scaling_score = _clamp(scaling_raw)
-
-    dp.block_score = _clamp(total_block / dp.deck_size * 1.8) if dp.deck_size > 0 else 0.0
-
-    dp.draw_score = _clamp(dp.draw_sources / dp.deck_size * 15) if dp.deck_size > 0 else 0.0
-
-    dp.consistency_score = _clamp(
-        10 - (dp.deck_size - 10) * 0.4
-        + dp.draw_score * 0.3
-        - dp.curse_count * 2
-    )
-
-    dp.aoe_score = _clamp(dp.aoe_sources * 2.5)
-
-    # Relic adjustments
-    relic_ids = {r.id for r in relics}
-    for relic_id, score_field, delta in _RELIC_ADJUSTMENTS:
-        if relic_id in relic_ids:
-            current = getattr(dp, score_field)
-            setattr(dp, score_field, _clamp(current + delta))
-
-    # Boss readiness
-    for boss, weights in _BOSS_WEIGHTS.items():
-        readiness = 0.0
-        for score_name, weight in weights.items():
-            readiness += getattr(dp, score_name) * weight
-        dp.boss_readiness[boss] = round(readiness, 2)
 
     return dp
 
@@ -266,6 +152,10 @@ def update_run_state(store: StateStore, game_state: GameState) -> None:
 
     # Phase
     rs.phase = _compute_phase(game_state.act, game_state.floor)
+
+    # Act transition — note: intent reset is handled by agent's
+    # _act_transition_reflect() which runs before this function.
+    rs._prev_act = game_state.act
 
     # Floor transition detection
     if game_state.floor != rs._prev_floor and rs._prev_floor >= 0:

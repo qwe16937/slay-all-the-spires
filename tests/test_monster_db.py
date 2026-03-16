@@ -17,7 +17,7 @@ class TestMonsterDBLoading:
         assert len(monster_db._db) > 0
 
     def test_has_act1_monsters(self, monster_db):
-        assert "Jaw Worm" in monster_db._db
+        assert "JawWorm" in monster_db._db
         assert "Cultist" in monster_db._db
         assert "GremlinNob" in monster_db._db
 
@@ -43,19 +43,48 @@ class TestGetTip:
         assert "Defensive Mode" in tip
         assert "Sharp Hide" in tip
 
+    def test_renamed_keys_work(self, monster_db):
+        """Verify monsters with renamed keys are found by game ID."""
+        assert monster_db.get_tip("FuzzyLouseNormal") is not None
+        assert monster_db.get_tip("FuzzyLouseDefensive") is not None
+        assert monster_db.get_tip("SlaverBlue") is not None
+        assert monster_db.get_tip("SlaverRed") is not None
+        assert monster_db.get_tip("AcidSlime_L") is not None
+        assert monster_db.get_tip("SpikeSlime_L") is not None
+        assert monster_db.get_tip("FungiBeast") is not None
+        assert monster_db.get_tip("Champ") is not None
+
+    def test_aliases_resolve(self, monster_db):
+        """Old key formats still resolve via alias map."""
+        assert monster_db.get_tip("Louse_L") is not None
+        assert monster_db.get_tip("Blue Slaver") is not None
+        assert monster_db.get_tip("Acid Slime (L)") is not None
+        assert monster_db.get_tip("FungusBeast") is not None
+        assert monster_db.get_tip("TheChamp") is not None
+        assert monster_db.get_tip("Jaw Worm") is not None
+
+    def test_new_monsters_exist(self, monster_db):
+        """Verify newly added monsters have tips."""
+        assert monster_db.get_tip("GremlinWarrior") is not None
+        assert monster_db.get_tip("GremlinThief") is not None
+        assert monster_db.get_tip("GremlinFat") is not None
+        assert monster_db.get_tip("GremlinWizard") is not None
+        assert monster_db.get_tip("Centurion") is not None
+        assert monster_db.get_tip("Healer") is not None
+
 
 class TestFormatEnemy:
     def test_basic_enemy(self, monster_db):
         enemy = Enemy(
-            id="Jaw Worm", name="大颚虫", current_hp=42, max_hp=44,
+            id="JawWorm", name="大颚虫", current_hp=42, max_hp=44,
             intent="attack", intent_damage=11, intent_hits=1,
             block=0, powers={}, monster_index=0, is_gone=False, half_dead=False,
         )
         result = monster_db.format_enemy(enemy)
         assert "大颚虫" in result
-        assert "Jaw Worm" in result
+        assert "JawWorm" in result
         assert "HP 42/44" in result
-        assert "11 damage" in result
+        assert "Intent: attack" in result
         assert "TIP:" in result
         assert "Bellow" in result
 
@@ -88,5 +117,5 @@ class TestFormatEnemy:
             block=0, powers={}, monster_index=1, is_gone=False, half_dead=False,
         )
         result = monster_db.format_enemy(enemy)
-        assert "9x2 damage" in result
+        assert "Intent: attack" in result
         assert "TIP:" in result

@@ -1,45 +1,76 @@
 # Slay All The Spires - Configuration
-# API keys should be set via environment variables:
-#   ANTHROPIC_API_KEY, OPENAI_API_KEY
+# API keys are auto-routed by model name:
+#   claude-*  → ANTHROPIC_API_KEY
+#   gemini-*  → GOOGLE_API_KEY
+#   gpt-*/o*  → OPENAI_API_KEY
 
 llm:
-  # Provider: "anthropic" or "openai"
-  provider: "openai"
-
-  # Model for all decisions (single growing conversation per run)
-  model: "gpt-5"
+  # Just set the model — provider & API key are auto-detected
+  model: "gemini-3-flash-preview"
 
   # Max retries on API errors
   max_retries: 3
 
   # Stronger model for end-of-run strategic summaries (optional, falls back to model)
-  summary_model: "gpt-5.4-2026-03-05"
+  summary_model: "gemini-3-flash-preview"
 
   # Reasoning effort for reasoning models (low/medium/high)
   reasoning_effort: "low"
+
+  # Max output tokens for LLM responses
+  max_output_tokens: 2000
 
   # Timeout in seconds for API calls
   timeout: 30
 
 auto_play:
-  # Enable auto-play mode (plays batches, tunes prompts between them, repeats)
+  # Auto-play: agent automatically starts new games back-to-back
   enabled: true
 
-  # Total runs to play in auto-play mode
-  runs: 30
+  # How many games to play before stopping (e.g. 10 = play 10 games then exit)
+  runs: 20
 
-  # Ascension level for auto-play runs
+  # Ascension level for all auto-play games
   ascension: 0
 
-  # Characters to randomly pick from (IRONCLAD, THE_SILENT, DEFECT)
-  characters: ["IRONCLAD"]
+  # Characters to cycle through in order (loops back after the last one)
+  # e.g. [A, B, C] → game 1: A, game 2: B, game 3: C, game 4: A, ...
+  # IRONCLAD, THE_SILENT, DEFECT, WATCHER
+  characters: ["THE_SILENT", "DEFECT", "WATCHER", "IRONCLAD"]
+
+combat:
+  # true = LLM picks each action individually (no BFS simulator)
+  # false = BFS generates candidate lines, LLM picks one
+  llm_per_action: true
+
+  # Max combat history entries injected into prompt (0 to disable)
+  history_length: 0
 
 simulator:
   # Max BFS states to explore per turn
   max_paths: 5000
 
   # Number of candidate action sequences to present to LLM
-  top_n: 8
+  top_n: 3
+
+learning:
+  # Enable experience learning (recording, attribution, insights, retrieval)
+  # Costs extra LLM calls per run. Disable to save cost while tuning other systems.
+  enabled: true
+
+  # Max combat lessons kept in IntentNotes (FIFO — oldest dropped first)
+  max_combat_lessons: 3
+
+  # Inject "## Past Runs" (raw run summaries) into system prompt
+  inject_past_runs: false
+
+  # Inject "## Lessons from past runs" (distilled insights) into system prompt
+  inject_lessons: false
+
+  # Inject "## Past Similar Decisions" (few-shot examples) into controller prompts
+  inject_past_examples: false
 
 logging:
   level: "INFO"
+  # Log full LLM context (system prompt + messages + response) to stderr
+  verbose_llm: false

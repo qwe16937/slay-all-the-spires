@@ -187,8 +187,8 @@ class TestFullLoop:
         # Should have made it to game over
         assert game._index == 4
 
-        # Verify conversation grew
-        assert len(agent.messages) > 0
+        # Verify LLM was called
+        assert mock_llm.call_count > 0
 
     def test_no_crash_on_empty_actions(self):
         """Agent should handle receiving no actions gracefully."""

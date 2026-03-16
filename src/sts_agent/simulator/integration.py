@@ -11,11 +11,11 @@ from typing import Optional
 
 from sts_agent.models import GameState, ActionType
 from sts_agent.card_db import CardDB
-from sts_agent.agent.turn_state import CandidateLine, ActionKey
+from sts_agent.agent.turn_state import CandidateLine, ActionKey, EndState
 from sts_agent.simulator.sim_state import SimState, SimCard, SimMonster, SimPlayer
 from sts_agent.simulator.search import get_paths_bfs, PlayPath
 from sts_agent.simulator.end_turn import apply_end_turn
-from sts_agent.simulator.comparator import rank_paths, IRONCLAD_CHAIN
+from sts_agent.simulator.comparator import rank_paths, COMPARISON_CHAIN
 
 
 def _log(msg: str):
@@ -109,7 +109,7 @@ def simulate_combat_turn(
         apply_end_turn(p.state)
 
     # Rank and select top N
-    ranked = rank_paths(paths, original, IRONCLAD_CHAIN, top_n)
+    ranked = rank_paths(paths, original, COMPARISON_CHAIN, top_n)
     _log(f"[simulator] Ranked top {len(ranked)} paths")
 
     # Convert to CandidateLines
@@ -130,17 +130,18 @@ def _path_to_candidate_line(path: PlayPath, game_state: GameState,
     if not combat:
         return None
 
+    # Build UUID → card lookup from original hand
+    card_by_uuid: dict[str, SimCard] = {c.uuid: c for c in original.hand}
+
     names: list[str] = []
     keys: list[ActionKey] = []
     total_damage = 0
     total_block = 0
     energy_used = 0
 
-    for hand_idx, target_idx in path.plays:
-        if hand_idx >= len(path.original_hand):
-            continue
-        card = path.original_hand[hand_idx]
-        if card.id == "DRAWN":
+    for card_uuid, target_idx in path.plays:
+        card = card_by_uuid.get(card_uuid)
+        if not card or card.id == "DRAWN":
             continue
 
         card_name = card.id + ("+" if card.upgraded else "")
@@ -175,6 +176,18 @@ def _path_to_candidate_line(path: PlayPath, game_state: GameState,
     total_damage = path.state.damage_dealt
     total_block = path.state.block_generated
 
+    # Build end state from post-end-turn SimState
+    s = path.state
+    end_enemies = [
+        (m.name, max(0, m.current_hp), m.block)
+        for m in s.monsters if not m.is_gone
+    ]
+    end = EndState(
+        player_hp=s.player.current_hp,
+        player_block=s.player.block,
+        enemies=end_enemies,
+    )
+
     return CandidateLine(
         actions=names,
         total_damage=total_damage,
@@ -183,6 +196,7 @@ def _path_to_candidate_line(path: PlayPath, game_state: GameState,
         description="",
         action_keys=keys,
         category="sim",
+        end_state=end,
     )
 
 

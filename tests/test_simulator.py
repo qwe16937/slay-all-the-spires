@@ -13,7 +13,7 @@ from sts_agent.simulator.card_effects import get_card_effect, apply_effect, Card
 from sts_agent.simulator.search import get_plays, get_paths_bfs, apply_play
 from sts_agent.simulator.end_turn import apply_end_turn
 from sts_agent.simulator.comparator import (
-    Assessment, compare, rank_paths, IRONCLAD_CHAIN,
+    Assessment, compare, rank_paths, COMPARISON_CHAIN,
     battle_not_lost, battle_is_won, least_hp_lost_over_1,
     most_dead_monsters, most_enemy_vulnerable,
 )
@@ -730,7 +730,7 @@ class TestComparator:
         paths = get_paths_bfs(state, card_db)
         for p in paths.values():
             apply_end_turn(p.state)
-        ranked = rank_paths(paths, original, IRONCLAD_CHAIN, top_n=3)
+        ranked = rank_paths(paths, original, COMPARISON_CHAIN, top_n=3)
         assert len(ranked) <= 3
         assert len(ranked) >= 1
 
@@ -985,7 +985,7 @@ class TestRelicEffects:
         monster = _sim_monster(intent_damage=10)
         state = _sim_state(hand=[defend], monsters=[monster], energy=1,
                           powers={"Corruption": 1})
-        apply_play(state, (0, -1), card_db)
+        apply_play(state, (state.hand[0].uuid, -1), card_db)
         # Card should be exhausted, not discarded
         assert state.exhaust_pile_size == 1
         assert state.discard_pile_size == 0
@@ -998,7 +998,7 @@ class TestRelicEffects:
         monster = _sim_monster(intent_damage=0)
         state = _sim_state(hand=[strike], monsters=[monster],
                           relics={"Ink Bottle": 9})  # next card is the 10th
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         assert state.draw_generated == 1
         assert state.relics["Ink Bottle"] == 0
 
@@ -1009,7 +1009,7 @@ class TestRelicEffects:
         monster = _sim_monster(intent_damage=0)
         state = _sim_state(hand=[inflame], monsters=[monster], hp=70,
                           relics={"Bird Faced Urn": 0})
-        apply_play(state, (0, -1), card_db)
+        apply_play(state, (state.hand[0].uuid, -1), card_db)
         assert state.player.current_hp == 72
 
     def test_unceasing_top_draw_on_empty_hand(self, card_db):
@@ -1018,7 +1018,7 @@ class TestRelicEffects:
         monster = _sim_monster(intent_damage=0)
         state = _sim_state(hand=[strike], monsters=[monster],
                           relics={"Unceasing Top": 0})
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # After playing the only card, hand is empty → Unceasing Top triggers
         assert state.draw_generated == 1
 
@@ -1028,7 +1028,7 @@ class TestRelicEffects:
         monster = _sim_monster(hp=50, intent_damage=0)
         state = _sim_state(hand=[carnage], monsters=[monster],
                           relics={"Necronomicon": 0})
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # Carnage does 20 damage, played twice = 40
         assert monster.current_hp == 10
 
@@ -1039,10 +1039,10 @@ class TestRelicEffects:
         monster = _sim_monster(hp=100, intent_damage=0)
         state = _sim_state(hand=[c1, c2], monsters=[monster], energy=4,
                           relics={"Necronomicon": 0})
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # First Carnage: 20 * 2 = 40
         assert state.necronomicon_used is True
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # Second Carnage: just 20
         assert monster.current_hp == 40  # 100 - 40 - 20
 
@@ -1061,7 +1061,7 @@ class TestRelicEffects:
         bash = _sim_card("Bash", cost=2, card_type="attack")
         monster = _sim_monster(hp=42, powers={"Artifact": 1}, intent_damage=0)
         state = _sim_state(hand=[bash], monsters=[monster], energy=2)
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # Bash applies 2 Vulnerable, but Artifact blocks one application
         assert monster.powers.get("Artifact", 0) == 0
         # The debuff should not have been applied (Artifact consumed)
@@ -1082,11 +1082,11 @@ class TestRelicEffects:
         monster = _sim_monster(hp=100, intent_damage=0)
         state = _sim_state(hand=[s1, s2, s3], monsters=[monster],
                           relics={"Ornamental Fan": 0})
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         assert state.player.block == 0
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         assert state.player.block == 0
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         assert state.player.block == 4
 
     def test_wristblade_adds_4_damage(self, card_db):
@@ -1095,7 +1095,7 @@ class TestRelicEffects:
         monster = _sim_monster(hp=50, intent_damage=0)
         state = _sim_state(hand=[anger], monsters=[monster],
                           relics={"WristBlade": 0})
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # Anger does 6 damage + 4 WristBlade = 10
         assert monster.current_hp == 40
 
@@ -1105,7 +1105,7 @@ class TestRelicEffects:
         monster = _sim_monster(hp=50, intent_damage=0)
         state = _sim_state(hand=[strike], monsters=[monster],
                           relics={"Pen Nib": 9})  # 10th attack
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # Strike 6 * 2 = 12
         assert monster.current_hp == 38
 
@@ -1116,7 +1116,7 @@ class TestRelicEffects:
                           upgraded=False, has_target=True, exhausts=False, misc=15)
         monster = _sim_monster(hp=50, intent_damage=0)
         state = _sim_state(hand=[rampage], monsters=[monster])
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # 8 base + 15 misc = 23 damage
         assert monster.current_hp == 27
 
@@ -1126,7 +1126,7 @@ class TestRelicEffects:
                           upgraded=True, has_target=True, exhausts=False, misc=24)
         monster = _sim_monster(hp=60, intent_damage=0)
         state = _sim_state(hand=[rampage], monsters=[monster])
-        apply_play(state, (0, 0), card_db)
+        apply_play(state, (state.hand[0].uuid, 0), card_db)
         # 8 base + 24 misc = 32 damage
         assert monster.current_hp == 28
 
@@ -1141,7 +1141,7 @@ class TestRelicEffects:
         plays = get_plays(state)
         # Only defend should be playable, not strike
         assert len(plays) == 1
-        assert plays[0][0] == 1  # defend is at index 1
+        assert plays[0][0] == "d1"  # defend is the only playable card
 
     def test_time_warp_ends_turn(self, card_db):
         """Time Warp: 12 cards played ends turn."""

@@ -22,6 +22,20 @@ def _log(msg: str):
     print(msg, file=sys.stderr, flush=True)
 
 
+# --- State update prompt fragment (shared across all strategic controllers) ---
+
+STATE_UPDATE_HINT = (
+    'You MUST include "state_update" with your current strategic assessment:\n'
+    '"state_update": {\n'
+    '    "risk_posture": "aggressive/balanced/defensive",\n'
+    '    "build_direction": "what build and why (1 sentence)",\n'
+    '    "boss_plan": "how to beat act boss (1 sentence)",\n'
+    '    "priority": "what deck needs most right now (1 sentence)"\n'
+    '}\n'
+    'Only include keys that changed. Omitted keys keep current value.'
+)
+
+
 # --- Tool definitions ---
 
 TOOL_SCHEMAS = {
@@ -109,32 +123,54 @@ def build_options_list(
     if st == ScreenType.COMBAT:
         combat = state.combat
         if combat:
+            # Count non-gone enemies for target dedup
+            alive_enemies = [e for e in combat.enemies if not e.is_gone]
+            single_target = len(alive_enemies) == 1
+
+            # Deduplicate targeted cards: show one option per card, pick first target
+            # (when single enemy, target is obvious; when multiple, show target name)
+            seen_cards: set[str] = set()  # card_uuid for dedup
             for a in actions:
                 if a.action_type == ActionType.PLAY_CARD:
+                    card_uuid = a.params.get("card_uuid", "")
                     card_id = a.params.get("card_id", "?")
                     idx = a.params.get("card_index", 0)
                     card = combat.hand[idx] if 0 <= idx < len(combat.hand) else None
+                    target_name = a.params.get("target_name")
+
+                    # For targeted cards with single enemy, show once without target
+                    # For multiple enemies, show each target as separate option
+                    if target_name and single_target:
+                        if card_uuid in seen_cards:
+                            continue
+                        seen_cards.add(card_uuid)
+                        target_str = f" → {target_name}"
+                    elif target_name:
+                        target_str = f" → {target_name}"
+                    else:
+                        target_str = ""
+
                     spec = card_db.get_spec(card_id, card.upgraded if card else False) if card else None
                     cost_str = f"{card.cost}E" if card and card.cost >= 0 else "XE"
                     spec_str = f" — {spec}" if spec else ""
-                    target_name = a.params.get("target_name")
-                    target_str = f" → {target_name}" if target_name else ""
                     up = "+" if card and card.upgraded else ""
                     options.append((f"Play {card_id}{up}{target_str} ({cost_str}){spec_str}", a))
                 elif a.action_type == ActionType.USE_POTION:
                     pot_name = a.params.get("potion_name", "potion")
                     pot_id = a.params.get("potion_id", "")
                     target_name = a.params.get("target_name")
+                    # For targeted potions with single enemy, show once
+                    if target_name and single_target:
+                        pot_key = a.params.get("potion_index")
+                        if pot_key is not None and f"pot_{pot_key}" in seen_cards:
+                            continue
+                        if pot_key is not None:
+                            seen_cards.add(f"pot_{pot_key}")
                     target_str = f" → {target_name}" if target_name else ""
                     desc = _POTION_DESCRIPTIONS.get(pot_id, "")
                     desc_str = f" — {desc}" if desc else ""
                     options.append((f"Use {pot_name}{target_str} (free){desc_str}", a))
-                elif a.action_type == ActionType.DISCARD_POTION:
-                    pot_name = a.params.get("potion_name", "potion")
-                    pot_id = a.params.get("potion_id", "")
-                    desc = _POTION_DESCRIPTIONS.get(pot_id, "")
-                    desc_str = f" — {desc}" if desc else ""
-                    options.append((f"Discard {pot_name}{desc_str}", a))
+                # Skip DISCARD_POTION — rarely useful, clutters options
                 elif a.action_type == ActionType.END_TURN:
                     options.append(("End turn", a))
 
@@ -387,24 +423,40 @@ def _grid_task(state: GameState) -> str:
     return task
 
 
+def _hand_select_task(state: GameState) -> str:
+    """Determine whether hand_select is retain or discard based on player powers."""
+    is_retain = False
+    if state.combat and state.combat.player_powers:
+        # Well-Laid Plans / Runic Pyramid triggers retain-style hand_select
+        if "Well-Laid Plans" in state.combat.player_powers:
+            is_retain = True
+    if is_retain:
+        return (
+            "Choose the BEST card to RETAIN for next turn. "
+            "Pick the card you most want in your opening hand next turn "
+            "(key combo piece, critical block, or scaling card)."
+        )
+    return "Choose the least valuable card to discard/exhaust."
+
+
 def screen_task(state: GameState) -> str:
     """Generate the task instruction for a screen."""
     tasks = {
-        # Combat — plan full turn as index sequence
+        # Combat — pick one action at a time
         ScreenType.COMBAT: (
-            "Plan your FULL TURN as a sequence of option indices.\n"
+            "Pick the SINGLE best action to take RIGHT NOW.\n"
             "Think step by step:\n"
-            "1. How much incoming damage? Can I survive without blocking?\n"
+            "1. How much incoming damage? Do I need block?\n"
             "2. Can I kill any enemy this turn?\n"
-            "3. What's the best play sequence? Track energy as you go.\n"
+            "3. Should I apply debuffs (Vulnerable/Weak) before attacking?\n"
             "4. Should I use a potion?\n"
-            "Always end with the End turn index.\n"
-            'Respond: {"actions": [3, 0, 6], "reasoning": "Bash for vuln, Strike, end turn"}'
+            "5. If nothing useful left to play, End turn.\n"
+            'Respond EXACTLY: {"action": N, "reasoning": "brief"} where N is one of the option numbers above.'
         ),
         # Strategist screens
         ScreenType.CARD_REWARD: (
-            "Pick the card that best fits the run plan, or skip if the deck is lean enough.\n"
-            "Consider: deck size, archetype fit, current weaknesses, act progression."
+            "Pick the card that fills the most needed job, or skip to keep the deck lean.\n"
+            "Consider: which job is the bottleneck, deck size, act progression."
         ),
         ScreenType.MAP: (
             "Choose the best path node. Consider:\n"
@@ -428,7 +480,7 @@ def screen_task(state: GameState) -> str:
             "Card removal is almost always valuable — prioritize it."
         ),
         ScreenType.GRID: _grid_task(state),
-        ScreenType.HAND_SELECT: "Choose the least valuable card to discard/exhaust.",
+        ScreenType.HAND_SELECT: _hand_select_task(state),
     }
     return tasks.get(state.screen_type, "Choose the best option.")
 
@@ -461,101 +513,12 @@ def _summarize_pile_compact(pile: list[Card]) -> str:
     )
 
 
-def validate_indexed_plan(
-    indices: list[int],
-    options: list[tuple[str, Action]],
-    combat: 'CombatState',
-    card_db: CardDB,
-) -> list[Action]:
-    """Validate a sequence of option indices against energy/hand constraints.
-
-    Uses invalidation boundaries: any invalid action or hand-mutating card
-    invalidates the rest of the queue (no skip-and-continue). This prevents
-    stale plans from executing after hand/board changes.
-
-    Returns the validated prefix of legal actions.
-    """
-    energy = combat.player_energy
-    # Track hand cards by uuid for exact instance matching
-    hand_uuids: set[str] = {c.uuid for c in combat.hand}
-    # Map card_index → Card for cost/draw lookups
-    hand_by_index: dict[int, Card] = {i: c for i, c in enumerate(combat.hand)}
-    validated: list[Action] = []
-
-    for idx in indices:
-        if idx < 0 or idx >= len(options):
-            _log(f"[plan] idx {idx} out of range, invalidating remaining plan")
-            break
-
-        _, action = options[idx]
-
-        if action.action_type == ActionType.END_TURN:
-            # End-turn legality guard: forbidden if energy remains and playable cards exist
-            if energy > 0 and _has_playable_card(hand_uuids, hand_by_index, energy):
-                _log(f"[plan] End Turn with {energy}E and playable cards, invalidating plan")
-                break
-            validated.append(action)
-            break
-
-        if action.action_type == ActionType.USE_POTION:
-            validated.append(action)
-            continue
-
-        if action.action_type == ActionType.DISCARD_POTION:
-            potion_name = action.params.get("potion_name", "")
-            potion_id = action.params.get("potion_id", "")
-            if "fairy" in potion_name.lower() or "fairy" in potion_id.lower():
-                _log("[plan] Fairy in a Bottle discard blocked, invalidating plan")
-                break
-            validated.append(action)
-            continue
-
-        if action.action_type == ActionType.PLAY_CARD:
-            card_index = action.params.get("card_index")
-            card = hand_by_index.get(card_index)
-            if card is None or card.uuid not in hand_uuids:
-                _log(f"[plan] idx {idx} card not in hand, invalidating remaining plan")
-                break
-            cost = card.cost
-            if cost > energy and cost != -1:  # -1 = X-cost
-                _log(f"[plan] {card.id} costs {cost} but only {energy}E, invalidating plan")
-                break
-            energy -= cost if cost >= 0 else energy
-            hand_uuids.discard(card.uuid)
-            validated.append(action)
-            # Stop after any hand-mutating card — hand becomes unpredictable
-            if card_db.changes_hand(card.id, card.upgraded):
-                _log(f"[plan] {card.id} changes hand, invalidating remaining plan")
-                break
-            continue
-
-        # Unknown action type, keep it
-        validated.append(action)
-
-    return validated
-
-
-def _has_playable_card(
-    hand_uuids: set[str],
-    hand_by_index: dict[int, 'Card'],
-    energy: int,
-) -> bool:
-    """Check if any card still in hand is playable with available energy."""
-    for card in hand_by_index.values():
-        if card.uuid not in hand_uuids:
-            continue
-        if not card.is_playable:
-            continue
-        if card.cost <= energy or card.cost == -1:
-            return True
-    return False
-
-
 def build_screen_context(
     state: GameState,
     monster_db: Optional[MonsterDB] = None,
     relic_db: Optional[RelicDB] = None,
     turn_state=None,
+    card_db=None,
 ) -> str:
     """Build the context section for a screen prompt.
 
@@ -564,7 +527,16 @@ def build_screen_context(
     st = state.screen_type
     rdb = relic_db or RelicDB()
     relics_str = ', '.join(rdb.format_relic(r) for r in state.relics) if state.relics else 'none'
-    potions_str = ', '.join(p.name for p in state.potions if p.id != 'Potion Slot') or 'none'
+    potion_parts = []
+    for p in state.potions:
+        if p.id == 'Potion Slot':
+            continue
+        desc = _POTION_DESCRIPTIONS.get(p.id, "")
+        if desc:
+            potion_parts.append(f"{p.name}: {desc}")
+        else:
+            potion_parts.append(p.name)
+    potions_str = ', '.join(potion_parts) or 'none'
 
     base_state = f"""### Current State
 HP: {state.player_hp}/{state.player_max_hp} ({state.player_hp * 100 // max(state.player_max_hp, 1)}%)
@@ -582,12 +554,24 @@ Potions: {potions_str}
         if not combat:
             return ""
 
-        # Tactical summary first (most decision-relevant info)
+        # Order: Enemies → Tactical Summary → Player State → Hand + Piles
+        # (Run Intent and Turn Context are prepended/appended by agent.py)
         parts = []
+
+        # 1. Enemies (threat assessment first)
+        mdb = monster_db or MonsterDB()
+        enemy_lines = []
+        for e in combat.enemies:
+            if e.is_gone:
+                continue
+            enemy_lines.append(mdb.format_enemy(e))
+        parts.append("## Enemies\n" + "\n".join(enemy_lines))
+
+        # 2. Tactical Summary (deterministic math from intents)
         if turn_state:
             parts.append(f"## Tactical Summary\n{turn_state.format_for_prompt()}")
 
-        # Compact state
+        # 3. Player State
         player_str = (
             f"HP: {combat.player_hp}/{combat.player_max_hp}, "
             f"Block: {combat.player_block}, Energy: {combat.player_energy}"
@@ -597,18 +581,21 @@ Potions: {potions_str}
             powers_str = pdb.format_powers(combat.player_powers)
             player_str += f"\n  Powers: {powers_str}"
 
-        parts.append(f"## State\nPlayer: {player_str}\nPotions: {potions_str}")
+        state_lines = [f"Player: {player_str}", f"Potions: {potions_str}"]
+        if state.relics:
+            state_lines.append(f"Relics: {relics_str}")
+        parts.append("## Player State\n" + "\n".join(state_lines))
 
-        # Enemies with monster_db tips inline
-        mdb = monster_db or MonsterDB()
-        enemy_lines = []
-        for e in combat.enemies:
-            if e.is_gone:
-                continue
-            enemy_lines.append(mdb.format_enemy(e))
-        parts.append("## Enemies\n" + "\n".join(enemy_lines))
+        # 4. Hand + Piles
+        if combat.hand and card_db:
+            hand_lines = []
+            for c in combat.hand:
+                up = "+" if c.upgraded else ""
+                spec = card_db.get_spec(c.id, c.upgraded) or ""
+                cost_str = f"{c.cost}E" if c.cost >= 0 else "XE"
+                hand_lines.append(f"  {c.id}{up} ({cost_str}): {spec}")
+            parts.append("## Hand\n" + "\n".join(hand_lines))
 
-        # Compact pile display
         draw_str = _summarize_pile_compact(combat.draw_pile)
         discard_str = _summarize_pile_compact(combat.discard_pile)
         parts.append(f"## Piles\nDraw({len(combat.draw_pile)}): {draw_str} | Discard({len(combat.discard_pile)}): {discard_str}")
@@ -648,7 +635,10 @@ Potions: {potions_str}
         return base_state + f"### Purpose: {purpose} a card\n"
 
     elif st == ScreenType.HAND_SELECT:
-        return base_state + "### Select a card to discard/exhaust\n"
+        is_retain = (state.combat and state.combat.player_powers
+                     and "Well-Laid Plans" in state.combat.player_powers)
+        purpose = "RETAIN (keep for next turn)" if is_retain else "discard/exhaust"
+        return base_state + f"### Select a card to {purpose}\n"
 
     return ""
 
@@ -658,6 +648,8 @@ def build_combat_line_prompt(
     lines: list,
     turn_state,
     strategy_line: str = "",
+    combat_history: list[str] | None = None,
+    combat_insights: list[str] | None = None,
 ) -> str:
     """Render candidate combat lines for LLM selection.
 
@@ -665,6 +657,8 @@ def build_combat_line_prompt(
         lines: list of CandidateLine from CombatPlanner
         turn_state: TurnState for tactical summary
         strategy_line: compact strategy from RunState.format_mini()
+        combat_history: action summaries from earlier in this combat
+        combat_insights: fight-persistent insights from LLM
     """
     parts = []
 
@@ -672,15 +666,26 @@ def build_combat_line_prompt(
     if turn_state:
         parts.append(f"## Tactical Summary\n{turn_state.format_for_prompt()}")
 
-    # Lines — just the action sequences, let LLM evaluate
+    # Combat log (prior actions in this combat)
+    if combat_history:
+        parts.append("## Combat Log\n" + "\n".join(combat_history))
+
+    # Fight insights
+    if combat_insights:
+        parts.append("## Fight Insights\n" + "\n".join(f"- {i}" for i in combat_insights))
+
+    # Lines with action sequences and predicted end state
     line_strs = []
     for i, line in enumerate(lines):
         actions_str = " → ".join(line.actions)
-        line_strs.append(f"{i}. {actions_str}")
+        end_str = ""
+        if line.end_state:
+            end_str = f"\n   Result: {line.end_state.format()}"
+        line_strs.append(f"{i}. {actions_str}{end_str}")
     parts.append("## Lines\n" + "\n".join(line_strs))
 
     if strategy_line:
-        parts.append(f"Strategy: {strategy_line}")
+        parts.append(f"## Run Intent (learned)\n{strategy_line}")
 
     parts.append(
         'Pick exactly one line by number.\n'
@@ -688,25 +693,6 @@ def build_combat_line_prompt(
     )
 
     return "\n\n".join(parts)
-
-
-def build_evaluated_options(
-    candidates: list,
-    skip_score: float | None = None,
-) -> str:
-    """Render scored option candidates for LLM selection.
-
-    Each candidate should have: score (float), and a string representation.
-    Used by evaluators (Phase 4) for card rewards, pathing, shop.
-    """
-    lines = []
-    for i, c in enumerate(candidates):
-        score = getattr(c, "score", 0.0)
-        # Use str() for the candidate representation
-        lines.append(f"{i}. [{score:.1f}] {c}")
-    if skip_score is not None:
-        lines.append(f"Skip score: {skip_score:.1f}")
-    return "\n".join(lines)
 
 
 def parse_line_index(result: dict, num_lines: int) -> Optional[int]:
@@ -759,52 +745,3 @@ def _to_int(val) -> Optional[int]:
     return None
 
 
-def _parse_combat_indices(result: dict | list, options: list) -> list[int]:
-    """Extract index sequence from LLM combat response."""
-    if isinstance(result, list):
-        # Raw list of ints
-        ints = [_to_int(x) for x in result]
-        if all(x is not None for x in ints):
-            return ints
-        result = {"actions": result}
-
-    if not isinstance(result, dict):
-        _log(f"[combat-parse] Unexpected result type: {type(result)}")
-        return []
-
-    actions = result.get("actions", [])
-
-    # Handle {"actions": [3, 0, 6]} — list of ints/strings
-    if actions and all(_to_int(x) is not None for x in actions):
-        return [_to_int(x) for x in actions]
-
-    # Handle {"actions": [{"index": 3}, ...]} or {"actions": [{"tool": "choose", "params": {"index": 3}}, ...]}
-    if actions and isinstance(actions[0], dict):
-        indices = []
-        for entry in actions:
-            idx = _to_int(entry.get("index"))
-            if idx is not None:
-                indices.append(idx)
-                continue
-            # try "params": {"index": N}
-            params = entry.get("params", {})
-            idx = _to_int(params.get("index"))
-            if idx is not None:
-                indices.append(idx)
-        if indices:
-            return indices
-
-    # Single action: {"tool": "choose", "params": {"index": N}}
-    tool = result.get("tool", "")
-    if tool == "choose":
-        idx = _to_int(result.get("params", {}).get("index"))
-        if idx is not None:
-            return [idx]
-
-    # Try "index" at top level
-    idx = _to_int(result.get("index"))
-    if idx is not None:
-        return [idx]
-
-    _log(f"[combat-parse] Could not extract indices from: {str(result)[:200]}")
-    return []

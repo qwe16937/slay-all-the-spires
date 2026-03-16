@@ -12,6 +12,18 @@ from spirecomm.spire import character as spire_char
 from spirecomm.communication.coordinator import Coordinator
 from spirecomm.communication import action as spire_action
 
+# Patch spirecomm PlayerClass enum to include WATCHER (not in original library)
+if not hasattr(spire_char.PlayerClass, "WATCHER"):
+    spire_char.PlayerClass._value2member_map_[4] = spire_char.PlayerClass("WATCHER", 4) if False else None
+    # Enum extension: add WATCHER = 4 via internal API
+    import enum as _enum
+    _obj = object.__new__(spire_char.PlayerClass)
+    _obj._name_ = "WATCHER"
+    _obj._value_ = 4
+    spire_char.PlayerClass._member_map_["WATCHER"] = _obj
+    spire_char.PlayerClass._value2member_map_[4] = _obj
+    del _obj, _enum
+
 from sts_agent.interfaces.base import GameInterface
 from sts_agent.models import (
     GameState, Action, ActionType, ScreenType,
@@ -94,13 +106,18 @@ def _normalize_potion(p) -> Potion:
 
 def _normalize_enemy(m: spire_char.Monster) -> Enemy:
     powers = {p.power_id: p.amount for p in m.powers}
+    # move_adjusted_damage defaults to 0 when not present — treat 0 as None
+    # but preserve actual damage values (including 0 for non-attack intents)
+    intent_dmg = m.move_adjusted_damage if m.move_adjusted_damage else None
+    _log(f"[enemy] {m.name} (id={m.monster_id}): intent={m.intent.name}, "
+         f"move_adjusted_damage={m.move_adjusted_damage}, move_hits={m.move_hits}")
     return Enemy(
         id=m.monster_id,
         name=m.name,
         current_hp=m.current_hp,
         max_hp=m.max_hp,
         intent=m.intent.name.lower(),
-        intent_damage=m.move_adjusted_damage if m.move_adjusted_damage else None,
+        intent_damage=intent_dmg,
         intent_hits=m.move_hits or 0,
         block=m.block,
         powers=powers,
@@ -114,9 +131,15 @@ def normalize_game(game: Game) -> GameState:
     """Convert a spirecomm Game object to our canonical GameState."""
     screen_type = _SCREEN_MAP.get(game.screen_type, ScreenType.NONE)
 
-    # If screen_type is NONE but we're in combat, treat as combat
+    # If screen_type is NONE but we're in combat, treat as combat —
+    # UNLESS the screen has card choices (e.g. AttackPotion/SkillPotion/PowerPotion
+    # pop up a CARD_REWARD overlay during combat that CommunicationMod may report as NONE)
     if screen_type == ScreenType.NONE and game.in_combat:
-        screen_type = ScreenType.COMBAT
+        if (game.screen is not None and hasattr(game.screen, 'cards')
+                and game.screen.cards):
+            screen_type = ScreenType.CARD_REWARD
+        else:
+            screen_type = ScreenType.COMBAT
 
     # Character
     char_name = game.character.name if game.character else ""
@@ -429,11 +452,21 @@ def enumerate_actions(state: GameState, game: Game) -> list[Action]:
                 ))
 
         elif st == ScreenType.GRID and state.grid_cards:
-            for i, card in enumerate(state.grid_cards):
-                actions.append(Action(
-                    ActionType.CARD_SELECT,
-                    {"card_index": i, "card_name": card.name, "card_id": card.id}
-                ))
+            if state.grid_confirm_up:
+                # All cards selected, need to confirm
+                actions.append(Action(ActionType.PROCEED))
+            else:
+                # Filter out already-selected cards to avoid toggle-deselect loops
+                selected_ids = set()
+                if state.grid_selected:
+                    selected_ids = {c.uuid for c in state.grid_selected if c.uuid}
+                for i, card in enumerate(state.grid_cards):
+                    if card.uuid and card.uuid in selected_ids:
+                        continue
+                    actions.append(Action(
+                        ActionType.CARD_SELECT,
+                        {"card_index": i, "card_name": card.name, "card_id": card.id}
+                    ))
 
         elif st == ScreenType.HAND_SELECT and state.hand_select_cards:
             for i, card in enumerate(state.hand_select_cards):
@@ -570,38 +603,49 @@ class STS1CommInterface(GameInterface):
     def is_terminal(self) -> bool:
         return self._terminal
 
-    def dismiss_game_over(self, max_clicks: int = 5):
-        """Click through game over / stats screens until back at main menu."""
-        from spirecomm.communication.action import ProceedAction
+    def dismiss_game_over(self, max_clicks: int = 10):
+        """Click through game over / victory / stats screens until back at main menu.
+
+        After victory the game may show intermediate event screens (e.g. the
+        Heart event at Floor 51) before the actual game-over screen. Keep
+        clicking proceed/choose until we land on ScreenType.NONE (main menu).
+        """
+        from spirecomm.communication.action import ProceedAction, ChooseAction
         self._terminal = False
         for i in range(max_clicks):
-            _log(f"[interface] Dismissing game over screen (click {i + 1})")
+            screen = self._state.screen_type.value if self._state else "?"
+            _log(f"[interface] Dismissing end screen (click {i + 1}), screen={screen}")
+
+            # Event screens need ChooseAction(0) instead of ProceedAction
+            if self._state and self._state.screen_type == ScreenType.EVENT:
+                action = ChooseAction(choice_index=0)
+            else:
+                action = ProceedAction()
+
             self._state = None
-            proceed = ProceedAction()
-            self.coord.add_action_to_queue(proceed)
+            self.coord.add_action_to_queue(action)
             self.coord.execute_next_action()
             self._wait_for_state()
+
             # Back at main menu — done
             if self._state and self._state.screen_type == ScreenType.NONE:
                 _log("[interface] Back at main menu")
                 return
-            # No longer on a terminal screen — done
-            if self._state and self._state.screen_type not in (
-                ScreenType.GAME_OVER, ScreenType.COMPLETE,
-            ):
-                _log(f"[interface] Now on {self._state.screen_type.value}")
-                return
         _log("[interface] Warning: still not at main menu after max clicks")
 
     def start_game(self, character: str, ascension: int = 0):
-        """Start a new game run. Character: IRONCLAD, THE_SILENT, DEFECT."""
-        from spirecomm.communication.action import StartGameAction
+        """Start a new game run. Character: IRONCLAD, THE_SILENT, DEFECT, WATCHER."""
         from spirecomm.spire.character import PlayerClass
-        player_class = PlayerClass[character.upper()]
         self._terminal = False
         self._state = None
-        start = StartGameAction(player_class, ascension)
-        start.execute(self.coord)
+        char_upper = character.upper()
+        try:
+            player_class = PlayerClass[char_upper]
+            from spirecomm.communication.action import StartGameAction
+            StartGameAction(player_class, ascension).execute(self.coord)
+        except KeyError:
+            # PlayerClass enum doesn't include WATCHER; send raw command
+            self.coord.send_message(f"start {char_upper} {ascension}")
         self._wait_for_state()
 
     def _wait_for_state(self):

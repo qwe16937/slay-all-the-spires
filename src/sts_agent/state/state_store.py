@@ -18,6 +18,56 @@ if TYPE_CHECKING:
 
 
 @dataclass
+class CombatRecord:
+    """Record of a completed combat for in-run learning."""
+    floor: int = 0
+    enemies: list[str] = field(default_factory=list)  # enemy IDs
+    enemy_count: int = 1
+    is_elite: bool = False
+    is_boss: bool = False
+    hp_lost: int = 0
+    turns: int = 0
+
+    @property
+    def encounter_type(self) -> str:
+        if self.is_boss:
+            return "boss"
+        if self.is_elite:
+            return "elite"
+        if self.enemy_count > 1:
+            return "multi"
+        return "normal"
+
+    def format_line(self) -> str:
+        enemies_str = " + ".join(self.enemies) if self.enemies else "unknown"
+        tag = ""
+        if self.is_boss:
+            tag = " (Boss)"
+        elif self.is_elite:
+            tag = " (Elite)"
+        return (f"Floor {self.floor}: {enemies_str}{tag} — "
+                f"{self.hp_lost} HP lost, {self.turns} turns")
+
+
+_DEFAULT_MAX_COMBAT_LESSONS = 3
+
+
+@dataclass
+class IntentNotes:
+    """Keyed strategic intent notes, updated by LLM via partial merge."""
+    build_direction: str | None = None
+    boss_plan: str | None = None
+    priority: str | None = None
+    combat_lessons: list[str] = field(default_factory=list)
+    max_combat_lessons: int = _DEFAULT_MAX_COMBAT_LESSONS
+
+    def add_combat_lesson(self, lesson: str):
+        self.combat_lessons.append(lesson)
+        if len(self.combat_lessons) > self.max_combat_lessons:
+            self.combat_lessons.pop(0)
+
+
+@dataclass
 class DeckProfile:
     """Deterministic deck analysis computed from current deck + relics."""
 
@@ -32,39 +82,41 @@ class DeckProfile:
     power_count: int = 0
     avg_cost: float = 0.0
 
-    # Source counts (cards that provide these effects)
-    draw_sources: int = 0
-    exhaust_sources: int = 0
-    vuln_sources: int = 0
-    weak_sources: int = 0
-    strength_sources: int = 0
-    aoe_sources: int = 0
+    # Computed metrics
+    block_cards: int = 0       # cards that provide block or damage reduction
+    draw_cards: int = 0        # cards that draw additional cards
+    upgraded_count: int = 0    # number of upgraded cards
 
-    # Composite scores (0-10 scale)
-    frontload_score: float = 0.0
-    scaling_score: float = 0.0
-    block_score: float = 0.0
-    draw_score: float = 0.0
-    consistency_score: float = 0.0
-    aoe_score: float = 0.0
+    @property
+    def cycle_time(self) -> float:
+        """Turns to draw every card once. Lower = more consistent."""
+        effective_size = max(self.deck_size - self.draw_cards, 1)
+        return round(effective_size / 5, 1)
 
-    # Boss readiness: weighted combo of scores per boss
-    boss_readiness: dict[str, float] = field(default_factory=dict)
+    @property
+    def block_density(self) -> float:
+        """Fraction of deck that mitigates damage. Target ~33%."""
+        if self.deck_size == 0:
+            return 0.0
+        return round(self.block_cards / self.deck_size, 2)
+
+    @property
+    def upgrade_density(self) -> float:
+        """Fraction of upgraded cards. Target 33-50%."""
+        if self.deck_size == 0:
+            return 0.0
+        return round(self.upgraded_count / self.deck_size, 2)
 
     def format_for_prompt(self) -> str:
         """Render deck analysis for LLM prompt injection."""
         lines = [
             f"Size: {self.deck_size} ({self.strike_count}S/{self.defend_count}D"
             + (f"/{self.curse_count}curse" if self.curse_count else "") + ")",
-            f"Scores: frontload={self.frontload_score:.1f} block={self.block_score:.1f} "
-            f"scaling={self.scaling_score:.1f} draw={self.draw_score:.1f} "
-            f"consistency={self.consistency_score:.1f}",
+            f"Types: {self.attack_count}atk/{self.skill_count}skill/{self.power_count}pwr, avg cost {self.avg_cost:.1f}",
+            f"Cycle time: {self.cycle_time} turns",
+            f"Block density: {self.block_density:.0%}",
+            f"Upgrade density: {self.upgrade_density:.0%}",
         ]
-        if self.aoe_sources:
-            lines[-1] += f" aoe={self.aoe_score:.1f}"
-        if self.boss_readiness:
-            parts = [f"{boss}: {score:.1f}/10" for boss, score in self.boss_readiness.items()]
-            lines.append(f"Boss readiness: {', '.join(parts)}")
         return "\n".join(lines)
 
 
@@ -97,23 +149,17 @@ class RunState:
 
     # Private tracking for diffing (not serialized)
     _prev_floor: int = -1
+    _prev_act: int = -1
     _prev_deck_size: int = -1
     _prev_screen_type: Optional[ScreenType] = None
 
+    # --- Combat log (system-owned, append-only within a run) ---
+    combat_log: list[CombatRecord] = field(default_factory=list)
+
     # --- Strategic (LLM-owned, None = not yet assessed) ---
-    archetype_guess: Optional[str] = None
-    act_plan: Optional[str] = None
-    boss_plan: Optional[str] = None
     upgrade_targets: list[str] = field(default_factory=list)
-    needs_block: Optional[float] = None
-    needs_frontload: Optional[float] = None
-    needs_scaling: Optional[float] = None
-    needs_draw: Optional[float] = None
     risk_posture: Optional[str] = None       # "aggressive" | "balanced" | "defensive"
-    skip_bias: Optional[float] = None        # 0 = always take, 1 = always skip
-    remove_priority: Optional[list[str]] = None
-    potion_policy: Optional[str] = None      # "hoard" | "normal" | "use_freely"
-    notes: list[str] = field(default_factory=list)
+    intent: IntentNotes = field(default_factory=IntentNotes)
 
     # Fields the LLM is NOT allowed to write
     _OBSERVED_FIELDS = frozenset({
@@ -122,89 +168,60 @@ class RunState:
         "removals_done", "skips_done",
     })
 
-    def add_note(self, note: str):
-        self.notes.append(note)
-        if len(self.notes) > 5:
-            self.notes.pop(0)
-
-    def format_mini(self) -> str:
+    def format_mini(self, is_boss_fight: bool = False) -> str:
         """Compact 1-2 line strategic summary for combat/event prompts."""
         parts = []
-        if self.archetype_guess:
-            parts.append(f"Archetype: {self.archetype_guess}")
-        needs = []
-        for name, val in [
-            ("block", self.needs_block), ("frontload", self.needs_frontload),
-            ("scaling", self.needs_scaling), ("draw", self.needs_draw),
-        ]:
-            if val is not None and val >= 0.7:
-                needs.append(name)
-        if needs:
-            parts.append(f"Gaps: {', '.join(needs)}")
-        if self.act_boss:
-            boss_part = f"Boss: {self.act_boss}"
-            if self.boss_plan:
-                boss_part += f" ({self.boss_plan})"
-            parts.append(boss_part)
+        if self.intent.build_direction:
+            parts.append(f"Build: {self.intent.build_direction}")
         if self.risk_posture:
             parts.append(f"Risk: {self.risk_posture}")
+        if self.act_boss:
+            parts.append(f"Boss: {self.act_boss}")
+        if is_boss_fight and self.intent.boss_plan:
+            parts.append(f"Boss plan: {self.intent.boss_plan}")
+        if self.intent.combat_lessons:
+            parts.append(f"Lesson: {self.intent.combat_lessons[-1]}")
         return " | ".join(parts) if parts else ""
+
+    def format_combat_log(self, max_recent: int = 5) -> str:
+        """Format combat log for prompt injection."""
+        if not self.combat_log:
+            return ""
+        recent = self.combat_log[-max_recent:]
+        lines = [r.format_line() for r in recent]
+
+        # Aggregate stats by encounter type
+        by_type: dict[str, list[int]] = {}
+        for r in self.combat_log:
+            by_type.setdefault(r.encounter_type, []).append(r.hp_lost)
+        stats = []
+        for etype in ["normal", "multi", "elite", "boss"]:
+            losses = by_type.get(etype, [])
+            if losses:
+                avg = sum(losses) / len(losses)
+                stats.append(f"{etype}: avg {avg:.0f} HP lost ({len(losses)} fights)")
+        lines.append("Stats: " + " | ".join(stats))
+        return "\n".join(lines)
 
     def format_for_prompt(self) -> str:
         """Render strategic state for LLM prompt injection."""
-        needs = []
-        for name, val in [
-            ("block", self.needs_block),
-            ("frontload", self.needs_frontload),
-            ("scaling", self.needs_scaling),
-            ("draw", self.needs_draw),
-        ]:
-            if val is None:
-                continue
-            if val >= 0.7:
-                needs.append(f"{name} (critical)")
-            elif val >= 0.4:
-                needs.append(f"{name} (moderate)")
-
-        # Determine if strategy has been assessed at all
-        assessed = any(v is not None for v in [
-            self.archetype_guess, self.needs_block, self.needs_frontload,
-            self.needs_scaling, self.needs_draw, self.risk_posture,
-        ])
-
-        if not assessed:
-            boss_status = "not yet assessed"
-        elif needs:
-            boss_status = "NOT READY"
-        else:
-            boss_status = "READY"
-
         lines = [
-            f"Archetype: {self.archetype_guess or 'undecided'}",
-            f"Current gaps: {', '.join(needs) if needs else 'none identified'}",
-            f"Boss: {self.act_boss or 'unknown'} — {boss_status}",
+            f"Boss: {self.act_boss or 'unknown'}",
             f"Risk posture: {self.risk_posture or 'not yet assessed'}",
         ]
 
-        # Skip bias
-        if self.skip_bias is not None:
-            if self.skip_bias > 0.6:
-                lines.append("Skip bias: high (lean deck)")
-            elif self.skip_bias < 0.4:
-                lines.append("Skip bias: low (need cards)")
-            else:
-                lines.append("Skip bias: normal")
-
-        if self.act_plan:
-            lines.append(f"Plan: {self.act_plan}")
-        if self.boss_plan:
-            lines.append(f"Boss prep: {self.boss_plan}")
         if self.upgrade_targets:
             lines.append(f"Upgrade targets: {', '.join(self.upgrade_targets)}")
-        if self.notes:
-            lines.append("Notes:")
-            for n in self.notes:
-                lines.append(f"  - {n}")
+        if self.intent.build_direction:
+            lines.append(f"Build direction: {self.intent.build_direction}")
+        if self.intent.boss_plan:
+            lines.append(f"Boss plan: {self.intent.boss_plan}")
+        if self.intent.priority:
+            lines.append(f"Priority: {self.intent.priority}")
+        if self.intent.combat_lessons:
+            lines.append("Combat lessons:")
+            for lesson in self.intent.combat_lessons:
+                lines.append(f"  - {lesson}")
         return "\n".join(lines)
 
 

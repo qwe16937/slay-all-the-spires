@@ -1,83 +1,49 @@
-# ⚔️ Combat Principles
+## Combat Policy
 
-> **Goal:** Win the fight while losing as little HP as possible. HP is a resource, but dying ends the run. Generic heuristics are secondary to exact lethal, exact survival, and enemy-specific mechanics.
+**How combat decisions work:** energy is limited per turn, block expires, killing an enemy removes its 
+future damage entirely. Optimal decisions depend on **Deck Synergies** and enemy intents, current HP, and card costs.
+Try to plan for the shortest number of turns possible w/ lowest HP loss always.
+Check the character synergies matrix and your deck to decide your combat decisions!
 
----
+Available options contain permanent-effect card(s)/ potion(s). Before playing: 
+what do you permanently lose vs what do you gain? 
+Is the gain guaranteed or variance?
 
-## Decision Order
+**Play order matters.** Always apply buffs/debuffs before dealing damage or blocking in the same turn:
+- Vulnerable/Weak on enemies → then attack/block (1.5× damage, −25% incoming)
+- Strength/Dexterity on self → then attack/block (+N per card)
+Draw cards may provide you important cards a lot of times.
+Power card can give you permanant buffs in the combat, check carefully if you can play them first in each turn.
 
-Evaluate each turn in sequence — do not skip ahead.
+**How energy works:** Energy resets each turn — unspent energy is permanently 
+lost. 0-cost cards are free actions. X-cost cards consume all remaining energy. 
+Each card played reduces energy immediately for subsequent plays.
 
-1. **Can I kill an enemy this turn?** Prioritize kills that remove the most incoming damage or the most dangerous scaling.
-2. **Can I avoid dying this turn?** Block enough to survive. Do not spend energy on extra block unless it prevents meaningful additional HP loss.
-3. **Is this a safe turn?** Play powers, draw, or debuffs only if the fight is likely to last long enough for them to matter.
-4. **Spend remaining energy** on the highest-value damage or utility available.
+Because unspent energy is wasted, ending your turn with energy and playable 
+non-status cards remaining is almost always wrong.
 
----
+**Potions:** zero energy cost, single use. Most valuable when they change a fight outcome —
+lethal, survival, or a boss-specific breakpoint. Least valuable saved for a fight that never comes.
 
-## Survival Rules
+**Block-first principle:** When enemies are attacking, prioritize blocking incoming damage
+before dealing damage — UNLESS the turn state shows LETHAL (you can kill the attacker this turn).
+Taking 10 damage to deal 6 non-lethal damage is almost never worth it.
+A fight that takes 1 extra turn but costs 10 less HP is a better outcome.
 
-- Never die to greed.
-- Do not overblock once survival and major damage prevention are secured.
-- A kill that removes incoming damage **counts as block**.
-- If no line fully blocks, choose the line that preserves the most HP without throwing away high-value kills or critical setup.
+**Chip damage:** dealing partial damage now reduces HP to kill later. Non-lethal attacks are not wasted
+unless playing them causes a concrete negative (e.g. triggering a mechanic, spending energy needed for block).
 
----
+**Multiple attackers:** when facing 3+ enemies, total incoming damage scales with enemy count.
+Killing one enemy permanently reduces future damage. Prioritize lethal on the lowest-HP enemy
+to reduce attacker count, even at the cost of taking damage this turn. Do NOT spend energy on
+deck cleanup (exhausting status cards) or setup while multiple enemies are attacking —
+all energy goes to damage or essential block.
 
-## When to Play Powers
+**How block interaction works:** attacking an enemy with block reduces their block first,
+then any excess damage hits HP. An attack that deals less than the enemy's current block
+still reduces their block by that amount — it is not wasted. Chipping enemy block down
+across turns is how you eventually deal HP damage to heavily-armored enemies.
 
-- Play powers early **only on safe turns** or in fights likely to last several more turns.
-- Fast scaling and immediate-value powers are easier to justify than slow ones.
-- Do not force a slow power just because powers are generally strong.
-- In short hallway fights, **frontloaded damage usually beats slow setup**.
-
----
-
-## Card Sequencing
-
-- Draw first when possible.
-- Apply debuffs **before** damage when that changes damage math.
-- Play powers **before** attacks when the power affects this turn or clearly improves future turns.
-- Use 0-cost cards unless there is a concrete reason not to.
-- Recount energy after every play.
-- If a card draws 2+ cards, **stop planning** — reassess after drawing.
-
----
-
-## Potions
-
-Use aggressively when they:
-
-- Prevent death
-- Prevent a large HP swing
-- Secure a kill this turn
-- Materially improve an elite or boss fight
-- Solve a boss-specific breakpoint
-
-**Do not hoard potions for hypothetical future value.**
-
----
-
-## Boss & Enemy Mechanics Override Generic Rules
-
-Always respect fight-specific mechanics over general heuristics.
-
-| Enemy | Key Mechanic |
-|---|---|
-| **Guardian** | Control damage around Mode Shift; do not mindlessly multi-hit into defensive form |
-| **Slime Boss** | Plan around split thresholds |
-| **Gremlin Nob** | Skills have a real cost |
-| **Lagavulin** | Setup windows are unusually good |
-| **Sentries** | Target focus and status density matter |
-| **Thorns / Spikers / Plated Armor** | Small hits may be much worse than usual |
-
----
-
-## Common Failure Modes
-
-- ❌ Greeding damage when survival is not secured
-- ❌ Overvaluing slow setup in short fights
-- ❌ Overblocking after lethal is already prevented
-- ❌ Ignoring boss thresholds and enemy-specific punishments
-- ❌ Planning illegal energy sequences
-- ❌ Treating all damage cards as equal when target selection or hit pattern matters
+**Status cards (Slimed, Burn, Wound, Daze)** are dead draws that reduce your effective hand size.
+Spend 1E to exhaust playable ones (Slimed, Burn) when you can afford it — clearing a dead draw
+improves every future cycle. In long fights, status accumulation kills you faster than enemy damage.

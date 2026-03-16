@@ -14,7 +14,7 @@ _SCREEN_TOPIC_MAP: dict[ScreenType, list[str]] = {
     ScreenType.CARD_REWARD: ["deckbuilding"],
     ScreenType.SHOP_SCREEN: ["deckbuilding"],
     ScreenType.SHOP_ROOM: ["deckbuilding"],
-    ScreenType.REST: ["pathing"],
+    ScreenType.REST: ["pathing", "deckbuilding"],
     ScreenType.EVENT: ["pathing"],
     ScreenType.BOSS_REWARD: ["deckbuilding"],
     ScreenType.COMBAT_REWARD: [],

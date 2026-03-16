@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Optional
 
 from sts_agent.models import ActionType
 
@@ -18,6 +19,25 @@ class ActionKey:
 
 
 @dataclass
+class EndState:
+    """Predicted state after executing a line and enemy turn."""
+    player_hp: int = 0
+    player_block: int = 0
+    enemies: list[tuple[str, int, int]] = field(default_factory=list)  # (name, hp, block)
+
+    def format(self) -> str:
+        parts = [f"You: {self.player_hp}hp {self.player_block}blk"]
+        for name, hp, blk in self.enemies:
+            e_str = f"{name}: {hp}hp"
+            if blk:
+                e_str += f" {blk}blk"
+            if hp <= 0:
+                e_str += " DEAD"
+            parts.append(e_str)
+        return " | ".join(parts)
+
+
+@dataclass
 class CandidateLine:
     actions: list[str]       # human-readable card names in order
     total_damage: int
@@ -27,6 +47,7 @@ class CandidateLine:
     action_keys: list[ActionKey] = field(default_factory=list)
     category: str = ""       # "lethal", "survival", "balanced", "aggressive", "power", "potion"
     score: float = 0.0
+    end_state: Optional[EndState] = None
 
 
 @dataclass
@@ -43,6 +64,7 @@ class TurnState:
     lethal_available: bool        # can we kill at least one enemy this turn
     survival_required: bool       # will we die if we don't block enough
     boss_in_combat: bool
+    incoming_hits: int = 0        # total number of hits from all enemies
     boss_special_flags: dict[str, str] = field(default_factory=dict)
 
     # Actionable affordances
@@ -51,49 +73,21 @@ class TurnState:
     safe_to_play_power: bool = False      # can afford power + still block to survive
     energy_after_survival: int = 0        # energy left after minimum survival block
 
+    # Current energy (for prompt display)
+    energy: int = 0
+
+    # Ordering warnings (deterministic, injected before options)
+    ordering_warnings: list[str] = field(default_factory=list)
+
     # Candidate lines (top 2 max, computed by evaluator)
     lethal_lines: list[CandidateLine] = field(default_factory=list)
     survival_lines: list[CandidateLine] = field(default_factory=list)
 
     def format_for_prompt(self) -> str:
-        lines = []
-
-        # Survival section
-        if self.survival_required:
-            lines.append(
-                f"SURVIVAL: must_block={'YES' if self.must_block else 'NO'}, "
-                f"need {self.min_block_to_live} more block to live "
-                f"({self.energy_after_survival}E remaining after survival plays)"
-            )
-        else:
-            lines.append(
-                f"Incoming: {self.incoming_total} dmg "
-                f"(need >= {self.survival_threshold} block, no lethal threat)"
-            )
-
-        # Lethal section
-        if self.lethal_available and self.lethal_lines:
-            for cl in self.lethal_lines[:2]:
-                lines.append(
-                    f"LETHAL: can kill — {' → '.join(cl.actions)} "
-                    f"({cl.total_damage} dmg, {cl.energy_used}E)"
-                )
-        elif self.lethal_available:
-            lines.append("LETHAL: can kill at least one enemy this turn")
-
-        # Power safety
-        if self.safe_to_play_power:
-            lines.append("SAFE TO PLAY POWER: yes")
-
-        # Boss warnings
-        if self.boss_special_flags:
-            for flag_id, guidance in self.boss_special_flags.items():
-                lines.append(f"Boss: {flag_id} — {guidance}")
-
-        # Survival lines
-        if self.survival_lines:
-            lines.append("Survival lines:")
-            for i, cl in enumerate(self.survival_lines[:2]):
-                lines.append(f"  {i+1}. {' → '.join(cl.actions)} ({cl.total_block} block, {cl.energy_used}E)")
-
-        return "\n".join(lines)
+        """Compact deterministic combat summary — only facts LLM can't compute itself."""
+        lethal_tag = " — LETHAL" if self.survival_required else ""
+        hits_tag = f" ({self.incoming_hits} hits)" if self.incoming_hits > 1 else ""
+        return (
+            f"Energy: {self.energy} | "
+            f"Unblocked damage: {self.incoming_after_current_block}{hits_tag}{lethal_tag}"
+        )

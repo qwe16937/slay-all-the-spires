@@ -84,12 +84,17 @@ def playable_cards(
 # --- Core computations ---
 
 def compute_incoming_damage(combat: CombatState) -> int:
-    """Sum all enemy attack intents for this turn."""
+    """Sum all enemy attack intents + end-of-turn self-damage (Burn, Decay)."""
     total = 0
     for e in combat.alive_enemies:
         if e.intent_damage and e.intent_damage > 0:
             hits = max(e.intent_hits, 1)
             total += e.intent_damage * hits
+    # Burn: 2 damage per unplayed Burn in hand at end of turn
+    # Decay: 2 damage per Decay in hand at end of turn
+    for card in combat.hand:
+        if card.id in ("Burn", "Decay"):
+            total += 2
     return total
 
 
@@ -349,6 +354,17 @@ def get_boss_special_flags(combat: CombatState) -> dict[str, str]:
                     f"splits at {split_hp} HP, currently at {e.current_hp} HP, control burst timing"
                 )
 
+        # Post-split: multiple large slimes on field = DPS race
+        n_large_slimes = sum(
+            1 for e2 in combat.alive_enemies
+            if e2.id in ("SpikeSlime_L", "AcidSlime_L", "SpikeSlime_M", "AcidSlime_M")
+        )
+        if n_large_slimes >= 2 and "slime_dps_race" not in flags:
+            flags["slime_dps_race"] = (
+                f"{n_large_slimes} slimes on field — DPS race. "
+                f"Focus fire to kill one ASAP. Do NOT spend energy on deck cleanup or setup."
+            )
+
         if "hexaghost" in eid or "hexaghost" in ename:
             flags["hexaghost_scaling"] = "damage grows each cycle, kill fast"
 
@@ -396,6 +412,117 @@ def _is_boss(enemy: Enemy) -> bool:
     return enemy.id in _BOSS_IDS
 
 
+def _detect_ordering_warnings(
+    combat: CombatState,
+    card_db: CardDB,
+) -> list[str]:
+    """Detect when playing buff/debuff cards first would increase total impact.
+
+    Scans hand for cards that apply Vulnerable, Weak, or grant Strength/Dexterity,
+    then calculates the concrete damage/block delta if played before other cards.
+    """
+    playable = [c for c in combat.hand if c.is_playable]
+    if len(playable) < 2:
+        return []
+
+    warnings = []
+
+    # Gather playable attack cards (that aren't themselves the buff/debuff source)
+    # and playable block cards
+    for card in playable:
+        applies = card_db.get_applies(card.id, card.upgraded)
+        player_powers = card_db.get_player_powers(card.id, card.upgraded)
+        if not applies and not player_powers:
+            continue
+
+        # --- Vulnerable: play before attacks ---
+        vuln_amount = applies.get("Vulnerable", 0)
+        if vuln_amount > 0:
+            # Only relevant if some enemy lacks Vulnerable
+            any_not_vuln = any(
+                e.powers.get("Vulnerable", 0) == 0
+                for e in combat.alive_enemies
+            )
+            if not any_not_vuln:
+                continue
+
+            # Count damage from other playable attacks
+            other_attack_dmg = 0
+            n_other_attacks = 0
+            for other in playable:
+                if other.uuid == card.uuid:
+                    continue
+                base_dmg = card_db.get_damage(other.id, other.upgraded)
+                if base_dmg > 0 and other.card_type == "attack":
+                    str_bonus = combat.player_powers.get("Strength", 0)
+                    other_attack_dmg += base_dmg + str_bonus
+                    n_other_attacks += 1
+
+            if n_other_attacks > 0:
+                bonus = int(other_attack_dmg * 0.5)  # 1.5x - 1x = 0.5x
+                card_label = card.id + ("+" if card.upgraded else "")
+                warnings.append(
+                    f"Play [{card_label}] before attacks — "
+                    f"Vulnerable adds +{bonus} total damage "
+                    f"across {n_other_attacks} attack(s)."
+                )
+
+        # --- Weak: play before blocking (reduces incoming) ---
+        weak_amount = applies.get("Weak", 0)
+        if weak_amount > 0 and vuln_amount == 0:
+            # Only useful if enemies are attacking without Weak
+            unweakened_dmg = sum(
+                e.intent_damage * max(e.intent_hits, 1)
+                for e in combat.alive_enemies
+                if e.intent_damage and e.intent_damage > 0
+                and e.powers.get("Weak", 0) == 0
+            )
+            if unweakened_dmg > 0:
+                reduction = int(unweakened_dmg * 0.25)
+                card_label = card.id + ("+" if card.upgraded else "")
+                warnings.append(
+                    f"Play [{card_label}] before blocking — "
+                    f"Weak reduces incoming by ~{reduction} damage."
+                )
+
+        # --- Strength: play before attacks ---
+        str_gain = player_powers.get("Strength", 0)
+        if str_gain > 0:
+            n_other_attacks = sum(
+                1 for other in playable
+                if other.uuid != card.uuid
+                and other.card_type == "attack"
+                and card_db.get_damage(other.id, other.upgraded) > 0
+            )
+            if n_other_attacks > 0:
+                bonus = str_gain * n_other_attacks
+                card_label = card.id + ("+" if card.upgraded else "")
+                warnings.append(
+                    f"Play [{card_label}] before attacks — "
+                    f"+{str_gain} Strength adds +{bonus} total damage "
+                    f"across {n_other_attacks} attack(s)."
+                )
+
+        # --- Dexterity: play before block cards ---
+        dex_gain = player_powers.get("Dexterity", 0)
+        if dex_gain > 0:
+            n_block_cards = sum(
+                1 for other in playable
+                if other.uuid != card.uuid
+                and card_db.get_block(other.id, other.upgraded) > 0
+            )
+            if n_block_cards > 0:
+                bonus = dex_gain * n_block_cards
+                card_label = card.id + ("+" if card.upgraded else "")
+                warnings.append(
+                    f"Play [{card_label}] before block cards — "
+                    f"+{dex_gain} Dexterity adds +{bonus} total block "
+                    f"across {n_block_cards} block card(s)."
+                )
+
+    return warnings
+
+
 def build_turn_state(
     state: GameState,
     actions: list[Action],
@@ -410,6 +537,27 @@ def build_turn_state(
         return None
 
     incoming = compute_incoming_damage(combat)
+
+    # Intangible: all damage reduced to 1 per hit
+    intangible = combat.player_powers.get("Intangible", 0)
+    if intangible > 0:
+        hit_count = sum(max(e.intent_hits, 1) for e in combat.alive_enemies
+                        if e.intent_damage and e.intent_damage > 0)
+        incoming = min(incoming, hit_count)  # each hit deals 1
+
+    # Buffer: negates next N damage instances
+    buffer = combat.player_powers.get("Buffer", 0)
+    if buffer > 0:
+        hit_count = sum(max(e.intent_hits, 1) for e in combat.alive_enemies
+                        if e.intent_damage and e.intent_damage > 0)
+        negated_hits = min(buffer, hit_count)
+        # Rough: subtract average damage per hit for negated hits
+        if hit_count > 0:
+            avg_per_hit = incoming / hit_count
+            incoming = max(0, int(incoming - negated_hits * avg_per_hit))
+
+    total_hits = sum(max(e.intent_hits, 1) for e in combat.alive_enemies
+                     if e.intent_damage and e.intent_damage > 0)
     current_block = combat.player_block
     threshold = compute_survival_threshold(incoming, current_block)
     lethal = check_lethal_available(combat, actions, card_db)
@@ -417,6 +565,7 @@ def build_turn_state(
     survival_required = net_damage >= combat.player_hp
     boss_in_combat = any(_is_boss(e) for e in combat.alive_enemies)
     boss_flags = get_boss_special_flags(combat)
+    ordering_warnings = _detect_ordering_warnings(combat, card_db)
 
     # Compute candidate lines
     lethal_lines = compute_lethal_lines(combat, actions, card_db) if lethal else []
@@ -441,11 +590,14 @@ def build_turn_state(
         turn=combat.turn,
         incoming_total=incoming,
         incoming_after_current_block=net_damage,
+        incoming_hits=total_hits,
+        energy=combat.player_energy,
         survival_threshold=threshold,
         lethal_available=lethal,
         survival_required=survival_required,
         boss_in_combat=boss_in_combat,
         boss_special_flags=boss_flags,
+        ordering_warnings=ordering_warnings,
         must_block=must_block,
         min_block_to_live=min_block_to_live,
         safe_to_play_power=safe_power,

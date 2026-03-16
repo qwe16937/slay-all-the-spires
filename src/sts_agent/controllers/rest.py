@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import json
 import sys
 from typing import Optional
 
 from sts_agent.models import GameState, Action, ActionType, Card
-from sts_agent.controllers.base import ControllerContext
+from sts_agent.controllers.base import ControllerContext, parse_controller_index, send_and_parse, fail_parse
+from sts_agent.agent.tools import STATE_UPDATE_HINT
 
 
 def _log(msg: str):
@@ -81,6 +81,12 @@ class RestController:
             next_strs = [_NAMES.get(n.symbol, n.symbol) for n in state.map_next_nodes]
             map_info = f"Next floor options: {', '.join(next_strs)}\n"
 
+        # Past experience examples
+        examples_section = f"{ctx.past_examples}\n\n" if ctx.past_examples else ""
+
+        combat_log_str = rs.format_combat_log()
+        combat_log_section = f"## Recent Combat Performance\n{combat_log_str}\n\n" if combat_log_str else ""
+
         msg = (
             f"## Rest Site — Floor {state.floor}, Act {state.act}\n"
             f"HP: {state.player_hp}/{state.player_max_hp} ({hp_pct:.0%})\n"
@@ -88,35 +94,25 @@ class RestController:
             f"## Current Deck ({dp.deck_size} cards)\n{deck_specs}\n\n"
             f"## Deck Profile\n{deck_analysis}\n\n"
             f"## Run Strategy\n{run_strategy}\n\n"
+            f"{combat_log_section}"
+            f"{examples_section}"
             f"## Options\n" + "\n".join(option_lines) + "\n\n"
             "Consider: HP needs, upcoming fights, which cards benefit most from upgrade, "
-            "deck bloat for removal, boss preparation.\n"
-            'Respond: {"tool":"choose","params":{"index":N},"reasoning":"brief"}'
+            "deck bloat for removal, boss preparation.\n\n"
+            f"{STATE_UPDATE_HINT}\n\n"
+            'Respond: {"tool":"choose","params":{"index":N},'
+            '"state_update":{...},"reasoning":"brief"}'
         )
         ctx.messages.append({"role": "user", "content": msg})
-
-        try:
-            result = ctx.llm.send_json(ctx.messages, system=ctx.system_prompt)
-            stored = {k: v for k, v in result.items() if k != "reasoning"} if isinstance(result, dict) else result
-            ctx.messages.append({"role": "assistant", "content": json.dumps(stored)})
-        except Exception:
-            ctx.messages.pop()
+        result = send_and_parse(ctx, "rest")
+        if result is None:
             return None
 
-        if not isinstance(result, dict):
-            ctx.messages.pop()
-            ctx.messages.pop()
-            return None
+        idx = parse_controller_index(result)
+        if idx is not None and idx in action_map:
+            chosen = action_map[idx]
+            _log(f"[rest] LLM chose: {chosen.action_type.name}")
+            return chosen
 
-        tool = result.get("tool", "")
-        if tool == "choose":
-            idx = result.get("params", {}).get("index")
-            if idx is not None and idx in action_map:
-                chosen = action_map[idx]
-                _log(f"[rest] LLM chose: {chosen.action_type.name}")
-                return chosen
-
-        _log(f"[rest] Could not parse response: {json.dumps(result)[:200]}")
-        ctx.messages.pop()
-        ctx.messages.pop()
+        fail_parse(ctx, "rest", result)
         return None

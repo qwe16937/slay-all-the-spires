@@ -18,6 +18,7 @@ from sts_agent.agent.combat_eval import (
     compute_lethal_lines,
     compute_survival_lines,
     compute_safe_to_play_power,
+    _detect_ordering_warnings,
 )
 
 
@@ -421,11 +422,11 @@ class TestTurnStateFormat:
             lethal_available=False,
             survival_required=False,
             boss_in_combat=False,
+            energy=3,
         )
         text = ts.format_for_prompt()
-        assert "Incoming: 11 dmg" in text
-        assert "need >= 11 block" in text
-        assert "no lethal threat" in text
+        assert "Energy: 3" in text
+        assert "Unblocked damage: 11" in text
 
     def test_format_survival_required(self):
         ts = TurnState(
@@ -439,14 +440,13 @@ class TestTurnStateFormat:
             min_block_to_live=18,
             energy_after_survival=1,
             boss_in_combat=True,
-            boss_special_flags={"guardian_defensive_mode": "chip damage preferred"},
+            energy=3,
         )
         text = ts.format_for_prompt()
-        assert "SURVIVAL" in text
-        assert "must_block=YES" in text
-        assert "guardian_defensive_mode" in text
+        assert "LETHAL" in text
+        assert "Unblocked damage: 27" in text
 
-    def test_format_with_lethal_lines(self):
+    def test_format_non_survival(self):
         ts = TurnState(
             floor=5, turn=2,
             incoming_total=8,
@@ -455,18 +455,12 @@ class TestTurnStateFormat:
             lethal_available=True,
             survival_required=False,
             boss_in_combat=False,
-            lethal_lines=[
-                CandidateLine(
-                    actions=["Bash", "Strike"],
-                    total_damage=14, total_block=0, energy_used=3,
-                    description="Bash then Strike for lethal",
-                ),
-            ],
+            energy=2,
         )
         text = ts.format_for_prompt()
-        assert "LETHAL" in text
-        assert "Bash" in text and "Strike" in text
-        assert "14 dmg" in text
+        assert "Unblocked damage: 8" in text
+        assert "Energy: 2" in text
+        assert "LETHAL" not in text  # no longer in tactical summary
 
 
 # --- Integration: prompt injection ---
@@ -490,9 +484,6 @@ class TestCombatPromptInjection:
         agent = self._make_agent([
             {"actions": [4], "reasoning": "end turn"},
         ])
-        # Bootstrap conversation
-        agent._add_run_start_message(combat_game_state)
-
         actions = [
             Action(ActionType.PLAY_CARD, {"card_index": 0, "card_id": "Strike_R",
                                            "target_index": 0, "target_name": "Jaw Worm",
@@ -504,7 +495,7 @@ class TestCombatPromptInjection:
         agent._combat_turn(combat_game_state, actions)
 
         # Check prompt contains tactical summary
-        user_msgs = [m for m in agent.messages if m["role"] == "user"]
+        user_msgs = [m for m in agent.llm.sent_messages[-1] if m["role"] == "user"]
         last_user = user_msgs[-1]["content"]
         assert "## Tactical Summary" in last_user
         assert "11" in last_user  # incoming damage
@@ -513,7 +504,6 @@ class TestCombatPromptInjection:
         agent = self._make_agent([
             {"actions": [2], "reasoning": "end turn"},
         ])
-        agent._add_run_start_message(combat_game_state)
         actions = [
             Action(ActionType.PLAY_CARD, {"card_index": 0, "card_id": "Strike_R",
                                            "target_index": 0, "card_uuid": "strike-1"}),
@@ -744,3 +734,132 @@ class TestComputeSafeToPlayPower:
         ]
         safe, _ = compute_safe_to_play_power(combat, actions, card_db, 5)
         assert safe is False
+
+
+# --- _detect_ordering_warnings ---
+
+class TestDetectOrderingWarnings:
+    def test_bash_plus_strike_warns_vuln_with_impact(self, card_db):
+        """Bash + Strike in hand, enemy not Vulnerable → warning with damage delta."""
+        combat = CombatState(
+            hand=[
+                Card(id="Bash", name="Bash", cost=2, card_type="attack",
+                     rarity="basic", has_target=True, is_playable=True, uuid="b1"),
+                Card(id="Strike_R", name="Strike", cost=1, card_type="attack",
+                     rarity="basic", has_target=True, is_playable=True, uuid="s1"),
+            ],
+            draw_pile=[], discard_pile=[], exhaust_pile=[],
+            enemies=[
+                Enemy(id="Louse", name="Louse", current_hp=20, max_hp=20,
+                      intent="attack", intent_damage=5, intent_hits=1),
+            ],
+            player_hp=60, player_max_hp=80, player_block=0, player_energy=3, turn=1,
+        )
+        warnings = _detect_ordering_warnings(combat, card_db)
+        assert len(warnings) == 1
+        assert "Bash" in warnings[0]
+        assert "Vulnerable" in warnings[0]
+        # Strike does 6 base, 0.5x bonus = +3
+        assert "+3 total damage" in warnings[0]
+
+    def test_no_warning_when_enemy_already_vulnerable(self, card_db):
+        """Bash + Strike but enemy already Vulnerable → no warning."""
+        combat = CombatState(
+            hand=[
+                Card(id="Bash", name="Bash", cost=2, card_type="attack",
+                     rarity="basic", has_target=True, is_playable=True, uuid="b1"),
+                Card(id="Strike_R", name="Strike", cost=1, card_type="attack",
+                     rarity="basic", has_target=True, is_playable=True, uuid="s1"),
+            ],
+            draw_pile=[], discard_pile=[], exhaust_pile=[],
+            enemies=[
+                Enemy(id="Louse", name="Louse", current_hp=20, max_hp=20,
+                      intent="attack", intent_damage=5, intent_hits=1,
+                      powers={"Vulnerable": 2}),
+            ],
+            player_hp=60, player_max_hp=80, player_block=0, player_energy=3, turn=1,
+        )
+        warnings = _detect_ordering_warnings(combat, card_db)
+        assert len(warnings) == 0
+
+    def test_no_warning_without_attack_cards(self, card_db):
+        """Bash in hand but no other attacks → no warning."""
+        combat = CombatState(
+            hand=[
+                Card(id="Bash", name="Bash", cost=2, card_type="attack",
+                     rarity="basic", has_target=True, is_playable=True, uuid="b1"),
+                Card(id="Defend_R", name="Defend", cost=1, card_type="skill",
+                     rarity="basic", is_playable=True, uuid="d1"),
+            ],
+            draw_pile=[], discard_pile=[], exhaust_pile=[],
+            enemies=[
+                Enemy(id="Louse", name="Louse", current_hp=20, max_hp=20,
+                      intent="attack", intent_damage=5, intent_hits=1),
+            ],
+            player_hp=60, player_max_hp=80, player_block=0, player_energy=3, turn=1,
+        )
+        warnings = _detect_ordering_warnings(combat, card_db)
+        assert len(warnings) == 0
+
+    def test_strength_buff_warns_with_impact(self, card_db):
+        """Inflame + 2 Strikes → warns about Strength ordering with delta."""
+        combat = CombatState(
+            hand=[
+                Card(id="Inflame", name="Inflame", cost=1, card_type="power",
+                     rarity="uncommon", is_playable=True, uuid="i1"),
+                Card(id="Strike_R", name="Strike", cost=1, card_type="attack",
+                     rarity="basic", has_target=True, is_playable=True, uuid="s1"),
+                Card(id="Strike_R", name="Strike", cost=1, card_type="attack",
+                     rarity="basic", has_target=True, is_playable=True, uuid="s2"),
+            ],
+            draw_pile=[], discard_pile=[], exhaust_pile=[],
+            enemies=[
+                Enemy(id="Louse", name="Louse", current_hp=20, max_hp=20,
+                      intent="attack", intent_damage=5, intent_hits=1),
+            ],
+            player_hp=60, player_max_hp=80, player_block=0, player_energy=3, turn=1,
+        )
+        warnings = _detect_ordering_warnings(combat, card_db)
+        assert any("Inflame" in w and "Strength" in w for w in warnings)
+        # +2 Strength * 2 attacks = +4
+        assert any("+4 total damage" in w for w in warnings)
+
+    def test_weak_warns_with_incoming_reduction(self, card_db):
+        """Clothesline in hand, enemy attacking without Weak → warns with reduction."""
+        combat = CombatState(
+            hand=[
+                Card(id="Clothesline", name="Clothesline", cost=2, card_type="attack",
+                     rarity="common", has_target=True, is_playable=True, uuid="c1"),
+                Card(id="Defend_R", name="Defend", cost=1, card_type="skill",
+                     rarity="basic", is_playable=True, uuid="d1"),
+            ],
+            draw_pile=[], discard_pile=[], exhaust_pile=[],
+            enemies=[
+                Enemy(id="Louse", name="Louse", current_hp=20, max_hp=20,
+                      intent="attack", intent_damage=12, intent_hits=1),
+            ],
+            player_hp=60, player_max_hp=80, player_block=0, player_energy=3, turn=1,
+        )
+        warnings = _detect_ordering_warnings(combat, card_db)
+        assert any("Clothesline" in w and "Weak" in w for w in warnings)
+        # 12 * 0.25 = 3
+        assert any("~3 damage" in w for w in warnings)
+
+    def test_slime_dps_race_flag(self):
+        """Multiple large slimes trigger DPS race flag."""
+        combat = CombatState(
+            hand=[],
+            draw_pile=[], discard_pile=[], exhaust_pile=[],
+            enemies=[
+                Enemy(id="SpikeSlime_L", name="Spike Slime", current_hp=30, max_hp=65,
+                      intent="attack", intent_damage=16, intent_hits=1),
+                Enemy(id="AcidSlime_L", name="Acid Slime", current_hp=30, max_hp=65,
+                      intent="attack", intent_damage=11, intent_hits=1),
+                Enemy(id="SlimeBoss", name="Slime Boss", current_hp=0, max_hp=140,
+                      intent="unknown", is_gone=True),
+            ],
+            player_hp=50, player_max_hp=80, player_block=0, player_energy=3, turn=6,
+        )
+        flags = get_boss_special_flags(combat)
+        assert "slime_dps_race" in flags
+        assert "DPS race" in flags["slime_dps_race"]

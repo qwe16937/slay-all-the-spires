@@ -28,7 +28,7 @@ class TestPrincipleLoader:
     def test_get_topic(self, loader):
         loader.load_all()
         combat = loader.get("combat")
-        assert "Combat Principles" in combat
+        assert "Combat Policy" in combat
 
     def test_get_missing_topic(self, loader):
         loader.load_all()
@@ -37,12 +37,12 @@ class TestPrincipleLoader:
     def test_get_for_combat_screen(self, loader):
         loader.load_all()
         text = loader.get_for_screen(ScreenType.COMBAT)
-        assert "Combat Principles" in text
+        assert "Combat Policy" in text
 
     def test_get_for_map_screen(self, loader):
         loader.load_all()
         text = loader.get_for_screen(ScreenType.MAP)
-        assert "Pathing Principles" in text
+        assert "Pathing Policy" in text
 
     def test_get_for_card_reward_screen(self, loader):
         loader.load_all()

@@ -1,149 +1,178 @@
 {
-  "_comment": "Monster database — tactical tips for combat prompts. Keyed by monster_id.",
+  "_comment": "Monster database — factual knowledge for combat prompts. Keyed by monster_id from CommunicationMod.",
 
-  "Jaw Worm": {
-    "tip": "Opens with Chomp, then mixes Bellow (+3 Str, gains Block) and Thrash. Kill fast before Bellow stacks Strength."
+  "JawWorm": {
+    "tip": "Opens with Chomp, then mixes Bellow (+3 Str, gains Block) and Thrash."
   },
   "Cultist": {
-    "tip": "Uses Incantation turn 1 (+3 Ritual Strength/turn), then attacks every turn. Kill quickly before Strength scaling becomes lethal."
+    "tip": "Uses Incantation turn 1 (+3 Ritual Strength/turn), then attacks every turn."
   },
-  "Louse_L": {
-    "tip": "75% Bite, 25% Grow (+3 Str). Curl Up: gains Block when first hit by an attack. Multi-hit attacks efficiently pop Curl Up."
+  "FuzzyLouseNormal": {
+    "tip": "75% Bite, 25% Grow (+3 Str). Curl Up: gains Block when first hit by an attack."
   },
-  "Louse_S": {
-    "tip": "75% Bite, 25% Spit Web (Weak). Curl Up: gains Block when first hit. Less dangerous than Red Louse — debuffs instead of scaling."
+  "FuzzyLouseDefensive": {
+    "tip": "75% Bite, 25% Spit Web (Weak). Curl Up: gains Block when first hit."
   },
-  "Blue Slaver": {
-    "tip": "Attacks and applies Weak. Less threatening than Red Slaver; kill the more dangerous enemy first in multi-fights."
+  "SlaverBlue": {
+    "tip": "Attacks and applies Weak."
   },
-  "Red Slaver": {
-    "tip": "Uses Entangle (prevents Attacks for 1 turn) and applies Vulnerable. Very dangerous — consider killing first in multi-fights."
+  "SlaverRed": {
+    "tip": "Uses Entangle (prevents Attacks for 1 turn) and applies Vulnerable."
   },
-  "Acid Slime (L)": {
-    "tip": "Corrosive Spit (adds Slimed), Tackle, Lick (Weak). Splits into 2 medium slimes at 50% HP. Burst from above 50% to 0 to minimize split HP."
+  "AcidSlime_L": {
+    "tip": "Corrosive Spit (adds Slimed to discard), Tackle, Lick (Weak). Splits into 2 medium slimes at 50% HP."
   },
-  "Acid Slime (M)": {
-    "tip": "Smaller version — Corrosive Spit and Lick. Cannot split further."
+  "AcidSlime_M": {
+    "tip": "Corrosive Spit and Lick. Cannot split."
   },
-  "Acid Slime (S)": {
-    "tip": "Weak slime, applies Weak via Lick. Trivial alone but annoying in groups."
+  "AcidSlime_S": {
+    "tip": "Applies Weak via Lick."
   },
-  "Spike Slime (L)": {
-    "tip": "Flame Tackle and Lick (Frail). Splits into 2 medium slimes at 50% HP. Burst from above 50% to 0."
+  "SpikeSlime_L": {
+    "tip": "Flame Tackle and Lick (Frail). Splits into 2 medium slimes at 50% HP."
   },
-  "Spike Slime (M)": {
+  "SpikeSlime_M": {
     "tip": "Flame Tackle and Lick (Frail). Cannot split."
   },
-  "Spike Slime (S)": {
-    "tip": "Weak slime, uses Tackle. Trivial alone."
+  "SpikeSlime_S": {
+    "tip": "Uses Tackle only."
   },
-  "FungusBeast": {
-    "tip": "60% Bite, 40% Grow (+Str). On death: Spore Cloud applies 2 Vulnerable. Kill when you can afford to be Vulnerable."
+  "FungiBeast": {
+    "tip": "60% Bite, 40% Grow (+Str). On death: Spore Cloud applies 2 Vulnerable."
   },
   "Looter": {
-    "tip": "Steals gold with attacks, then Smoke Bombs and escapes. Kill before it escapes to recover stolen gold."
+    "tip": "Steals gold with attacks, then Smoke Bombs and escapes after several turns."
   },
   "Mugger": {
-    "tip": "Act 2 Looter — steals gold and escapes. Kill fast to recover gold."
+    "tip": "Act 2 version of Looter — steals gold and escapes."
   },
 
   "GremlinNob": {
-    "tip": "CRITICAL: Gains 2 Strength every time you play a Skill. Minimize Skill usage — attack-heavy hands are key. Skull Bash applies Vulnerable."
+    "tip": "Gains 2 Strength every time you play a Skill. Skull Bash applies Vulnerable."
   },
   "Lagavulin": {
-    "tip": "Sleeps 3 turns with 8 Metallicize. Wakes on HP damage through Block. Pattern: Attack, Attack, Siphon Soul (-1 Str/-1 Dex), repeat. Kill fast or Siphon cripples you."
+    "tip": "Sleeps 3 turns with 8 Metallicize. Wakes on HP damage through Block. Pattern: Attack, Attack, Siphon Soul (-1 Str/-1 Dex), repeat."
   },
   "Sentry": {
-    "tip": "3 Sentries alternate Bolt (adds 2 Daze to discard) and Beam (attack). Sentries 0/2 start Bolt, Sentry 1 starts Beam. Focus one down to reduce Daze flooding and incoming damage."
+    "tip": "3 Sentries alternate Bolt (adds 2 Daze to discard) and Beam (attack). Sentries 0/2 start Bolt, Sentry 1 starts Beam."
+  },
+
+  "GremlinWarrior": {
+    "tip": "Melee Gremlin — attacks for moderate damage. Low HP."
+  },
+  "GremlinThief": {
+    "tip": "Steals gold on attack. Low HP."
+  },
+  "GremlinFat": {
+    "tip": "Applies Weak with attacks. Low HP."
+  },
+  "GremlinWizard": {
+    "tip": "Charges up, then hits for massive damage."
+  },
+  "GremlinTsundere": {
+    "tip": "Shielding Gremlin — gives Block to other Gremlins. Low HP."
+  },
+
+  "Centurion": {
+    "tip": "Attacks and applies Fury (+Str). Paired with Healer."
+  },
+  "Healer": {
+    "tip": "Heals Centurion periodically."
   },
 
   "TheGuardian": {
-    "tip": "Mode Shift counter decreases by damage dealt; at 0, enters Defensive Mode with Sharp Hide (deals damage per Attack card played). Play fewer, bigger Attacks in Defensive Mode. Roll Attack then Twin Slam in Defensive Mode."
+    "tip": "Mode Shift counter decreases by damage dealt; at 0, enters Defensive Mode with Sharp Hide (deals damage per Attack card played). Roll Attack then Twin Slam in Defensive Mode."
   },
   "Hexaghost": {
-    "tip": "Turn 1: Activate (nothing). Turn 2: Divider (6 hits × your unblocked HP from turn 1 — Block heavily turn 1!). Then cycles Sear/Tackle/Inflame(+2 Str)/Inferno(6-hit). Race to kill before second Inferno cycle."
+    "tip": "Turn 1: Activate (nothing). Turn 2: Divider (6 hits × your unblocked HP from turn 1). Then cycles Sear/Tackle/Inflame(+2 Str)/Inferno(6-hit)."
   },
   "SlimeBoss": {
-    "tip": "Pattern: Goop Spray (3 Slimed), Preparing, Slam (35 damage). Splits into 2 large slimes at 50% HP. Burst from above 50% to 0 to skip split."
+    "tip": "Pattern: Goop Spray (3 Slimed), Preparing, Slam (35 damage). Splits into 2 large slimes at 50% HP."
   },
 
   "Chosen": {
-    "tip": "Turn 1: Poke. Turn 2: Hex (adds Dazed to draw pile when you play non-Attacks). Kill fast to minimize Daze; lean on Attacks after Hex."
+    "tip": "Turn 1: Poke. Turn 2: Hex (adds Dazed to draw pile when you play non-Attacks)."
   },
   "Byrd": {
-    "tip": "Flight: takes 50% damage until hit 3+ times in one turn. Multi-hit attacks (Sword Boomerang, Dagger Spray) are essential to ground them."
+    "tip": "Flight: takes 50% damage until hit 3+ times in one turn. Multi-hit attacks ground them."
   },
   "Shelled Parasite": {
-    "tip": "14 Plated Armor (gains Block/turn). If Plated Armor hits 0, stunned for a turn. Multi-hit attacks strip Plated Armor quickly."
+    "tip": "14 Plated Armor (gains Block/turn). If Plated Armor hits 0, stunned for a turn."
   },
   "SphericGuardian": {
-    "tip": "Only 20 HP but has Barricade (Block persists) and 3 Artifact. High single-hit damage is best. Poison must burn through Artifact first."
+    "tip": "Only 20 HP but has Barricade (Block persists) and 3 Artifact."
   },
   "SnakePlant": {
-    "tip": "65% Chomp, 35% Enfeebling Spores (Weak + Frail). Malleable: gains increasing Block per hit/turn. Use fewer, harder-hitting attacks."
+    "tip": "65% Chomp, 35% Enfeebling Spores (Weak + Frail). Malleable: gains increasing Block per hit/turn."
   },
   "Snecko": {
-    "tip": "Opens with Perplexing Glare (Confused: randomizes card costs 0-3). Then Bite/Tail Whip (Vulnerable). High-cost decks benefit from Confused; Artifact blocks it."
+    "tip": "Opens with Perplexing Glare (Confused: randomizes card costs 0-3). Then Bite/Tail Whip (Vulnerable). Artifact blocks Confused."
   },
   "BookOfStabbing": {
-    "tip": "Multi-Stab increases hit count each use. Shuffles Wound on unblocked attack damage. Kill fast before multi-stab scales; Block every turn."
+    "tip": "Multi-Stab increases hit count each use. Shuffles Wound into deck on unblocked damage."
   },
   "GremlinLeader": {
-    "tip": "Summons Gremlins and Encourages (+Str to all). Kill Gremlin Wizards first (high damage). All minions die when Leader dies."
+    "tip": "Summons Gremlins and Encourages (+Str to all). All minions die when Leader dies."
   },
 
   "Taskmaster": {
-    "tip": "Appears with Blue + Red Slaver. Kill Red Slaver first (Entangle), then Blue, then Taskmaster. AoE is very strong."
+    "tip": "Appears with Blue + Red Slaver."
   },
 
-  "TheChamp": {
-    "tip": "Phase 1: Attacks + Taunt (Weak/Vuln) every 4 turns. At 50% HP: Anger (+6 Str, removes debuffs) then Execute. Burst from above 50% to kill in 1-2 turns after phase change."
+  "Champ": {
+    "tip": "Phase 1: Attacks + Taunt (Weak/Vuln) every 4 turns. At 50% HP: Anger (+6 Str, removes debuffs) then Execute."
   },
   "BronzeAutomaton": {
-    "tip": "Spawns Orbs (steal cards via Stasis). Pattern: Flail/Boost/Flail/Boost/Hyper Beam/Stunned. Save burst for Stunned turn (free damage). Kill Orbs to recover stolen cards."
+    "tip": "Spawns Orbs (steal cards via Stasis). Pattern: Flail/Boost/Flail/Boost/Hyper Beam/Stunned. Stunned turn = free damage. Kill Orbs to recover stolen cards."
   },
   "TheCollector": {
-    "tip": "Spawns 2 Torch Heads. Mega Debuff on turn 4 (Vuln+Weak+Frail). Kill Torch Heads to prevent buff stacking, but Collector may re-summon."
+    "tip": "Spawns 2 Torch Heads. Mega Debuff on turn 4 (Vuln+Weak+Frail). May re-summon killed Torch Heads."
+  },
+  "TorchHead": {
+    "tip": "Summoned by The Collector. Attacks for moderate damage."
   },
 
   "Darkling": {
-    "tip": "CRITICAL: Life Link — dead Darklings revive with 50% HP unless ALL are at 0 HP simultaneously. Weaken all three, then kill all in one turn. AoE is essential."
+    "tip": "Life Link — dead Darklings revive with 50% HP unless ALL are at 0 HP simultaneously."
   },
   "OrbWalker": {
-    "tip": "Laser adds Burn to draw and discard piles. Kill fast before Burns accumulate and clog deck."
+    "tip": "Laser adds Burn to draw and discard piles."
   },
   "SpireGrowth": {
-    "tip": "Constrict deals unavoidable damage at end of your turn, stacking each use. Kill fast before Constrict stacks become lethal."
+    "tip": "Constrict deals unavoidable damage at end of your turn, stacking each use."
   },
   "Transient": {
-    "tip": "999 HP but dies after ~5 turns (Fading). Attacks escalate +10 Str/turn. Just block and survive — don't waste resources attacking unless you can deal 999."
+    "tip": "999 HP but dies after ~5 turns (Fading). Attacks escalate +10 Str/turn."
   },
   "Nemesis": {
-    "tip": "Alternates Intangible (all damage reduced to 1) and vulnerable turns. Shuffles Burns. Attack only on non-Intangible turns; Block on Intangible turns."
+    "tip": "Alternates Intangible (all damage reduced to 1) and vulnerable turns. Shuffles Burns."
   },
   "Reptomancer": {
-    "tip": "CRITICAL: Summons Daggers that Explode for massive damage on their 2nd turn. Kill Daggers immediately before they Explode. AoE is critical."
+    "tip": "Summons Daggers that Explode for massive damage on their 2nd turn."
+  },
+  "SnakeDagger": {
+    "tip": "Summoned by Reptomancer. Explodes for massive damage on its 2nd turn."
   },
   "WrithingMass": {
-    "tip": "Reactive: changes intent when hit. Malleable: gains Block per hit/turn. Can use Implant (Parasite curse). Use fewer, bigger attacks."
+    "tip": "Reactive: changes intent when hit. Malleable: gains Block per hit/turn. Can use Implant (adds Parasite curse)."
   },
   "GiantHead": {
-    "tip": "Slow debuff: Attacks deal 10% less for each card played this turn. Play non-Attacks first, then Attacks. Has countdown to massive hit — kill before it expires."
+    "tip": "Slow debuff: Attacks deal 10% less for each card played this turn. Has countdown to massive hit."
   },
   "TheMaw": {
-    "tip": "Opens with Roar (Weak + Frail). Drool gains Strength, then alternates Slam/Nom. Kill quickly before buffed attacks overwhelm."
+    "tip": "Opens with Roar (Weak + Frail). Drool gains Strength, then alternates Slam/Nom."
   },
 
   "AwakenedOne": {
-    "tip": "CRITICAL: Phase 1 — Curiosity: gains Strength each time you play a Power. Avoid Powers in Phase 1. At 0 HP, revives full HP in Phase 2 (Curiosity removed). Save Powers for Phase 2."
+    "tip": "Phase 1 — Curiosity: gains Strength each time you play a Power. At 0 HP, revives full HP in Phase 2 (Curiosity removed)."
   },
   "TimeEater": {
-    "tip": "CRITICAL: After every 12 cards played, ends your turn and gains 2 Str. At 50% HP: Haste heals to 50% and removes debuffs (once). Count cards carefully; burst from above 50% to lethal to skip Haste."
+    "tip": "After every 12 cards played, ends your turn and gains 2 Str. At 50% HP: Haste heals to 50% and removes debuffs (once)."
   },
   "Donu": {
-    "tip": "Alternates Circle of Power (+3 Str to ALL enemies) and Beam. Kill Donu first to stop Strength scaling for both enemies. Starts with 2 Artifact."
+    "tip": "Alternates Circle of Power (+3 Str to ALL enemies) and Beam. Starts with 2 Artifact."
   },
   "Deca": {
-    "tip": "Alternates Beam and Square of Protection (Block). Paired with Donu — kill Donu first unless Deca's Dazes are crippling draws. Starts with 2 Artifact."
+    "tip": "Alternates Beam and Square of Protection (Block). Adds Daze to deck. Starts with 2 Artifact."
   }
 }

@@ -66,6 +66,24 @@ class CardDB:
             return True
         return False
 
+    def get_applies(self, card_id: str, upgraded: bool = False) -> dict[str, int]:
+        """Return debuffs/effects applied to enemies, e.g. {"Vulnerable": 2}."""
+        entry = self._db.get(card_id)
+        if entry is None:
+            return {}
+        if upgraded:
+            return entry.get("upgraded", {}).get("applies", {}) or entry.get("applies", {}) or {}
+        return entry.get("applies", {}) or {}
+
+    def get_player_powers(self, card_id: str, upgraded: bool = False) -> dict[str, int]:
+        """Return self-buffs granted, e.g. {"Strength": 2}."""
+        entry = self._db.get(card_id)
+        if entry is None:
+            return {}
+        if upgraded:
+            return entry.get("upgraded", {}).get("player_powers", {}) or entry.get("player_powers", {}) or {}
+        return entry.get("player_powers", {}) or {}
+
     def get_damage(self, card_id: str, upgraded: bool = False) -> int:
         """Return base damage for a card, or 0 if none/unknown."""
         entry = self._db.get(card_id)

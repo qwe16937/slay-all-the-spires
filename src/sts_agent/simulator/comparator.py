@@ -61,11 +61,26 @@ class Assessment:
             lambda: sum(m.powers.get("Weak", 0) for m in self.state.alive_monsters))
 
     def good_powers(self) -> int:
-        """Count beneficial player powers (Strength, Dexterity, etc.)."""
-        good_keys = {"Strength", "Dexterity", "Metallicize", "Plated Armor",
-                     "Demon Form", "Combust", "Juggernaut", "Feel No Pain",
-                     "Dark Embrace", "Evolve", "Fire Breathing", "Rage",
-                     "Barricade", "Corruption"}
+        """Count beneficial player powers across all characters."""
+        good_keys = {
+            # Universal
+            "Strength", "Dexterity", "Metallicize", "Plated Armor",
+            # Ironclad
+            "Demon Form", "Combust", "Juggernaut", "Feel No Pain",
+            "Dark Embrace", "Evolve", "Fire Breathing", "Rage",
+            "Barricade", "Corruption",
+            # Silent
+            "Noxious Fumes", "A Thousand Cuts", "Accuracy", "Envenom",
+            "After Image", "Tools of the Trade", "Phantasmal Killer",
+            "Infinite Blades",
+            # Defect
+            "Focus", "Electrodynamics", "Creative AI", "Storm",
+            "Loop", "Static Discharge", "Heatsink", "Hello World",
+            "Biased Cognition",
+            # Watcher
+            "Devotion", "Battle Hymn", "Fasting", "Like Water",
+            "Mental Fortress", "Rushdown", "Study", "Establishment",
+        }
         return self._get("good_powers",
             lambda: sum(self.state.player.powers.get(k, 0) for k in good_keys))
 
@@ -205,7 +220,7 @@ def most_energy(current: Assessment, challenger: Assessment) -> Optional[bool]:
 
 
 # Ironclad comparison chain
-IRONCLAD_CHAIN: list[Callable[[Assessment, Assessment], Optional[bool]]] = [
+COMPARISON_CHAIN: list[Callable[[Assessment, Assessment], Optional[bool]]] = [
     battle_not_lost,           # 1. Don't die
     battle_is_won,             # 2. Win if possible
     optimal_win,               # 3. When winning: max HP
@@ -225,7 +240,7 @@ IRONCLAD_CHAIN: list[Callable[[Assessment, Assessment], Optional[bool]]] = [
 
 
 def compare(current: Assessment, challenger: Assessment,
-            chain: list = IRONCLAD_CHAIN) -> bool:
+            chain: list = COMPARISON_CHAIN) -> bool:
     """Return True if challenger is strictly better than current."""
     for criterion in chain:
         result = criterion(current, challenger)
@@ -237,7 +252,7 @@ def compare(current: Assessment, challenger: Assessment,
 
 
 def rank_paths(paths: dict[str, PlayPath], original: SimState,
-               chain: list = IRONCLAD_CHAIN,
+               chain: list = COMPARISON_CHAIN,
                top_n: int = 5) -> list[PlayPath]:
     """Rank all paths and return top N."""
     if not paths:

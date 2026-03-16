@@ -1,5 +1,6 @@
 #!/bin/bash
-# API keys loaded from environment (set in ~/.zshenv)
+# Load API keys from environment
+source ~/.zshenv 2>/dev/null
 cd /Users/glasschen/projs/slay_all_the_spires
 export PYTHONIOENCODING=utf-8
 LOG_DIR="data/logs"

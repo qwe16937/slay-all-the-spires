@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-import random
+import itertools
 import sys
 import time
 import yaml
@@ -21,9 +21,10 @@ from sts_agent.models import (
 )
 from sts_agent.card_db import CardDB
 from sts_agent.monster_db import MonsterDB
+from sts_agent.memory import find_contrastive_pairs, generate_insights
 
 
-_CHARACTERS = ["IRONCLAD", "THE_SILENT", "DEFECT"]
+_CHARACTERS = ["IRONCLAD", "THE_SILENT", "DEFECT", "WATCHER"]
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOGS_DIR = _PROJECT_ROOT / "data" / "logs"
@@ -65,13 +66,19 @@ def load_config() -> dict:
 
 def make_llm_client(config: dict) -> LLMClient:
     llm_cfg = config.get("llm", {})
-    return LLMClient(LLMConfig(
-        provider=llm_cfg.get("provider", "anthropic"),
-        model=llm_cfg.get("model", llm_cfg.get("strategic_model", "claude-sonnet-4-5-20250929")),
-        max_retries=llm_cfg.get("max_retries", 3),
-        timeout=llm_cfg.get("timeout", 30),
-        reasoning_effort=llm_cfg.get("reasoning_effort"),
-    ))
+    log_cfg = config.get("logging", {})
+    return LLMClient(
+        LLMConfig(
+            provider=llm_cfg.get("provider", ""),
+            model=llm_cfg.get("model", llm_cfg.get("strategic_model", "claude-sonnet-4-5-20250929")),
+            max_retries=llm_cfg.get("max_retries", 3),
+            timeout=llm_cfg.get("timeout", 30),
+            max_output_tokens=llm_cfg.get("max_output_tokens", 2000),
+            reasoning_effort=llm_cfg.get("reasoning_effort"),
+            base_url=llm_cfg.get("base_url"),
+        ),
+        verbose=log_cfg.get("verbose_llm", False),
+    )
 
 
 def make_summary_llm(config: dict) -> LLMClient | None:
@@ -81,11 +88,12 @@ def make_summary_llm(config: dict) -> LLMClient | None:
     if not summary_model:
         return None  # fall back to main llm
     return LLMClient(LLMConfig(
-        provider=llm_cfg.get("provider", "anthropic"),
+        provider=llm_cfg.get("provider", ""),
         model=summary_model,
         max_retries=2,
         timeout=60,
-        max_output_tokens=512,
+        max_output_tokens=4096,
+        base_url=llm_cfg.get("base_url"),
     ))
 
 
@@ -156,6 +164,49 @@ def _compute_outcome(old: 'GameState', new: 'GameState', action: Action) -> str:
     return "; ".join(parts) if parts else "no visible change"
 
 
+def _annotate_and_flush_experience(agent, final_state, run_outcome, run_id, llm):
+    """Post-run: LLM attributes impact to key decisions, then flush to disk."""
+    buffer = agent.experience_store.buffer
+    if not buffer:
+        agent.experience_store.flush(run_id)
+        return
+
+    # Build compact trajectory for attribution
+    trajectory = []
+    for snap in buffer:
+        entry = f"F{snap.floor} {snap.decision_type}: {snap.choice}"
+        if snap.reasoning:
+            entry += f" ({snap.reasoning[:60]})"
+        trajectory.append(entry)
+
+    prompt = (
+        f"A Slay the Spire run just ended: {run_outcome}.\n"
+        f"Character: {final_state.character or '?'}, "
+        f"Floor {final_state.floor}\n\n"
+        f"Decision trajectory ({len(trajectory)} decisions):\n"
+        + "\n".join(trajectory) + "\n\n"
+        "Which 2-3 decisions most determined this outcome? "
+        "For each, say whether it was a mistake or good decision and why.\n"
+        'Respond JSON: {"attributions": ['
+        '{"floor": N, "impact": "mistake"|"good", "annotation": "why"}]}'
+    )
+
+    try:
+        result = llm.send_json(
+            [{"role": "user", "content": prompt}],
+            system="You are a Slay the Spire strategy analyst.",
+        )
+        attributions = result.get("attributions", []) if isinstance(result, dict) else []
+    except Exception as e:
+        _log(f"[experience] Attribution failed: {e}")
+        attributions = []
+
+    agent.experience_store.annotate_run(run_outcome, attributions)
+    agent.experience_store.flush(run_id)
+    _log(f"[experience] Flushed {len(buffer)} snapshots for run {run_id} "
+         f"({len(attributions)} attributions)")
+
+
 def run_agent():
     """Main agent loop — called when CommunicationMod launches this process."""
     _log("=== Slay All The Spires Agent Starting ===")
@@ -167,6 +218,7 @@ def run_agent():
     max_runs = auto_cfg.get("runs", 10)
     auto_ascension = auto_cfg.get("ascension", 0)
     auto_characters = auto_cfg.get("characters", _CHARACTERS)
+    _char_cycle = itertools.cycle(auto_characters)
 
     # Initialize components
     project_root = Path(__file__).resolve().parent.parent.parent
@@ -224,13 +276,14 @@ def run_agent():
                     "result": "victory" if victory else f"died_floor_{floor}",
                     "floor": floor,
                     "decisions": len(run_decisions),
-                    "messages": len(agent.messages),
                 }
                 _log(f"Run summary: {json.dumps(run_summary)}")
                 _log_decision(decision_log, run_summary)
 
-                # Generate strategic run summary before resetting
-                if state and agent.messages:
+                learning_enabled = config.get("learning", {}).get("enabled", True)
+
+                # Always generate run summary (1 LLM call, high value for cross-run learning)
+                if state:
                     try:
                         summary = agent.summarize_run(state, summary_llm=summary_llm)
                         _SUMMARIES_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -241,6 +294,30 @@ def run_agent():
                              f"{'; '.join(lessons[:2]) if lessons else 'no lessons'}")
                     except Exception as e:
                         _log(f"[summary] Error generating run summary: {e}")
+
+                if state and learning_enabled:
+                    # Experience annotation + flush (expensive — gated by learning flag)
+                    run_outcome = "victory" if victory else f"died_floor_{floor}"
+                    _annotate_and_flush_experience(
+                        agent, state, run_outcome, runs_completed + 1,
+                        summary_llm or llm,
+                    )
+
+                    # Contrastive insight generation every 5 runs
+                    if runs_completed > 0 and (runs_completed + 1) % 5 == 0:
+                        try:
+                            pairs = find_contrastive_pairs(agent.experience_store)
+                            if pairs:
+                                insight_llm = summary_llm or llm
+                                new_insights = generate_insights(
+                                    pairs, insight_llm, agent.lesson_store,
+                                )
+                                _log(f"[insights] Generated {len(new_insights)} insights "
+                                     f"after {runs_completed + 1} runs")
+                        except Exception as e:
+                            _log(f"[insights] Error: {e}")
+                elif state and not learning_enabled:
+                    _log("[learning] Disabled, skipping experience/summary/insights")
 
                 runs_completed += 1
                 agent.reset()
@@ -259,7 +336,7 @@ def run_agent():
                     _log(f"=== All {max_runs} runs complete ===")
                     break
 
-                char = random.choice(auto_characters)
+                char = next(_char_cycle)
                 _log(f"Auto-starting run {runs_completed + 1}/{max_runs}: "
                      f"{char} A{auto_ascension}")
                 time.sleep(2)
@@ -271,7 +348,7 @@ def run_agent():
             # Not in game yet
             if state.screen_type == ScreenType.NONE:
                 if auto_play:
-                    char = random.choice(auto_characters)
+                    char = next(_char_cycle)
                     _log(f"Auto-starting first run: {char} A{auto_ascension}")
                     interface.start_game(char, auto_ascension)
                 else:
@@ -298,7 +375,7 @@ def run_agent():
                 "screen": state.screen_type.value,
                 "hp": f"{state.player_hp}/{state.player_max_hp}",
                 "action": action_summary,
-                "messages": len(agent.messages),
+                "strategy": "",
                 "state": agent.state_store.snapshot_dict(),
             }
             run_decisions.append(decision_entry)

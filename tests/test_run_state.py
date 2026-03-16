@@ -18,86 +18,53 @@ class TestRunState:
     def test_defaults(self):
         rs = RunState()
         assert rs.character == ""
-        assert rs.archetype_guess is None
-        assert rs.needs_block is None
-        assert rs.skip_bias is None
-        assert rs.notes == []
+        assert rs.intent.combat_lessons == []
 
-    def test_add_note_rolling(self):
+    def test_intent_defaults(self):
         rs = RunState()
-        for i in range(7):
-            rs.add_note(f"note {i}")
-        assert len(rs.notes) == 5
-        assert rs.notes[0] == "note 2"
-        assert rs.notes[-1] == "note 6"
+        assert rs.intent.build_direction is None
+        assert rs.intent.boss_plan is None
+        assert rs.intent.priority is None
 
     def test_format_for_prompt_defaults(self):
         """With no strategic fields assessed, shows 'not yet assessed'."""
         rs = RunState()
         text = rs.format_for_prompt()
-        assert "Archetype: undecided" in text
-        assert "none identified" in text
         assert "not yet assessed" in text
 
-    def test_format_for_prompt_critical_needs(self):
-        rs = RunState(needs_block=0.9, needs_scaling=0.8)
+    def test_format_for_prompt_with_intent(self):
+        rs = RunState(act_boss="The Guardian")
+        rs.intent.build_direction = "strength scaling"
+        rs.intent.boss_plan = "stack strength before inferno"
         text = rs.format_for_prompt()
-        assert "block (critical)" in text
-        assert "scaling (critical)" in text
-
-    def test_format_for_prompt_no_needs(self):
-        rs = RunState(
-            needs_block=0.1, needs_frontload=0.1,
-            needs_scaling=0.1, needs_draw=0.1,
-        )
-        text = rs.format_for_prompt()
-        assert "none identified" in text
-        assert "READY" in text
-
-    def test_format_for_prompt_with_plan_and_notes(self):
-        rs = RunState(
-            archetype_guess="strength-scaling",
-            act_plan="Need Shrug It Off before Guardian.",
-            act_boss="The Guardian",
-        )
-        rs.add_note("deck is attack-heavy")
-        text = rs.format_for_prompt()
-        assert "strength-scaling" in text
-        assert "Need Shrug It Off" in text
         assert "The Guardian" in text
-        assert "deck is attack-heavy" in text
-
-    def test_format_skip_bias_high(self):
-        rs = RunState(skip_bias=0.8)
-        assert "high (lean deck)" in rs.format_for_prompt()
-
-    def test_format_skip_bias_low(self):
-        rs = RunState(skip_bias=0.2)
-        assert "low (need cards)" in rs.format_for_prompt()
+        assert "strength scaling" in text
+        assert "stack strength before inferno" in text
 
     def test_format_mini_full(self):
         rs = RunState(
-            archetype_guess="strength",
-            needs_block=0.8,
-            needs_scaling=0.3,  # below 0.7, won't appear
             act_boss="The Guardian",
             risk_posture="aggressive",
         )
+        rs.intent.build_direction = "strength"
         mini = rs.format_mini()
-        assert "strength" in mini
-        assert "block" in mini
-        assert "scaling" not in mini  # only critical gaps
         assert "The Guardian" in mini
         assert "aggressive" in mini
+        assert "strength" in mini
 
     def test_format_mini_empty(self):
         rs = RunState()
         assert rs.format_mini() == ""
 
     def test_format_mini_partial(self):
-        rs = RunState(archetype_guess="poison")
+        rs = RunState(risk_posture="defensive")
         mini = rs.format_mini()
-        assert mini == "Archetype: poison"
+        assert mini == "Risk: defensive"
+
+    def test_format_for_prompt_no_capability_section(self):
+        rs = RunState()
+        text = rs.format_for_prompt()
+        assert "Capability" not in text
 
 
 class TestAgentRunStateIntegration:
@@ -130,63 +97,45 @@ class TestAgentRunStateIntegration:
         # update_run_state sets observed fields
         from sts_agent.state import update_run_state
         update_run_state(agent.state_store, state)
-        agent._add_run_start_message(state)
         assert agent.run_state.character == "IRONCLAD"
         assert agent.run_state.ascension == 5
         assert agent.run_state.act_boss == "The Guardian"
 
     def test_run_state_reset(self):
         agent = self._make_agent()
-        agent.run_state.archetype_guess = "strength"
-        agent.run_state.add_note("test")
+        agent.run_state.intent.build_direction = "test"
         agent.reset()
-        assert agent.run_state.archetype_guess is None
-        assert agent.run_state.notes == []
+        assert agent.run_state.intent.build_direction is None
         assert agent.run_state.character == ""
 
     def test_state_update_applied(self):
         agent = self._make_agent()
         update = {
-            "archetype_guess": "block-control",
-            "needs_block": 0.9,
-            "skip_bias": 0.7,
-            "notes": ["need more block for Guardian"],
+            "build_direction": "need more block for Guardian",
         }
         agent._apply_state_update(update)
-        assert agent.run_state.archetype_guess == "block-control"
-        assert agent.run_state.needs_block == 0.9
-        assert agent.run_state.skip_bias == 0.7
-        assert "need more block for Guardian" in agent.run_state.notes
+        assert agent.run_state.intent.build_direction == "need more block for Guardian"
+
+    def test_state_update_combat_lesson(self):
+        agent = self._make_agent()
+        agent._apply_state_update({"combat_lesson": "multi-hit is effective"})
+        assert "multi-hit is effective" in agent.run_state.intent.combat_lessons
 
     def test_state_update_ignores_unknown_fields(self):
         agent = self._make_agent()
-        agent._apply_state_update({"bogus_field": "whatever", "needs_block": 0.8})
-        assert agent.run_state.needs_block == 0.8
+        agent._apply_state_update({"bogus_field": "whatever", "risk_posture": "aggressive"})
+        assert agent.run_state.risk_posture == "aggressive"
         assert not hasattr(agent.run_state, "bogus_field")
 
     def test_state_update_ignores_wrong_types(self):
         agent = self._make_agent()
-        agent._apply_state_update({"needs_block": "not a float", "archetype_guess": 42})
-        # Should stay at defaults (None)
-        assert agent.run_state.needs_block is None
-        assert agent.run_state.archetype_guess is None
+        agent._apply_state_update({"upgrade_targets": 42})
+        assert agent.run_state.upgrade_targets == []
 
     def test_state_update_ignores_non_dict(self):
         agent = self._make_agent()
         agent._apply_state_update("not a dict")
-        assert agent.run_state.needs_block is None
-
-    def test_state_update_clamps_float_range(self):
-        agent = self._make_agent()
-        agent._apply_state_update({"needs_block": 1.5, "skip_bias": -0.3})
-        assert agent.run_state.needs_block == 1.0
-        assert agent.run_state.skip_bias == 0.0
-
-    def test_state_update_accepts_int_as_float(self):
-        agent = self._make_agent()
-        agent._apply_state_update({"needs_block": 1})
-        assert agent.run_state.needs_block == 1.0
-        assert isinstance(agent.run_state.needs_block, float)
+        assert agent.run_state.risk_posture is None
 
     def test_state_update_validates_risk_posture(self):
         agent = self._make_agent()
@@ -196,25 +145,18 @@ class TestAgentRunStateIntegration:
         # Invalid value rejected, keeps previous valid value
         assert agent.run_state.risk_posture == "aggressive"
 
-    def test_state_update_validates_potion_policy(self):
+    def test_state_update_partial_merge(self):
         agent = self._make_agent()
-        agent._apply_state_update({"potion_policy": "hoard"})
-        assert agent.run_state.potion_policy == "hoard"
-        agent._apply_state_update({"potion_policy": "chug_everything"})
-        assert agent.run_state.potion_policy == "hoard"
+        agent._apply_state_update({"build_direction": "strength"})
+        agent._apply_state_update({"boss_plan": "stack strength"})
+        assert agent.run_state.intent.build_direction == "strength"
+        assert agent.run_state.intent.boss_plan == "stack strength"
 
-    def test_state_update_strips_empty_notes(self):
+    def test_state_update_strips_empty_intent(self):
         agent = self._make_agent()
-        agent._apply_state_update({"notes": ["real note", "", "  "]})
-        assert agent.run_state.notes == ["real note"]
-
-    def test_state_update_validates_remove_priority(self):
-        agent = self._make_agent()
-        agent._apply_state_update({"remove_priority": ["Strike", "Defend"]})
-        assert agent.run_state.remove_priority == ["Strike", "Defend"]
-        # Mixed types rejected
-        agent._apply_state_update({"remove_priority": ["Strike", 42]})
-        assert agent.run_state.remove_priority == ["Strike", "Defend"]
+        agent.run_state.intent.build_direction = "existing"
+        agent._apply_state_update({"build_direction": "  "})
+        assert agent.run_state.intent.build_direction == "existing"
 
     def test_run_state_injected_in_card_reward_prompt(
         self, card_reward_state
@@ -226,8 +168,8 @@ class TestAgentRunStateIntegration:
         # Bootstrap conversation first, then set strategy fields
         from sts_agent.state import update_run_state
         update_run_state(agent.state_store, card_reward_state)
-        agent._add_run_start_message(card_reward_state)
-        agent.run_state.archetype_guess = "strength-scaling"
+
+        agent.run_state.risk_posture = "aggressive"
         agent.run_state.act_boss = "The Guardian"
 
         # Add card reward actions
@@ -239,11 +181,11 @@ class TestAgentRunStateIntegration:
         agent._llm_decide(card_reward_state, actions)
 
         # Check the last user message contains DeckProfile, RunState, and mandatory state_update
-        user_msgs = [m for m in agent.messages if m["role"] == "user"]
+        user_msgs = [m for m in agent.llm.sent_messages[-1] if m["role"] == "user"]
         last_user = user_msgs[-1]["content"]
         assert "## Deck Analysis" in last_user
         assert "## Run Strategy" in last_user
-        assert "strength-scaling" in last_user
+        assert "aggressive" in last_user
         assert "The Guardian" in last_user
         assert "MUST include" in last_user
         assert '"state_update"' in last_user
@@ -255,99 +197,43 @@ class TestAgentRunStateIntegration:
             "params": {"index": 0},
             "reasoning": "taking Shrug for block",
             "state_update": {
-                "archetype_guess": "block-control",
-                "needs_block": 0.8,
-                "notes": ["Got Shrug It Off, block gap closing"],
+                "risk_posture": "defensive",
+                "build_direction": "block-heavy for Guardian",
             },
         }
         agent = self._make_agent([response])
         from sts_agent.state import update_run_state
         update_run_state(agent.state_store, card_reward_state)
-        agent._add_run_start_message(card_reward_state)
+
         actions = [
             Action(ActionType.CHOOSE_CARD, {"card_index": 0, "card_name": "Pommel Strike"}),
             Action(ActionType.SKIP_CARD_REWARD),
         ]
         agent._llm_decide(card_reward_state, actions)
 
-        assert agent.run_state.archetype_guess == "block-control"
-        assert agent.run_state.needs_block == 0.8  # high enough to survive consistency check
-        assert "Got Shrug It Off, block gap closing" in agent.run_state.notes
+        assert agent.run_state.risk_posture == "defensive"
+        assert agent.run_state.intent.build_direction == "block-heavy for Guardian"
 
-    def test_enforce_consistency_overrides_block(self):
-        """System should override needs_block when DeckProfile shows bad block."""
-        agent = self._make_agent()
-        # Set up a DeckProfile with terrible block
-        agent.state_store.deck_profile.block_score = 2.0
-        agent.run_state.phase = "mid"
-        # LLM sets needs_block too low
-        agent._apply_state_update({"needs_block": 0.2})
-        agent._enforce_consistency()
-        assert agent.run_state.needs_block >= 0.6
-
-    def test_enforce_consistency_overrides_scaling(self):
-        """System should override needs_scaling in mid/late with no scaling."""
-        agent = self._make_agent()
-        agent.state_store.deck_profile.scaling_score = 1.0
-        agent.run_state.phase = "mid"
-        agent._apply_state_update({"needs_scaling": 0.1})
-        agent._enforce_consistency()
-        assert agent.run_state.needs_scaling >= 0.5
-
-    def test_enforce_consistency_curses_raise_skip_bias(self):
-        """Curses should raise skip_bias floor."""
-        agent = self._make_agent()
-        agent.state_store.deck_profile.curse_count = 2
-        agent._apply_state_update({"skip_bias": 0.3})
-        agent._enforce_consistency()
-        assert agent.run_state.skip_bias == 0.7
-
-    def test_enforce_consistency_no_override_when_appropriate(self):
-        """No override when LLM values align with DeckProfile."""
-        agent = self._make_agent()
-        agent.state_store.deck_profile.block_score = 7.0
-        agent._apply_state_update({"needs_block": 0.2})
-        agent._enforce_consistency()
-        # Good block score → no override
-        assert agent.run_state.needs_block == 0.2
-
-    def test_auto_derive_needs(self):
-        """Auto-derive should fill None fields from DeckProfile."""
-        agent = self._make_agent()
-        agent.state_store.deck_profile.block_score = 2.0
-        agent.state_store.deck_profile.scaling_score = 1.0
-        agent.state_store.deck_profile.deck_size = 15
-        agent.state_store.deck_profile.draw_score = 1.0
-        agent._auto_derive_needs()
-        assert agent.run_state.needs_block == 0.7
-        assert agent.run_state.needs_scaling == 0.6
-        assert agent.run_state.needs_draw == 0.5
-
-    def test_auto_derive_skips_already_set_fields(self):
-        """Auto-derive should not overwrite existing values."""
-        agent = self._make_agent()
-        agent.state_store.deck_profile.block_score = 2.0
-        agent.run_state.needs_block = 0.3  # already set
-        agent._auto_derive_needs()
-        assert agent.run_state.needs_block == 0.3  # unchanged
-
-    def test_boss_plan_and_upgrade_targets(self):
-        """Test new RunState fields can be updated."""
+    def test_state_update_ignores_removed_capability_fields(self):
+        """Capability float fields (aggression etc.) were removed — ensure they're ignored."""
         agent = self._make_agent()
         agent._apply_state_update({
-            "boss_plan": "Need AoE for Slime Boss split",
+            "aggression": 0.7, "survival": 0.3,
+            "risk_posture": "aggressive",
+        })
+        assert agent.run_state.risk_posture == "aggressive"
+        assert not hasattr(agent.run_state, "aggression")
+
+    def test_upgrade_targets(self):
+        agent = self._make_agent()
+        agent._apply_state_update({
             "upgrade_targets": ["Bash", "Shrug It Off"],
         })
-        assert agent.run_state.boss_plan == "Need AoE for Slime Boss split"
         assert agent.run_state.upgrade_targets == ["Bash", "Shrug It Off"]
 
-    def test_boss_plan_in_format(self):
-        rs = RunState(
-            boss_plan="Stack block for Guardian",
-            upgrade_targets=["Bash", "Defend"],
-        )
+    def test_upgrade_targets_in_format(self):
+        rs = RunState(upgrade_targets=["Bash", "Defend"])
         text = rs.format_for_prompt()
-        assert "Boss prep: Stack block for Guardian" in text
         assert "Upgrade targets: Bash, Defend" in text
 
     def test_event_gets_mini_strategy(self, starter_deck, starter_relics, empty_potions):
@@ -366,19 +252,17 @@ class TestAgentRunStateIntegration:
         ])
         from sts_agent.state import update_run_state
         update_run_state(agent.state_store, state)
-        agent._add_run_start_message(state)
-        agent.run_state.archetype_guess = "strength"
-        agent.run_state.needs_block = 0.8
+
+        agent.run_state.risk_posture = "aggressive"
         agent.run_state.act_boss = "The Guardian"
         actions = [
             Action(ActionType.CHOOSE_EVENT_OPTION, {"option_index": 0, "option_text": "Eat"}),
         ]
         agent._llm_decide(state, actions)
 
-        user_msgs = [m for m in agent.messages if m["role"] == "user"]
+        user_msgs = [m for m in agent.llm.sent_messages[-1] if m["role"] == "user"]
         last_user = user_msgs[-1]["content"]
         assert "## Run Strategy" not in last_user
-        assert "Strategy:" in last_user
-        assert "strength" in last_user
-        assert "block" in last_user
+        assert "## Run Intent (learned)" in last_user
+        assert "aggressive" in last_user
         assert "The Guardian" in last_user

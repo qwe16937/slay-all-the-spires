@@ -45,11 +45,11 @@ def _make_combat(
     )
 
 
-def _card(card_id, cost, card_type, uuid, upgraded=False, has_target=False):
+def _card(card_id, cost, card_type, uuid, upgraded=False, has_target=False, exhausts=False):
     return Card(
         id=card_id, name=card_id, cost=cost, card_type=card_type,
         rarity="common", has_target=has_target, is_playable=True,
-        uuid=uuid, upgraded=upgraded,
+        uuid=uuid, upgraded=upgraded, exhausts=exhausts,
     )
 
 
@@ -328,6 +328,40 @@ class TestValueFallback:
         result = find_value_fallback(combat, actions, card_db)
         assert result.action_type == ActionType.END_TURN
 
+    def test_exhausts_status_when_safe(self, card_db):
+        """When not under attack, prioritize exhausting status cards over attacking."""
+        strike = _card("Strike_R", 1, "attack", "s1", has_target=True)
+        slimed = _card("Slimed", 1, "status", "sl1", exhausts=True)
+        combat = _make_combat([strike, slimed], [_enemy("Slime", 50)])
+        actions = [_play_action(0, "Strike_R"), _play_action(1, "Slimed"), _end_turn()]
+
+        ts = TurnState(
+            floor=16, turn=6,
+            incoming_total=0, incoming_after_current_block=0,
+            survival_threshold=0,
+            lethal_available=False, survival_required=False,
+            boss_in_combat=True,
+        )
+        result = find_value_fallback(combat, actions, card_db, ts)
+        assert result.params["card_id"] == "Slimed"
+
+    def test_prefers_attack_when_under_attack(self, card_db):
+        """When incoming damage exceeds block, don't prioritize status exhaust."""
+        strike = _card("Strike_R", 1, "attack", "s1", has_target=True)
+        slimed = _card("Slimed", 1, "status", "sl1", exhausts=True)
+        combat = _make_combat([strike, slimed], [_enemy("Slime", 50, intent_damage=20)])
+        actions = [_play_action(0, "Strike_R"), _play_action(1, "Slimed"), _end_turn()]
+
+        ts = TurnState(
+            floor=16, turn=8,
+            incoming_total=20, incoming_after_current_block=20,
+            survival_threshold=20,
+            lethal_available=False, survival_required=False,
+            boss_in_combat=True,
+        )
+        result = find_value_fallback(combat, actions, card_db, ts)
+        assert result.params["card_id"] == "Strike_R"
+
 
 # --- select_fallback_action (orchestrator) ---
 
@@ -446,8 +480,6 @@ class TestAgentFallbackIntegration:
             {"garbage": True},
             {"garbage": True},
         ])
-        agent._add_run_start_message(combat_game_state)
-
         from sts_agent.interfaces.sts1_comm import STS1CommInterface
         # Build real actions from the combat state
         actions = []
